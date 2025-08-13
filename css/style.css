@@ -1,0 +1,184 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9f9f9;
+  padding: 20px;
+  display: flex;
+  gap: 30px;
+}
+
+#leftPanel {
+  width: 60%;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: #f9f9f9;
+}
+
+#rightPanel {
+  width: 40%;
+  padding: 20px;
+  background-color: #eaeaea;
+  position: sticky;
+  right: 0;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+h2, h3 {
+  margin-bottom: 12px;
+}
+
+#previewArea {
+  background: #eee;
+  position: relative;
+  overflow: visible;
+  border: 2px solid #ccc;
+  margin-bottom: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  /* width/height now dynamic via JS */
+}
+
+#previewArea::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  border: 2px dashed red;
+  pointer-events: none;
+  box-sizing: border-box;
+}
+
+.preview {
+  position: absolute;
+  cursor: move;
+}
+
+#controls > div {
+  border: 1px solid #ccc;
+  background: #fff;
+  padding: 16px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+strong {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+input[type="number"]{
+  width:50px;
+}
+
+input[type="number"],
+input[type="file"] {
+  margin: 5px 8px 5px 0;
+  padding: 4px 6px;
+  font-size: 13px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+input[type="file"] {
+  padding: 6px 0;
+}
+
+button {
+  padding: 6px 14px;
+  margin-top: 10px;
+  margin-right: 10px;
+  background-color: #007BFF;
+  color: #fff;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+textarea {
+  width: 100%;
+  min-height: 180px;
+  margin-top: 12px;
+  padding: 12px;
+  font-family: 'Fira Code', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  border: none;
+  border-radius: 8px;
+  background-color: #1e1e1e;
+  color: #f1f1f1;
+  resize: vertical;
+  box-shadow: inset 0 0 4px rgba(0,0,0,0.1);
+}
+
+.exit-controls {
+  margin-top: 12px;
+  padding: 10px;
+  border-top: 1px dashed #aaa;
+  background-color: #f5f5f5;
+  border-radius: 6px;
+}
+
+.preview {
+  outline: none;
+}
+
+.preview.highlighted {
+  outline: 3px solid limegreen;
+}
+
+.exit-controls.selected {
+  border: 2px solid limegreen;
+  background-color: #e8fbe8;
+}
+
+.preview-label {
+  position: absolute;
+  background: rgba(0,0,0,0.7);
+  color: #fff;
+  padding: 2px 6px;
+  font-size: 12px;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 10;
+  white-space: nowrap;
+  transform: translateY(-100%);
+}
+
+pre code {
+  font-family: 'Fira Code', monospace;
+  font-size: 14px;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #1e1e1e;
+  color: #f8f8f2;
+  overflow-x: auto;
+  display: block;
+  white-space: pre;
+}
+
+#copyCodeBtn {
+  background-color: #444;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  font-size: 13px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+#copyCodeBtn:hover {
+  background-color: #666;
+}

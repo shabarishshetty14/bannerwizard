@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Live HTML Banner Builder</title>
+  <link href="./css/style.css" rel="stylesheet" />
+  <link href="./lib/css/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+<body>
+  <div id="leftPanel">
+    <button id="downloadJsonBtn">📥 Download JSON</button>
+    <label>Import JSON file</label>
+    <input type="file" id="importJsonInput" accept=".json" />
+
+    <!-- Banner size controls -->
+    <div style="margin-top:16px;margin-bottom:16px;">
+      <label><strong>Banner Size:</strong></label><br>
+      Width: <input type="number" id="bannerWidthInput" value="300" style="width:60px;" />
+      Height: <input type="number" id="bannerHeightInput" value="250" style="width:60px;" />
+    </div>
+    <div style="margin-top: 12px;">
+      <label><input type="checkbox" id="snapToGridToggle" checked> 🧲 Snap to 10px Grid</label>
+    </div>
+    <div style="margin-top: 12px;">
+      <label><input type="checkbox" id="enableIsiCheckbox" /> 💊 Enable ISI</label>
+    </div>
+
+    <h2>Live HTML Banner Builder</h2>
+    <div id="controls"></div>
+    <button id="addImageBtn">Add Image</button>
+  </div>
+
+  <div id="rightPanel">
+    <h3>Live Preview <span style="font-size: 14px; color: #666;" id="durationDisplay">(0s)</span></h3>
+    <div id="previewArea"></div>
+    <button onclick="reanimate()">🔁 Reanimate</button>
+
+    <h3>Generated Code</h3>
+    <button id="copyCodeBtn">📋 Copy Code</button>
+    <pre><code id="outputCode" class="language-html"></code></pre>
+  </div>
+
+  <!-- External Libraries -->
+  <script src="./lib/js/prism.min.js"></script>
+  <script src="./lib/js/gsap.min.js"></script>
+
+  <!-- App Modules -->
+  <script src="./js/utils.js"></script>
+  <script src="./js/uiControls.js"></script>
+  <script src="./js/preview.js"></script>
+  <script src="./js/dragDrop.js"></script>
+  <script src="./js/bannerSize.js"></script>
+  <script src="./js/animations.js"></script>
+  <script src="./js/isi.js"></script>
+  <script src="./js/jsonImportExport.js"></script>
+  <script src="./js/main.js"></script>
+</body>
+</html>
