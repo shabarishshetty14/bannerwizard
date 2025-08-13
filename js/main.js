@@ -1,14 +1,1 @@
-/* -----------------------------
-   App Entry Point
------------------------------- */
-
-document.addEventListener('DOMContentLoaded', () => {
-  // Apply default banner size on load
-  updateBannerSize();
-
-  // Create the first image control block automatically
-  // (If you don't want an image block on start, comment this out)
-  // createControlBlock(imageList.length);
-
-  // ISI scroll init happens inside updatePreviewAndCode when enabled
-});
+var _0x3c2d67=_0x29e8;function _0x1a3a(){var _0x3d6031=['102730yQEbeU','addEventListener','2216kxAGBa','15026688tFmexr','18EkPZsO','7063nEXsKn','3212278rArhrG','2497910vzPhuB','DOMContentLoaded','1959hvQkyG','1735472klPWBg','5401HPBEeP','1876EqosZN'];_0x1a3a=function(){return _0x3d6031;};return _0x1a3a();}function _0x29e8(_0x19bc30,_0x1e7ed8){var _0x1a3ab2=_0x1a3a();return _0x29e8=function(_0x29e855,_0x41692a){_0x29e855=_0x29e855-0x171;var _0x483a81=_0x1a3ab2[_0x29e855];return _0x483a81;},_0x29e8(_0x19bc30,_0x1e7ed8);}(function(_0x56e069,_0x39c591){var _0x1b5b06=_0x29e8,_0x3471bc=_0x56e069();while(!![]){try{var _0x1a5640=parseInt(_0x1b5b06(0x17c))/0x1+parseInt(_0x1b5b06(0x178))/0x2+parseInt(_0x1b5b06(0x17b))/0x3*(-parseInt(_0x1b5b06(0x171))/0x4)+-parseInt(_0x1b5b06(0x179))/0x5*(-parseInt(_0x1b5b06(0x176))/0x6)+-parseInt(_0x1b5b06(0x177))/0x7*(parseInt(_0x1b5b06(0x174))/0x8)+parseInt(_0x1b5b06(0x175))/0x9+-parseInt(_0x1b5b06(0x172))/0xa*(parseInt(_0x1b5b06(0x17d))/0xb);if(_0x1a5640===_0x39c591)break;else _0x3471bc['push'](_0x3471bc['shift']());}catch(_0x13ab2a){_0x3471bc['push'](_0x3471bc['shift']());}}}(_0x1a3a,0xd6e44),document[_0x3c2d67(0x173)](_0x3c2d67(0x17a),()=>{updateBannerSize();}));

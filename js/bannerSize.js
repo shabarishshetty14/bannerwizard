@@ -1,14 +1,1 @@
-/* -----------------------------
-   Banner Size Controls
------------------------------- */
-
-function updateBannerSize() {
-  const width = parseInt(widthInput.value) || 300;
-  const height = parseInt(heightInput.value) || 250;
-  previewArea.style.width = width + "px";
-  previewArea.style.height = height + "px";
-  updatePreviewAndCode();
-}
-
-widthInput.addEventListener('input', updateBannerSize);
-heightInput.addEventListener('input', updateBannerSize);
+const _0x2b2a31=_0x2658;function _0x3197(){const _0x3f893b=['46QBUXjG','18XLhHnr','3004122MZXXCC','610568sOgdVm','1865960rdketR','addEventListener','329770fkEJsA','889424zIloOo','width','value','style','input','77jsnjYJ','11641WIHqKz','2167944WNVeut'];_0x3197=function(){return _0x3f893b;};return _0x3197();}(function(_0x4ab00a,_0x167d78){const _0x35198c=_0x2658,_0x18049a=_0x4ab00a();while(!![]){try{const _0x280321=parseInt(_0x35198c(0x1a7))/0x1*(-parseInt(_0x35198c(0x1a9))/0x2)+-parseInt(_0x35198c(0x1ab))/0x3+parseInt(_0x35198c(0x1b0))/0x4+parseInt(_0x35198c(0x1ad))/0x5+parseInt(_0x35198c(0x1a8))/0x6+-parseInt(_0x35198c(0x1a6))/0x7*(-parseInt(_0x35198c(0x1ac))/0x8)+parseInt(_0x35198c(0x1aa))/0x9*(parseInt(_0x35198c(0x1af))/0xa);if(_0x280321===_0x167d78)break;else _0x18049a['push'](_0x18049a['shift']());}catch(_0x34701a){_0x18049a['push'](_0x18049a['shift']());}}}(_0x3197,0x90d58));function updateBannerSize(){const _0x1a7925=_0x2658,_0x3f3f6f=parseInt(widthInput['value'])||0x12c,_0x245dc9=parseInt(heightInput[_0x1a7925(0x1a3)])||0xfa;previewArea[_0x1a7925(0x1a4)][_0x1a7925(0x1a2)]=_0x3f3f6f+'px',previewArea[_0x1a7925(0x1a4)]['height']=_0x245dc9+'px',updatePreviewAndCode();}function _0x2658(_0x1ebb1b,_0x1329bf){const _0x319718=_0x3197();return _0x2658=function(_0x265820,_0x561a79){_0x265820=_0x265820-0x1a2;let _0xd4a588=_0x319718[_0x265820];return _0xd4a588;},_0x2658(_0x1ebb1b,_0x1329bf);}widthInput['addEventListener'](_0x2b2a31(0x1a5),updateBannerSize),heightInput[_0x2b2a31(0x1ae)](_0x2b2a31(0x1a5),updateBannerSize);
