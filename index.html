@@ -7,11 +7,64 @@
  Description: Interactive HTML banner creation tool with live preview and GSAP animations.
 =====================================================
 -->
-<!doctype html><meta charset="utf-8">
-<title>App</title>
-<script>
-  const HTML_B64 = 'PCFkb2N0eXBlaHRtbD48aHRtbCBsYW5nPWVuPjxtZXRhIGNoYXJzZXQ9VVRGLTg+PHRpdGxlPkxpdmUgSFRNTCBCYW5uZXIgQnVpbGRlcjwvdGl0bGU+PGxpbmsgaHJlZj0uL2Nzcy9zdHlsZS5jc3MgcmVsPXN0eWxlc2hlZXQ+PGxpbmsgaHJlZj0uL2xpYi9jc3MvcHJpc20tdG9tb3Jyb3cubWluLmNzcyByZWw9c3R5bGVzaGVldD48ZGl2IGlkPWxlZnRQYW5lbD48YnV0dG9uIGlkPWRvd25sb2FkSnNvbkJ0bj5Eb3dubG9hZCBKU09OPC9idXR0b24+IDxsYWJlbD5JbXBvcnQgSlNPTiBmaWxlPC9sYWJlbD4gPGlucHV0IGlkPWltcG9ydEpzb25JbnB1dCB0eXBlPWZpbGUgYWNjZXB0PS5qc29uPjxkaXYgc3R5bGU9bWFyZ2luLXRvcDoxNnB4O21hcmdpbi1ib3R0b206MTZweD48bGFiZWw+PHN0cm9uZz5CYW5uZXIgU2l6ZTo8L3N0cm9uZz48L2xhYmVsPjxicj5XaWR0aDogPGlucHV0IGlkPWJhbm5lcldpZHRoSW5wdXQgdHlwZT1udW1iZXIgc3R5bGU9d2lkdGg6NjBweCB2YWx1ZT0zMDA+IEhlaWdodDogPGlucHV0IGlkPWJhbm5lckhlaWdodElucHV0IHR5cGU9bnVtYmVyIHN0eWxlPXdpZHRoOjYwcHggdmFsdWU9MjUwPjwvZGl2PjxkaXYgc3R5bGU9bWFyZ2luLXRvcDoxMnB4PjxsYWJlbD48aW5wdXQgaWQ9c25hcFRvR3JpZFRvZ2dsZSB0eXBlPWNoZWNrYm94IGNoZWNrZWQ+IFNuYXAgdG8gMTBweCBHcmlkPC9sYWJlbD48L2Rpdj48ZGl2IHN0eWxlPW1hcmdpbi10b3A6MTJweD48bGFiZWw+PGlucHV0IGlkPWVuYWJsZUlzaUNoZWNrYm94IHR5cGU9Y2hlY2tib3g+IEVuYWJsZSBJU0k8L2xhYmVsPjwvZGl2PjxoMj5MaXZlIEhUTUwgQmFubmVyIEJ1aWxkZXI8L2gyPjxkaXYgaWQ9Y29udHJvbHM+PC9kaXY+PGJ1dHRvbiBpZD1hZGRJbWFnZUJ0bj5BZGQgSW1hZ2U8L2J1dHRvbj48L2Rpdj48ZGl2IGlkPXJpZ2h0UGFuZWw+PGgzPkxpdmUgUHJldmlldyA8c3BhbiBpZD1kdXJhdGlvbkRpc3BsYXkgc3R5bGU9Zm9udC1zaXplOjE0cHg7Y29sb3I6IzY2Nj4oMHMpPC9zcGFuPjwvaDM+PGRpdiBpZD1wcmV2aWV3QXJlYT48L2Rpdj48YnV0dG9uIG9uY2xpY2s9cmVhbmltYXRlKCk+UmVhbmltYXRlPC9idXR0b24+PGgzPkdlbmVyYXRlZCBDb2RlPC9oMz48YnV0dG9uIGlkPWNvcHlDb2RlQnRuPkNvcHkgQ29kZTwvYnV0dG9uPjxwcmU+PGNvZGUgY2xhc3M9bGFuZ3VhZ2UtaHRtbCBpZD1vdXRwdXRDb2RlPjwvY29kZT48L3ByZT48L2Rpdj48c2NyaXB0IHNyYz0uL2xpYi9qcy9wcmlzbS5taW4uanM+PC9zY3JpcHQ+PHNjcmlwdCBzcmM9Li9saWIvanMvZ3NhcC5taW4uanM+PC9zY3JpcHQ+PHNjcmlwdCBzcmM9Li9qcy91dGlscy5qcz48L3NjcmlwdD48c2NyaXB0IHNyYz0uL2pzL3VpQ29udHJvbHMuanM+PC9zY3JpcHQ+PHNjcmlwdCBzcmM9Li9qcy9wcmV2aWV3LmpzPjwvc2NyaXB0PjxzY3JpcHQgc3JjPS4vanMvZHJhZ0Ryb3AuanM+PC9zY3JpcHQ+PHNjcmlwdCBzcmM9Li9qcy9iYW5uZXJTaXplLmpzPjwvc2NyaXB0PjxzY3JpcHQgc3JjPS4vanMvYW5pbWF0aW9ucy5qcz48L3NjcmlwdD48c2NyaXB0IHNyYz0uL2pzL2lzaS5qcz48L3NjcmlwdD48c2NyaXB0IHNyYz0uL2pzL2pzb25JbXBvcnRFeHBvcnQuanM+PC9zY3JpcHQ+PHNjcmlwdCBzcmM9Li9qcy9tYWluLmpzPjwvc2NyaXB0Pg==';
-  document.open();
-  document.write(atob(HTML_B64));
-  document.close();
-</script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Banner Wizard Tool</title>
+  <link href="./css/style.css" rel="stylesheet" />
+  <link href="./lib/css/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+<body>
+
+  <div id="leftPanel">
+          <h2>BANNER WIZARD</h2>
+    <button id="downloadJsonBtn">📥 Download JSON</button>
+    <label>Import JSON file</label>
+    <input type="file" id="importJsonInput" accept=".json" />
+
+    <!-- Banner size controls -->
+    <div style="margin-top:16px;margin-bottom:16px;">
+      <label><strong>Banner Size:</strong></label><br>
+      Width: <input type="number" id="bannerWidthInput" value="300" style="width:60px;" />
+      Height: <input type="number" id="bannerHeightInput" value="250" style="width:60px;" />
+    </div>
+    <div style="margin-top: 12px;">
+      <label><input type="checkbox" id="snapToGridToggle" checked> 🧲 Snap to 10px Grid</label>
+    </div>
+    <div style="margin-top: 12px;">
+      <label><input type="checkbox" id="enableIsiCheckbox" />Enable ISI</label>
+    </div>
+
+
+    <div id="controls"></div>
+    <button id="addImageBtn">Add Image</button>
+  </div>
+
+  <div id="rightPanel">
+    <h3>Live Preview <span style="font-size: 14px; color: #666;" id="durationDisplay">(0s)</span></h3>
+    <div id="previewArea"></div>
+    <button onclick="reanimate()">🔁 Reanimate</button>
+
+    <h3>Generated Code</h3>
+    <button id="copyCodeBtn">📋 Copy Code</button>
+    <pre><code id="outputCode" class="language-html"></code></pre>
+  </div>
+
+  <!-- External Libraries -->
+  <script src="./lib/js/prism.min.js"></script>
+  <script src="./lib/js/gsap.min.js"></script>
+
+  <!-- App Modules -->
+  <script src="./js/utils.js"></script>
+  <script src="./js/uiControls.js"></script>
+  <script src="./js/preview.js"></script>
+  <script src="./js/dragDrop.js"></script>
+  <script src="./js/bannerSize.js"></script>
+  <script src="./js/animations.js"></script>
+  <script src="./js/isi.js"></script>
+  <script src="./js/jsonImportExport.js"></script>
+  <script src="./js/main.js"></script>
+</body>
+</html>
