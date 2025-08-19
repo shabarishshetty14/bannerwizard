@@ -1,44 +1,196 @@
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f9f9f9;
-  padding: 20px;
-  display: flex;
-  gap: 30px;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Roboto, sans-serif;
 }
+
+body {
+  display: flex;
+  height: 100vh;
+  background: url("https://www.toptal.com/designers/subtlepatterns/uploads/geometry2.png") repeat,
+              linear-gradient(135deg, #f0f4f8, #e6ecf3);
+  color: #333;
+}
+
+
+/* ===== Left Panel ===== */
+
+.banner-wizards {
+  font-family: "Georgia", serif; 
+  font-weight: bold;
+  font-size: 28px;
+  color: #e24a4a; 
+  padding: 20px 0;
+}
+
 
 #leftPanel {
-  width: 60%;
-  padding: 20px;
-  overflow-y: auto;
-  background-color: #f9f9f9;
+  width: 300px;  
+  min-height: 100vh;
+  background: #000;
+  border-right: 1px solid #e0e0e0;
+  padding: 12px;
+  box-sizing: border-box;
+  transition: width 0.3s ease;
+  float: left;
+  overflow: hidden;
+  position: relative;
+  overflow-y: auto;  
+  overflow-x: hidden;
 }
+
+#leftPanel h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: #fff;
+  text-align: center;
+  margin-top: 40px;
+}
+
+#leftPanel label {
+  display: block;
+  margin: 8px 0 4px;
+  font-size: 14px;
+  color: #fff;
+}
+
+#leftPanel input[type="number"],
+#leftPanel input[type="file"],
+#leftPanel select {
+  padding: 6px;
+  border: 1px solid #fff;
+  border-radius: 6px;
+  width: 100%;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+#leftPanel button {
+    width: 100%;
+    padding: 10px;
+    margin: 6px 0;
+    border: none;
+    background: #e24a4a;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    border-radius: 6px;
+}
+
+/* Hover effect */
+
+#toggleLeftPanel{
+  width: 50px !important;
+  position: absolute;
+    right: 10px;
+}
+
+#leftPanel button:hover {
+   background: transparent;
+    border: 2px solid #e24a4a;
+     transform: scale(1.05);
+    box-shadow: 0 0 12px rgba(226, 74, 74, 0.7);
+    color: #e24a4a;
+}
+
+#leftPanel button:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+#leftPanel input[type="checkbox"] {
+  margin-right: 6px;
+}
+
+
+/* ************************************************************** */
+
+
+#leftPanel.collapsed {
+  width: 70px;
+  padding: 12px 5px;
+}
+
+#leftPanel.collapsed h2,
+#leftPanel.collapsed h3,
+#leftPanel.collapsed button:not(#toggleLeftPanel),
+#leftPanel.collapsed pre,
+#leftPanel.collapsed .globalSettings
+ {
+  display: none;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#toggleLeftPanel {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #000;
+}
+
+#toggleLeftPanel:hover {
+  color: #e24a4a;
+}
+
+/* ************************************************************** */
+
+
+
 
 #rightPanel {
-  width: 40%;
-  padding: 20px;
-  background-color: #eaeaea;
-  position: sticky;
-  right: 0;
-  top: 0;
-  height: 100vh;
+  flex: 1;
   overflow-y: auto;
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
-h2, h3 {
-  margin-bottom: 12px;
+#rightPanel h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #444;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-transform: uppercase;
+}
+
+
+#rightPanel h3 #durationDisplay{
+
+  text-transform: lowercase;
+}
+
+.create-banner{padding: 10px 25px 10px;background: #070606;color: #fff;}
+
+.preview-fixed {
+    position: sticky;
+    top: -20px;
+    background:  url("https://www.toptal.com/designers/subtlepatterns/uploads/geometry2.png") repeat,
+              linear-gradient(135deg, #f0f4f8, #e6ecf3);
+    z-index: 10;
+    border-bottom: 2px solid #239BA7;
+    padding: 25px 0 15px 25px;
 }
 
 #previewArea {
-  background: #eee;
-  position: relative;
-  overflow: visible;
-  border: 2px solid #ccc;
+  background: #fff;
+  border: 1px solid #bbb;
+  width: 100%;
+  height: 300px;
   margin-bottom: 20px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  /* width/height now dynamic via JS */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin: auto;
 }
 
 #previewArea::after {
@@ -47,34 +199,36 @@ h2, h3 {
   top: 0; left: 0;
   width: 100%;
   height: 100%;
-  border: 2px dashed red;
+  border: 1px solid #aaa;
   pointer-events: none;
   box-sizing: border-box;
 }
 
-.preview {
-  position: absolute;
-  cursor: move;
-}
-
 #controls > div {
   border: 1px solid #ccc;
-  background: #fff;
+  background: #239BA7;
   padding: 16px;
   margin-bottom: 15px;
-  border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  margin-top: 20px;
 }
 
 strong {
-  display: block;
-  font-size: 16px;
-  margin-bottom: 12px;
-  color: #333;
+    display: block;
+    font-size: 20px;
+    text-transform: uppercase;
+    color: #000;
+    padding-bottom: 15px;
 }
 
 input[type="number"]{
-  width:50px;
+  /* width:50px; */
+    width: 70px;
+  padding: 3px 6px;
+  margin-left: 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 13px;
 }
 
 input[type="number"],
@@ -87,14 +241,14 @@ input[type="file"] {
 }
 
 input[type="file"] {
-  padding: 6px 0;
+  padding: 6px 5px;
 }
 
 button {
   padding: 6px 14px;
   margin-top: 10px;
   margin-right: 10px;
-  background-color: #007BFF;
+  background-color: #239BA7;
   color: #fff;
   font-size: 14px;
   border: none;
@@ -103,7 +257,7 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #239BA7;
 }
 
 textarea {
@@ -115,7 +269,6 @@ textarea {
   font-size: 14px;
   line-height: 1.5;
   border: none;
-  border-radius: 8px;
   background-color: #1e1e1e;
   color: #f1f1f1;
   resize: vertical;
@@ -125,23 +278,36 @@ textarea {
 .exit-controls {
   margin-top: 12px;
   padding: 10px;
-  border-top: 1px dashed #aaa;
-  background-color: #f5f5f5;
+  border-top: 1px solid #aaa;
+  background: #edefef75;
   border-radius: 6px;
 }
 
+.exit-controls strong{padding-bottom: 0px !important;}
+
+.removeAnim{background: #fff;
+    color: #000;
+    border: 3px solid #239BA7;}
+    
+.removeAnim:hover{
+    color: #fff;}
+
 .preview {
+    position: absolute;
+  cursor: move;
   outline: none;
 }
 
 .preview.highlighted {
-  outline: 3px solid limegreen;
+  outline: 1px solid limegreen;
+   
 }
 
 .exit-controls.selected {
-  border: 2px solid limegreen;
-  background-color: #e8fbe8;
+   background: #edefef75;
+    border-radius: 6px;
 }
+
 
 .preview-label {
   position: absolute;
@@ -159,7 +325,6 @@ textarea {
 pre code {
   font-family: 'Fira Code', monospace;
   font-size: 14px;
-  border-radius: 8px;
   padding: 16px;
   background-color: #1e1e1e;
   color: #f8f8f2;
@@ -168,17 +333,150 @@ pre code {
   white-space: pre;
 }
 
+pre {
+  background: #2d2d2d;
+  padding: 16px;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #f8f8f2;
+}
+
 #copyCodeBtn {
-  background-color: #444;
+  margin-bottom: 10px;
+  background: #239BA7;
   color: #fff;
   border: none;
   padding: 6px 12px;
   font-size: 13px;
   border-radius: 6px;
   cursor: pointer;
-  margin-bottom: 10px;
 }
 
 #copyCodeBtn:hover {
-  background-color: #666;
+  background: #1e874b;
 }
+
+
+#leftPanel::-webkit-scrollbar {
+  width: 6px;
+}
+#leftPanel::-webkit-scrollbar-thumb {
+  background: #000;
+  border-radius: 4px;
+}
+
+
+.checkBoxDesign {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #239BA7;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+}
+
+.checkBoxDesign:checked {
+  background-color: #239BA7;
+  border-color: #239BA7;
+}
+
+.checkBoxDesign:checked::after {
+  content: "✔";
+  color: white;
+  position: absolute;
+  left: 2px;
+  top: -1px;
+  font-size: 12px;
+}
+
+.coords {
+  display: flex;
+  gap: 15px; 
+  align-items: center;
+}
+
+
+
+
+
+/* Add Image */
+/* Container for each image block */
+.image-block {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  background: #fafafa;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.image-block strong {
+  display: block;
+  font-size: 15px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.imageUpload {
+  margin-top: 6px;
+}
+
+.fileNameDisplay {
+  font-style: italic;
+  color: #555;
+}
+
+.coords {
+  display: flex;
+  gap: 12px;
+  margin: 8px 0;
+}
+.coords label {
+   display: flex;
+  align-items: center;
+  gap: 5px; 
+  font-weight: bold;
+  font-size: 13px;
+  color: #fff;
+}
+
+
+
+label {
+  font-size: 13px;
+  margin: 6px 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+input[type="checkbox"] {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.addExtraAnim {
+  margin-top: 10px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s;
+    background: #fff !important;
+  color: #000 !important;
+}
+
+
+.extra-anims {
+  margin-top: 10px;
+  padding-left: 10px;
+  border-left: 2px dashed #ccc;
+}
+
+
+.language-html{padding: 0;}
