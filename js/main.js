@@ -1,1 +1,36 @@
-const _0x59b54b=_0xc22e;(function(_0x2f5411,_0x5e4a77){const _0x5228db=_0xc22e,_0x518822=_0x2f5411();while(!![]){try{const _0x214dfb=parseInt(_0x5228db(0x1fd))/0x1+-parseInt(_0x5228db(0x1fe))/0x2+parseInt(_0x5228db(0x1fc))/0x3*(-parseInt(_0x5228db(0x1f4))/0x4)+-parseInt(_0x5228db(0x1f9))/0x5+parseInt(_0x5228db(0x201))/0x6*(parseInt(_0x5228db(0x1fa))/0x7)+-parseInt(_0x5228db(0x1f7))/0x8*(parseInt(_0x5228db(0x1f6))/0x9)+parseInt(_0x5228db(0x1fb))/0xa*(parseInt(_0x5228db(0x204))/0xb);if(_0x214dfb===_0x5e4a77)break;else _0x518822['push'](_0x518822['shift']());}catch(_0x155ca7){_0x518822['push'](_0x518822['shift']());}}}(_0x46d3,0xa4875),document[_0x59b54b(0x1f3)]('DOMContentLoaded',()=>{updateBannerSize();}),document[_0x59b54b(0x1f5)](_0x59b54b(0x202))[_0x59b54b(0x1f3)]('click',()=>{const _0x5ca237=_0x59b54b,_0x1ba90a=document[_0x5ca237(0x1f5)](_0x5ca237(0x203));_0x1ba90a[_0x5ca237(0x1ff)][_0x5ca237(0x1f8)](_0x5ca237(0x200));}));function _0xc22e(_0xdbfe03,_0x1b46b4){const _0x46d3b7=_0x46d3();return _0xc22e=function(_0xc22e9b,_0x56950e){_0xc22e9b=_0xc22e9b-0x1f3;let _0x1111fb=_0x46d3b7[_0xc22e9b];return _0x1111fb;},_0xc22e(_0xdbfe03,_0x1b46b4);}function _0x46d3(){const _0x2fc401=['leftPanel','2915ILXANn','addEventListener','36pEnVZT','getElementById','279oeiOKL','267448HMrCdl','toggle','5328065WOvIqx','6266323VTyBmQ','73670AlHSgU','111765vpCpoi','346315IbGsRn','165162iGdYcG','classList','collapsed','6UkqLOH','toggleLeftPanel'];_0x46d3=function(){return _0x2fc401;};return _0x46d3();}
+/* -----------------------------
+   App Entry Point
+------------------------------ */
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Apply default banner size on load
+  updateBannerSize();
+
+  // Create the first image control block automatically
+  // (If you don't want an image block on start, comment this out)
+  // createControlBlock(imageList.length);
+
+  // ISI scroll init happens inside updatePreviewAndCode when enabled
+});
+
+// Shrink In and Out Function
+const toggleBtn = document.getElementById('toggleLeftPanel');
+const leftPanel = document.getElementById('leftPanel');
+const icon = toggleBtn.querySelector('i');
+
+toggleBtn.addEventListener('click', () => {
+    leftPanel.classList.toggle('collapsed');
+
+    if (leftPanel.classList.contains('collapsed')) {
+        // Panel is collapsed → show original icon
+        icon.classList.remove('fa-xmark');
+        icon.classList.add('fa-up-right-and-down-left-from-center');
+    } else {
+        // Panel is open → show X icon
+        icon.classList.remove('fa-up-right-and-down-left-from-center');
+        icon.classList.add('fa-xmark');
+    }
+});
+
+
+
