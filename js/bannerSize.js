@@ -1,1 +1,14 @@
-function _0x5c98(){const _0x138e5f=['height','addEventListener','input','style','6710350FWvudt','156576WAHnPU','value','6pWtxYn','1067080kvZdbQ','1112730EpQSYE','9504984pDEgVs','1962944EeISxZ','797866zvPmdv','width'];_0x5c98=function(){return _0x138e5f;};return _0x5c98();}const _0x132018=_0x3a71;(function(_0x352962,_0x5b3aa4){const _0x278241=_0x3a71,_0x13bfed=_0x352962();while(!![]){try{const _0x6e438d=parseInt(_0x278241(0xf0))/0x1+-parseInt(_0x278241(0xed))/0x2+parseInt(_0x278241(0xf7))/0x3+parseInt(_0x278241(0xef))/0x4+parseInt(_0x278241(0xf6))/0x5*(parseInt(_0x278241(0xeb))/0x6)+-parseInt(_0x278241(0xec))/0x7+-parseInt(_0x278241(0xee))/0x8;if(_0x6e438d===_0x5b3aa4)break;else _0x13bfed['push'](_0x13bfed['shift']());}catch(_0x5db447){_0x13bfed['push'](_0x13bfed['shift']());}}}(_0x5c98,0xbfe10));function updateBannerSize(){const _0x356e9d=_0x3a71,_0xf9d919=parseInt(widthInput[_0x356e9d(0xea)])||0x12c,_0x22f069=parseInt(heightInput[_0x356e9d(0xea)])||0xfa;previewArea[_0x356e9d(0xf5)][_0x356e9d(0xf1)]=_0xf9d919+'px',previewArea[_0x356e9d(0xf5)][_0x356e9d(0xf2)]=_0x22f069+'px',updatePreviewAndCode();}function _0x3a71(_0x34ef69,_0x4a9da6){const _0x5c98e5=_0x5c98();return _0x3a71=function(_0x3a71c8,_0x49f2b8){_0x3a71c8=_0x3a71c8-0xea;let _0xbcac2c=_0x5c98e5[_0x3a71c8];return _0xbcac2c;},_0x3a71(_0x34ef69,_0x4a9da6);}widthInput[_0x132018(0xf3)](_0x132018(0xf4),updateBannerSize),heightInput[_0x132018(0xf3)](_0x132018(0xf4),updateBannerSize);
+/* -----------------------------
+   Banner Size Controls
+------------------------------ */
+
+function updateBannerSize() {
+  const width = parseInt(widthInput.value) || 300;
+  const height = parseInt(heightInput.value) || 250;
+  previewArea.style.width = width + "px";
+  previewArea.style.height = height + "px";
+  updatePreviewAndCode();
+}
+
+widthInput.addEventListener('input', updateBannerSize);
+heightInput.addEventListener('input', updateBannerSize);

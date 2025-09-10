@@ -1,1 +1,66 @@
-const _0x297039=_0x5d4f;(function(_0x577dba,_0x2a84db){const _0x33f48b=_0x5d4f,_0x324497=_0x577dba();while(!![]){try{const _0x59668d=-parseInt(_0x33f48b(0x123))/0x1*(parseInt(_0x33f48b(0x131))/0x2)+-parseInt(_0x33f48b(0x127))/0x3+parseInt(_0x33f48b(0x12d))/0x4*(-parseInt(_0x33f48b(0x130))/0x5)+parseInt(_0x33f48b(0x122))/0x6*(parseInt(_0x33f48b(0x11c))/0x7)+-parseInt(_0x33f48b(0x12f))/0x8*(-parseInt(_0x33f48b(0x132))/0x9)+-parseInt(_0x33f48b(0x11f))/0xa+parseInt(_0x33f48b(0x12a))/0xb;if(_0x59668d===_0x2a84db)break;else _0x324497['push'](_0x324497['shift']());}catch(_0x406a6f){_0x324497['push'](_0x324497['shift']());}}}(_0x4c1f,0xb9084),document[_0x297039(0x126)](_0x297039(0x125))[_0x297039(0x124)](_0x297039(0x11d),updatePreviewAndCode));function initIsiScroll(){const _0x1d3aed=_0x297039,_0x9436eb=document[_0x1d3aed(0x126)](_0x1d3aed(0x125))[_0x1d3aed(0x120)];if(!_0x9436eb)return;const _0x1aaaa1=document['getElementById'](_0x1d3aed(0x128));if(!_0x1aaaa1)return;let _0x13af2a=0x7d,_0x2bd115=![],_0x262b16=null,_0x8a0adc=0x0,_0x429aaf=![];function _0xa9aaec(){const _0x3f3b86=_0x1d3aed;_0x2bd115=![],_0x1aaaa1[_0x3f3b86(0x12b)]=0x0,_0x8a0adc=0x0,setTimeout(_0x4d3b0e,_0x608788()*0x3e8);}function _0x4d3b0e(){_0x429aaf=!![],_0x262b16=setInterval(_0x26470d,_0x13af2a);}function _0x26470d(){const _0x4cce20=_0x1d3aed;!_0x2bd115&&(_0x1aaaa1['scrollTop']=_0x8a0adc,_0x8a0adc++,_0x2bd115=_0x1aaaa1[_0x4cce20(0x12b)]>=_0x1aaaa1['scrollHeight']-_0x1aaaa1['offsetHeight']);}function _0x197c31(){clearInterval(_0x262b16);}function _0x3abe95(){_0x8a0adc=_0x1aaaa1['scrollTop'],_0x262b16=setInterval(_0x26470d,_0x13af2a);}function _0x608788(){const _0x16391c=_0x1d3aed;let _0x5088bc=0x0;return imageList[_0x16391c(0x11e)](_0x4a9443=>{const _0x4f5199=_0x16391c;if(!_0x4a9443[_0x4f5199(0x12e)])return;_0x5088bc=Math[_0x4f5199(0x11b)](_0x5088bc,_0x4a9443[_0x4f5199(0x121)]+0x1),_0x4a9443[_0x4f5199(0x129)]['forEach'](_0x3e7737=>{const _0x16919c=_0x4f5199;_0x5088bc=Math[_0x16919c(0x11b)](_0x5088bc,_0x3e7737[_0x16919c(0x121)]+0x1);});}),_0x5088bc;}_0x1aaaa1[_0x1d3aed(0x12c)]=()=>_0x429aaf?_0x197c31():null,_0x1aaaa1['onmouseout']=()=>_0x429aaf?_0x3abe95():null,_0xa9aaec();}function _0x5d4f(_0x5661b2,_0x5d90d3){const _0x4c1f52=_0x4c1f();return _0x5d4f=function(_0x5d4f0f,_0x7d612f){_0x5d4f0f=_0x5d4f0f-0x11b;let _0x4063c=_0x4c1f52[_0x5d4f0f];return _0x4063c;},_0x5d4f(_0x5661b2,_0x5d90d3);}function _0x4c1f(){const _0x439527=['addEventListener','enableIsiCheckbox','getElementById','1637061kqqKet','scroll_tj','extraAnims','6426871SIuSuS','scrollTop','onmouseover','819100jCddtu','src','3384NXYPyc','5lBpeIi','324998Umeery','25506cFpVJV','max','7WJcwcl','change','forEach','14638930VnrWnp','checked','delay','8110218WiYzsX','1xyyufw'];_0x4c1f=function(){return _0x439527;};return _0x4c1f();}
+/* -----------------------------
+   ISI Enable/Disable + Scroll Logic
+------------------------------ */
+
+document.getElementById('enableIsiCheckbox')
+  .addEventListener('change', updatePreviewAndCode);
+
+function initIsiScroll() {
+  const isiEnabled = document.getElementById('enableIsiCheckbox').checked;
+  if (!isiEnabled) return;
+
+  const scrollDiv = document.getElementById('scroll_tj');
+  if (!scrollDiv) return;
+
+  let ScrollRate = 125;
+  let ReachedMaxScroll = false;
+  let ScrollInterval = null;
+  let PreviousScrollTop = 0;
+  let scrollStarted = false;
+
+  function scrollDiv_init() {
+    ReachedMaxScroll = false;
+    scrollDiv.scrollTop = 0;
+    PreviousScrollTop = 0;
+    setTimeout(startScroll, getTotalDuration() * 1000);
+  }
+
+  function startScroll() {
+    scrollStarted = true;
+    ScrollInterval = setInterval(scrollStep, ScrollRate);
+  }
+
+  function scrollStep() {
+    if (!ReachedMaxScroll) {
+      scrollDiv.scrollTop = PreviousScrollTop;
+      PreviousScrollTop++;
+      ReachedMaxScroll = scrollDiv.scrollTop >= (scrollDiv.scrollHeight - scrollDiv.offsetHeight);
+    }
+  }
+
+  function pauseDiv() {
+    clearInterval(ScrollInterval);
+  }
+
+  function resumeDiv() {
+    PreviousScrollTop = scrollDiv.scrollTop;
+    ScrollInterval = setInterval(scrollStep, ScrollRate);
+  }
+
+  function getTotalDuration() {
+    let max = 0;
+    imageList.forEach(img => {
+      if (!img.src) return;
+      max = Math.max(max, img.delay + 1);
+      img.extraAnims.forEach(anim => {
+        max = Math.max(max, anim.delay + 1);
+      });
+    });
+    return max;
+  }
+
+  scrollDiv.onmouseover = () => scrollStarted ? pauseDiv() : null;
+  scrollDiv.onmouseout = () => scrollStarted ? resumeDiv() : null;
+
+  scrollDiv_init();
+}

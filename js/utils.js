@@ -1,1 +1,196 @@
-const _0x400b36=_0x1af0;function _0x4de9(){const _0x538e45=['querySelectorAll','max','1455372HzSQdt','scale','width','199950cWCwOd','className','height','36579AAJFAt','opacity','previewArea','find','forEach','27RmtfZO','preview-label','div','588kLsPyV','27792yknEsi','1681802xImgqt','selected','5687458FLppUG','round','classList','remove','highlighted','getElementById','min','17217tMsJpW','add','createElement'];_0x4de9=function(){return _0x538e45;};return _0x4de9();}(function(_0x1aaf0a,_0x1dee49){const _0x4e805f=_0x1af0,_0x1a7486=_0x1aaf0a();while(!![]){try{const _0x26f809=-parseInt(_0x4e805f(0x150))/0x1+-parseInt(_0x4e805f(0x13c))/0x2+parseInt(_0x4e805f(0x145))/0x3*(parseInt(_0x4e805f(0x158))/0x4)+-parseInt(_0x4e805f(0x14d))/0x5+-parseInt(_0x4e805f(0x14a))/0x6+parseInt(_0x4e805f(0x13e))/0x7+parseInt(_0x4e805f(0x13b))/0x8*(parseInt(_0x4e805f(0x155))/0x9);if(_0x26f809===_0x1dee49)break;else _0x1a7486['push'](_0x1a7486['shift']());}catch(_0xc83852){_0x1a7486['push'](_0x1a7486['shift']());}}}(_0x4de9,0x7ba95));let imageList=[],activeDragTarget={'imgData':null,'animIndex':null};const previewArea=document[_0x400b36(0x143)](_0x400b36(0x152));let labelElement=document[_0x400b36(0x147)](_0x400b36(0x157));labelElement[_0x400b36(0x14e)]=_0x400b36(0x156),previewArea['appendChild'](labelElement);function _0x1af0(_0x113443,_0x1c406b){const _0x4de9c0=_0x4de9();return _0x1af0=function(_0x1af0ea,_0x1fec0f){_0x1af0ea=_0x1af0ea-0x13b;let _0x32b978=_0x4de9c0[_0x1af0ea];return _0x32b978;},_0x1af0(_0x113443,_0x1c406b);}function clamp(_0x185fe0,_0xfa0aa8,_0x444a72){const _0x14ad2e=_0x400b36;return Math[_0x14ad2e(0x149)](_0xfa0aa8,Math[_0x14ad2e(0x144)](_0x444a72,_0x185fe0));}function snapToGrid(_0x21be1e,_0x2686cf=0xa){const _0x17d70a=_0x400b36;return Math[_0x17d70a(0x13f)](_0x21be1e/_0x2686cf)*_0x2686cf;}function getImageDataById(_0x316a02){const _0x125ae8=_0x400b36;return imageList[_0x125ae8(0x153)](_0x2dd257=>_0x2dd257['id']===_0x316a02)||null;}function highlightPreview(_0x2af517){const _0x542e98=_0x400b36;document[_0x542e98(0x148)]('.preview')[_0x542e98(0x154)](_0x2a794a=>_0x2a794a[_0x542e98(0x140)][_0x542e98(0x141)](_0x542e98(0x142)));const _0x25583f=document['getElementById'](_0x2af517);if(_0x25583f)_0x25583f[_0x542e98(0x140)][_0x542e98(0x146)](_0x542e98(0x142));}function highlightExtraAnim(_0x240249,_0x539504){const _0x5848e8=_0x400b36;_0x240249[_0x5848e8(0x148)]('.extra-anims\x20.exit-controls')[_0x5848e8(0x154)]((_0x36007d,_0x3f598d)=>{const _0x1f9e50=_0x5848e8;_0x3f598d===_0x539504?_0x36007d[_0x1f9e50(0x140)][_0x1f9e50(0x146)](_0x1f9e50(0x13d)):_0x36007d['classList'][_0x1f9e50(0x141)](_0x1f9e50(0x13d));});}function getFinalImageState(_0x33630d){const _0x1026c1=_0x400b36;let _0x3b389a={'x':_0x33630d['x'],'y':_0x33630d['y'],'scale':_0x33630d[_0x1026c1(0x14b)],'opacity':_0x33630d[_0x1026c1(0x151)],'width':_0x33630d[_0x1026c1(0x14c)],'height':_0x33630d[_0x1026c1(0x14f)]};for(const _0x3c1d25 of _0x33630d['extraAnims']){_0x3b389a['x']+=_0x3c1d25['x'],_0x3b389a['y']+=_0x3c1d25['y'],_0x3b389a[_0x1026c1(0x151)]=_0x3c1d25[_0x1026c1(0x151)],_0x3b389a['scale']*=_0x3c1d25[_0x1026c1(0x14b)];}return _0x3b389a;}
+/* -----------------------------
+   Shared State & Helpers
+------------------------------ */
+let imageList = [];
+
+let activeDragTarget = {
+  imgData: null,
+  animIndex: null // null = base, 0+ = extraAnims
+};
+
+// Tooltip label element for selected image or animation
+const previewArea = document.getElementById('previewArea');
+let labelElement = document.createElement('div');
+labelElement.className = 'preview-label';
+previewArea.appendChild(labelElement);
+
+/* -----------------------------
+   Helper Functions
+------------------------------ */
+
+/**
+ * Clamp a number between min and max.
+ */
+function clamp(v, min, max) {
+  return Math.max(min, Math.min(max, v));
+}
+
+/**
+ * Snap value to nearest grid size.
+ */
+function snapToGrid(val, gridSize = 10) {
+  return Math.round(val / gridSize) * gridSize;
+}
+
+/**
+ * Find image/text data object by element ID.
+ */
+function getImageDataById(id) {
+  return imageList.find(img => img.id === id) || null;
+}
+
+/**
+ * Highlight a preview image by ID.
+ */
+function highlightPreview(id) {
+  document.querySelectorAll('.preview').forEach(img => img.classList.remove('highlighted'));
+  const el = document.getElementById(id);
+  if (el) el.classList.add('highlighted');
+}
+
+/**
+ * Highlight an extra animation block inside a wrapper.
+ */
+function highlightExtraAnim(wrapper, animIndex) {
+  if (!wrapper) return;
+  wrapper.querySelectorAll('.extra-anims .exit-controls').forEach((div, i) => {
+    if (i === animIndex) {
+      div.classList.add('selected');
+    } else {
+      div.classList.remove('selected');
+    }
+  });
+}
+
+/**
+ * Get the final state of an image after all extra animations applied.
+ */
+function getFinalImageState(img) {
+  let state = {
+    x: img.x,
+    y: img.y,
+    scale: img.scale,
+    opacity: img.opacity,
+    width: img.width,
+    height: img.height
+  };
+
+  for (const anim of img.extraAnims) {
+    state.x += anim.x;
+    state.y += anim.y;
+    state.opacity = anim.opacity;
+    state.scale *= anim.scale;
+  }
+
+  return state;
+}
+
+/* -----------------------------
+   Id helpers: sanitize & uniqueness
+------------------------------ */
+
+/**
+ * sanitizeId(name)
+ * - converts a file name or user string into a safe HTML id
+ * - rules:
+ *   - lowercases
+ *   - replaces spaces and invalid chars with underscore
+ *   - strips file extension if present
+ *   - ensures id doesn't start with a digit (prefix 'id_' if so)
+ */
+function sanitizeId(name) {
+  if (!name) return '';
+  // remove path and keep basename
+  const base = name.split(/[\\/]/).pop();
+  // remove extension
+  const withoutExt = base.replace(/\.[^/.]+$/, '');
+  // replace invalid chars with underscore; allow letters, numbers, -, _
+  let s = withoutExt.toString().trim().toLowerCase();
+  s = s.replace(/[^a-z0-9\-_]+/g, '_'); // replace groups of invalid chars with underscore
+  s = s.replace(/^_+|_+$/g, ''); // trim leading/trailing underscores
+  if (!s) s = 'id';
+  // if starts with digit, prefix
+  if (/^[0-9]/.test(s)) s = 'id_' + s;
+  return s;
+}
+
+/**
+ * ensureUniqueId(candidate)
+ * - ensures candidate id isn't used by other elements in imageList
+ * - if it is, appends _2, _3 etc until unique
+ */
+function ensureUniqueId(candidate) {
+  if (!candidate) candidate = 'id';
+  let id = candidate;
+  let counter = 1;
+  while (imageList.some(el => el.id === id)) {
+    counter++;
+    id = `${candidate}_${counter}`;
+  }
+  return id;
+}
+
+/**
+ * setElementId(imgData, newId)
+ * - centralized helper to rename an element's id safely
+ * - updates:
+ *    - imgData.id
+ *    - wrapper.dataset.imgId (if present)
+ *    - preview DOM element id (if present in previewArea)
+ *    - extraAnims ids (anim.id prefixed)
+ *    - layer DOM nodes (layersList dataset)
+ * - returns newId
+ */
+function setElementId(imgData, newId) {
+  if (!imgData || !newId) return null;
+  const sanitized = sanitizeId(newId);
+  const unique = ensureUniqueId(sanitized);
+
+  const oldId = imgData.id;
+  imgData.id = unique;
+
+  // update wrapper dataset attribute if available
+  try {
+    if (imgData.wrapper) imgData.wrapper.dataset.imgId = unique;
+    // update any strong label inside wrapper (if you want to show it)
+    const strong = imgData.wrapper && imgData.wrapper.querySelector && imgData.wrapper.querySelector('strong');
+    if (strong) {
+      // keep displayed title as "Image N" or "Text N" — do not overwrite
+      // but if fileName exists we leave fileName visible separately
+    }
+  } catch (err) {
+    // ignore
+  }
+
+  // update preview DOM element id (if exists)
+  const prevEl = document.getElementById(oldId);
+  if (prevEl) {
+    prevEl.id = unique;
+  }
+
+  // update any entries in layers list DOM
+  const layerItems = document.querySelectorAll('#layersList .layer-item');
+  layerItems.forEach(it => {
+    if (it.dataset.imgId === oldId) it.dataset.imgId = unique;
+  });
+
+  // update extraAnims ids so they follow new prefix
+  if (Array.isArray(imgData.extraAnims)) {
+    imgData.extraAnims.forEach((anim, i) => {
+      anim.id = `${unique}_anim_${i}`;
+    });
+  }
+
+  return unique;
+}
+
+// expose utils to other modules (they are global functions in this simple app)
+window.sanitizeId = sanitizeId;
+window.ensureUniqueId = ensureUniqueId;
+window.setElementId = setElementId;
+window.getImageDataById = getImageDataById;
+window.snapToGrid = snapToGrid;
+window.clamp = clamp;
+window.highlightPreview = highlightPreview;
+window.highlightExtraAnim = highlightExtraAnim;
+window.getFinalImageState = getFinalImageState;

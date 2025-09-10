@@ -1,486 +1,649 @@
+/* ======================================================
+   style.css — Black Edition (blue/orange accents)
+   - Preserves layout/positioning (no changes to sticky/fixed)
+   - Improves readability, contrast, and interactive states
+   ====================================================== */
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: "Segoe UI", Roboto, sans-serif;
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+/* Page background: subtle dark texture with subtle gradient */
 body {
   display: flex;
   height: 100vh;
-  background: url("https://www.toptal.com/designers/subtlepatterns/uploads/geometry2.png") repeat,
-              linear-gradient(135deg, #f0f4f8, #e6ecf3);
-  color: #333;
+  background:
+    linear-gradient(180deg, #0f1114 0%, #0b0c0f 100%); /* deep black base */
+  color: #e6eef6;
+  font-size: 14px;
+  line-height: 1.45;
 }
 
-
-/* ===== Left Panel ===== */
-
+/* --------------------------
+   Left Panel (controls)
+   -------------------------- */
 .banner-wizards {
-  font-family: "Georgia", serif; 
-  font-weight: bold;
-  font-size: 28px;
-  color: #e24a4a; 
-  padding: 20px 0;
+  font-family: "Georgia", serif;
+  font-weight: 700;
+  font-size: 26px;
+  color: #ff8a00; /* orange accent for brand */
+  padding: 18px 0;
+  letter-spacing: 0.6px;
 }
-
 
 #leftPanel {
-  width: 350px;  
+  width: 410px;
   min-height: 100vh;
-  background: #239BA7;
-  border-right: 1px solid #e0e0e0;
-  padding: 12px;
+  background: linear-gradient(180deg,#0f1720 0%, #0b1116 100%); /* dark panel */
+  border-right: 1px solid rgba(255,255,255,0.03);
+  padding: 18px;
   box-sizing: border-box;
-  transition: width 0.3s ease;
+  transition: width 0.28s ease;
   float: left;
-  overflow: hidden;
-  position: relative;
-  overflow-y: auto;  
-  overflow-x: hidden;
+  overflow-y: auto;
+  color: #dbeaf6;
 }
 
-
-
+/* headings */
 #leftPanel h2 {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 16px;
-  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  color: #f5f9fb;
   text-align: center;
-  margin-top: 40px;
+  margin-top: 18px;
 }
 
+/* labels/inputs */
 #leftPanel label {
   display: block;
-  margin: 8px 0 4px;
-  font-size: 14px;
-  color: #fff;
+  margin: 10px 0 6px;
+  font-size: 13px;
+  color: #cfe7f6;
 }
 
 #leftPanel input[type="number"],
 #leftPanel input[type="file"],
 #leftPanel select {
-  padding: 6px;
-  border: 1px solid #fff;
-  border-radius: 6px;
+  padding: 8px 10px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.02);
+  color: #e6eef6;
+  border-radius: 8px;
   width: 100%;
   margin-bottom: 10px;
+  font-size: 13px;
+}
+
+/* primary buttons */
+#leftPanel button,
+#leftPanel .btn {
+  width: 100%;
+  padding: 10px 12px;
+  margin: 8px 0;
+  border: none;
+  background: linear-gradient(90deg,#1e90ff,#2aa7ff); /* blue CTA */
+  color: #08202b;
   font-size: 14px;
-  color: #000;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(10,35,60,0.28);
 }
+#leftPanel button:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(10,35,60,0.34); }
+#leftPanel button:active { transform: translateY(0); }
 
-#leftPanel button {
-    width: 100%;
-    padding: 10px;
-    margin: 6px 0;
-    border: none;
-    background: rgb(204 19 19);
-    color: white;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    border-radius: 6px;
-}
-
-/* Hover effect */
-
-#toggleLeftPanel{
-  width: 50px !important;
-  position: absolute;
-    right: 10px;
-}
-
-#leftPanel button:hover {
-    color: #fff;
-}
-
-#leftPanel button:active {
-    transform: scale(0.98);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-}
-
-#leftPanel input[type="checkbox"] {
-  margin-right: 6px;
-}
-
-
-/* ************************************************************** */
-
-
+/* collapsed left panel (keeps your existing behavior) */
 #leftPanel.collapsed {
   width: 70px;
-  padding: 12px 5px;
+  padding: 12px 6px;
 }
-
 #leftPanel.collapsed h2,
 #leftPanel.collapsed h3,
 #leftPanel.collapsed button:not(#toggleLeftPanel),
 #leftPanel.collapsed pre,
-#leftPanel.collapsed .globalSettings
- {
+#leftPanel.collapsed .globalSettings {
   display: none;
 }
 
+/* panel header and toggle */
 .panel-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
 #toggleLeftPanel {
   background: none;
   border: none;
   font-size: 16px;
   cursor: pointer;
-  color: #000;
+  color: #ff8a00;
 }
+#toggleLeftPanel:hover { color: #ffd3a3; }
 
-#toggleLeftPanel:hover {
-  color: #e24a4a;
-}
-
-/* ************************************************************** */
-
-
-
-
+/* --------------------------
+   Right Panel & Preview
+   -------------------------- */
 #rightPanel {
   flex: 1;
   overflow-y: auto;
+  padding: 18px 22px;
 }
 
-#rightPanel h3 {
-  font-size: 18px;
-  margin-bottom: 10px;
-  color: #444;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  text-transform: uppercase;
+
+.preview-fixed h3{
+  color:#000;
 }
 
-.create-banner{padding: 10px 25px 10px;background: #239BA7;color: #fff;}
-
+/* Preview header area (preserve sticky/position behavior) */
 .preview-fixed {
-    position: sticky;
-    top: -20px;
-    background:  url("https://www.toptal.com/designers/subtlepatterns/uploads/geometry2.png") repeat,
+  /* DO NOT change position/sticky; only style */
+background: url("https://www.toptal.com/designers/subtlepatterns/uploads/geometry2.png") repeat,
               linear-gradient(135deg, #f0f4f8, #e6ecf3);
     z-index: 10;
-    border-bottom: 2px solid #239BA7;
-    padding: 25px 0 15px 25px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    padding: 18px 18px 12px;
+    position: sticky;
+    top: -20px;
 }
 
+/* preview area */
 #previewArea {
-  background: #fff;
-  border: 1px solid #bbb;
-  width: 100%;
-  height: 300px;
-  margin-bottom: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  margin: auto;
+ background: #fff;
+    border: 1px solid #bbb;
+    width: 100%;
+    height: 300px;
+    margin-bottom: 20px;
+    display: flex
+;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin: auto;
 }
 
 #previewArea::after {
+  /* subtle inner border */
   content: '';
   position: absolute;
   top: 0; left: 0;
   width: 100%;
   height: 100%;
-  border: 1px solid #aaa;
+  border: 1px solid rgba(255,255,255,0.02);
   pointer-events: none;
   box-sizing: border-box;
+  border-radius: 8px;
 }
 
+/* --------------------------
+   Controls cards (image/text blocks)
+   -------------------------- */
 #controls > div {
-  border: 1px solid #ccc;
-  background: #636363;
+  border: 1px solid rgba(255,255,255,0.04);
+  background: linear-gradient(180deg,#071018, #0b1318); /* darker card */
   padding: 16px;
-  margin-bottom: 15px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-  margin-top: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 6px 18px rgba(3,8,12,0.6);
+  margin-top: 16px;
+  border-radius: 10px;
 }
 
+/* header inside each control block */
 strong {
-    display: block;
-    font-size: 20px;
-    text-transform: uppercase;
-    color: #fff;
-    padding-bottom: 15px;
+  display: block;
+  font-size: 15px;
+  text-transform: uppercase;
+  color: #f5f9fb;
+  padding-bottom: 12px;
+  letter-spacing: 0.6px;
 }
 
+/* inputs appearance inside control cards */
 input[type="number"]{
-  /* width:50px; */
-    width: 70px;
-  padding: 3px 6px;
-  margin-left: 4px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  width: 80px;
+  padding: 6px 8px;
+  margin-left: 6px;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
   font-size: 13px;
+  background: rgba(255,255,255,0.02);
+  color: #e6eef6;
 }
 
-input[type="number"],
-input[type="file"] {
-  margin: 5px 8px 5px 0;
-  padding: 4px 6px;
-  font-size: 13px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-}
+/* file input & filename */
+input[type="file"] { padding: 6px 8px; }
+.fileNameDisplay { font-style: italic; color: #a7cbe8; margin-left: 8px; }
 
-input[type="file"] {
-  padding: 6px 5px;
-}
-
+/* primary buttons (inside right area) */
 button {
-  padding: 6px 14px;
+  padding: 8px 14px;
   margin-top: 10px;
   margin-right: 10px;
-  background-color: rgb(204 19 19);
-  color: #fff;
+  background: linear-gradient(90deg,#ff8a00,#ffb25a); /* orange-ish action for local buttons */
+  color: #07161b;
   font-size: 14px;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
 }
+button:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.45); }
+button:active { transform: translateY(0); }
 
-/* button:hover {
- border: 1px solid rgb(204 19 19);
-} */
-
+/* code / textarea styles */
 textarea {
   width: 100%;
   min-height: 180px;
   margin-top: 12px;
   padding: 12px;
   font-family: 'Fira Code', monospace;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.5;
   border: none;
-  background-color: #1e1e1e;
-  color: #f1f1f1;
+  background-color: #041018;
+  color: #cfe7ff;
   resize: vertical;
-  box-shadow: inset 0 0 4px rgba(0,0,0,0.1);
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.8);
+  border-radius: 8px;
 }
 
+/* exit-controls (extra animation block) */
 .exit-controls {
   margin-top: 12px;
-  padding: 10px;
-  border-top: 1px solid #aaa;
-  background: #edefef75;
-  border-radius: 6px;
+  padding: 12px;
+  border-top: 1px solid rgba(255,255,255,0.03);
+  background: linear-gradient(180deg,#061018,#07131a);
+  border-radius: 8px;
+  box-shadow: inset 0 -2px 6px rgba(0,0,0,0.6);
+}
+.exit-controls strong { padding-bottom: 6px; }
+
+/* remove anim button */
+.removeAnim {
+  background: rgba(255,255,255,0.02);
+  color: #ff8a00;
+  border: 1px solid rgba(255,255,255,0.03);
+  padding: 8px 10px;
+  border-radius: 8px;
 }
 
-.exit-controls strong{padding-bottom: 0px !important;}
-
-.removeAnim{background: #fff;
-    color: #000;
-    border: 3px solid #fff;}
-    
-/* .removeAnim:hover{
-    color: #fff;} */
-
+/* preview elements */
 .preview {
-    position: absolute;
+  position: absolute;
   cursor: move;
   outline: none;
+  transition: box-shadow .12s ease, transform .12s ease;
 }
+.preview.highlighted { box-shadow: 0 0 0 3px rgba(30,144,255,0.18); transform: translateZ(0); }
 
-.preview.highlighted {
-  outline: 1px solid limegreen;
-   
-}
-
-.exit-controls.selected {
-   background: #edefef75;
-    border-radius: 6px;
-}
-
-
+/* label over preview */
 .preview-label {
   position: absolute;
   background: rgba(0,0,0,0.7);
   color: #fff;
-  padding: 2px 6px;
+  padding: 4px 8px;
   font-size: 12px;
-  border-radius: 4px;
+  border-radius: 6px;
   pointer-events: none;
   z-index: 10;
   white-space: nowrap;
-  transform: translateY(-100%);
+  transform: translateY(-110%);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.6);
 }
 
+/* code block */
 pre code {
   font-family: 'Fira Code', monospace;
-  font-size: 14px;
-  padding: 16px;
-  background-color: #1e1e1e;
-  color: #f8f8f2;
+  font-size: 13px;
+  padding: 14px;
+  background-color: #041018;
+  color: #cfe7ff;
   overflow-x: auto;
   display: block;
   white-space: pre;
+  border-radius: 8px;
 }
-
 pre {
-  background: #2d2d2d;
-  padding: 16px;
+  background: transparent;
+  padding: 0;
   overflow-x: auto;
-  font-size: 13px;
-  line-height: 1.5;
-  color: #f8f8f2;
 }
 
+/* copy code button */
 #copyCodeBtn {
   margin-bottom: 10px;
-  background: #239BA7;
-  color: #fff;
+  background: linear-gradient(90deg,#1e90ff,#2aa7ff);
+  color: #07161b;
   border: none;
-  padding: 6px 12px;
+  padding: 8px 12px;
   font-size: 13px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-#copyCodeBtn:hover {
-  background: #1e874b;
-}
-
-
-#leftPanel::-webkit-scrollbar {
-  width: 2px;
-}
-
-#leftPanel::-webkit-scrollbar-track {
-    background: #ccc; 
-}
-
-#leftPanel::-webkit-scrollbar-thumb {
-    background-color: #ccc; 
-    border-radius: 4px;   
-    border: 2px solid #ccc;
-}
-
-/* For Firefox */
-/* #leftPanel {
-    scrollbar-width: thin;      
-    scrollbar-color: red #e24a4a; 
-} */
-
-.checkBoxDesign {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  width: 18px;
-  height: 18px;
-  border: 2px solid rgb(204 19 19);
-  border-radius: 4px;
-  cursor: pointer;
-  position: relative;
-}
-
-.checkBoxDesign:checked {
-  background-color: rgb(204 19 19);
-  border-color: rgb(204 19 19);
-}
-
-.checkBoxDesign:checked::after {
-  content: "✔";
-  color: white;
-  position: absolute;
-  left: 2px;
-  top: -1px;
-  font-size: 12px;
-}
-
-.coords {
-  display: flex;
-  gap: 15px; 
-  align-items: center;
-}
-
-
-
-
-
-/* Add Image */
-/* Container for each image block */
-.image-block {
-  border: 1px solid #ddd;
   border-radius: 8px;
-  padding: 12px 16px;
-  margin-bottom: 16px;
-  background: #fafafa;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-}
-
-.image-block strong {
-  display: block;
-  font-size: 15px;
-  margin-bottom: 8px;
-  color: #333;
-}
-
-.imageUpload {
-  margin-top: 6px;
-}
-
-.fileNameDisplay {
-  font-style: italic;
-  color: #555;
-}
-
-.coords {
-  display: flex;
-  gap: 12px;
-  margin: 8px 0;
-}
-.coords label {
-   display: flex;
-  align-items: center;
-  gap: 5px; 
-  font-weight: bold;
-  font-size: 13px;
-  color: #fff;
-}
-
-
-
-label {
-  font-size: 13px;
-  margin: 6px 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-input[type="checkbox"] {
-  transform: scale(1.1);
   cursor: pointer;
 }
+#copyCodeBtn:hover { opacity: 0.95; }
 
+/* custom scrollbars for left panel */
+#leftPanel::-webkit-scrollbar { width: 8px; }
+#leftPanel::-webkit-scrollbar-track { background: transparent; }
+#leftPanel::-webkit-scrollbar-thumb { background-color: rgba(255,255,255,0.04); border-radius: 8px; }
+
+/* --------------------------
+   Add Image cards & blocks
+   -------------------------- */
+.image-block {
+  border: 1px solid rgba(255,255,255,0.03);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 14px;
+  background: linear-gradient(180deg,#071018,#07131a);
+  box-shadow: 0 6px 18px rgba(2,6,10,0.6);
+}
+.image-block strong { font-size: 14px; color: #e8f7ff; }
+
+/* small elements */
+.imageUpload { margin-top: 6px; }
+.fileNameDisplay { font-style: italic; color: #9cc9ff; }
+
+/* coords */
+.coords { display: flex; gap: 12px; margin: 8px 0; }
+.coords label { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 13px; color: #cfe7f6; }
+
+/* add extra anim btn */
 .addExtraAnim {
   margin-top: 10px;
-  padding: 5px 10px;
+  padding: 6px 10px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 13px;
   cursor: pointer;
-  transition: background 0.2s;
-    background: #fff !important;
-  color: #000 !important;
+  background: rgba(255,255,255,0.03);
+  color: #ffd8a6;
 }
 
-
+/* extra-anims container */
 .extra-anims {
   margin-top: 10px;
   padding-left: 10px;
-  border-left: 2px dashed #ccc;
+  border-left: 2px dashed rgba(255,255,255,0.03);
+}
+
+/* --------------------------
+   Modal / ISI styles (kept but darkened)
+   -------------------------- */
+.isi-modal { position: fixed; inset: 0; display: none; z-index: 1000; }
+.isi-modal[aria-hidden="false"] { display: block; }
+.isi-modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(2px); }
+.isi-modal-card {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%,-50%);
+  width: 720px;
+  max-width: calc(100% - 40px);
+  background: linear-gradient(180deg,#08121a,#061018);
+  border-radius: 10px;
+  box-shadow: 0 20px 54px rgba(0,0,0,0.8);
+  overflow: hidden;
+  color: #e6eef6;
+}
+
+/* modal header */
+.isi-modal-header {
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+.isi-modal-header h3 { margin:0; font-size:16px; color:#fff; }
+.modal-close { background: transparent; border: none; font-size:16px; cursor:pointer; color:#cfe7f6; }
+
+/* modal content */
+.isi-source-editor { width: 100%; min-height: 220px; border: none; padding: 12px; font-family: 'Fira Code', monospace; font-size: 13px; color: #e6eef6; background: transparent; }
+
+/* modal actions */
+.isi-modal-actions { padding: 12px 16px; display:flex; gap:8px; justify-content: flex-end; border-top: 1px solid rgba(255,255,255,0.03); background: transparent; }
+.isi-modal-actions button { padding: 8px 14px; border-radius:8px; border:none; cursor:pointer; }
+.isi-modal-actions .removeAnim { background: rgba(255,255,255,0.02); color: #ffd2a8; border: 1px solid rgba(255,255,255,0.03); }
+.isi-modal-actions #isiSaveBtn { background: linear-gradient(90deg,#1e90ff,#2aa7ff); color: #07161b; }
+
+/* --------------------------
+   Layers Panel / Tree (dark, readable)
+   -------------------------- */
+#layersPanel {
+  margin-top: 12px;
+  padding: 14px;
+  background: linear-gradient(180deg,#071018,#061018);
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.03);
+}
+
+#layersPanel .panel-title {
+  font-size: 14px;
+  color: #fff;
+  margin: 0 0 10px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+/* container for list */
+.layers-list {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 6px;
+  background: transparent;
+}
+
+/* each row */
+.layer-item {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.12s, transform 0.08s;
+  user-select: none;
+  color: #dbeaf6;
+}
+.layer-item + .layer-item { margin-top: 8px; }
+
+/* thumbnail */
+.layer-item .layer-thumb {
+  width: 50px;
+  height: 38px;
+  flex: 0 0 50px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.02);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.03);
+}
+.layer-item .layer-thumb img { max-width: 100%; max-height: 100%; display: block; }
+
+/* info */
+.layer-item .layer-info { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+.layer-item .layer-name { font-size: 13px; color: #eef8ff; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.layer-item .layer-meta { font-size: 11px; color: #a8cde9; opacity: 0.9; }
+
+/* actions area */
+.layer-item .layer-actions { display:flex; gap:8px; align-items:center; color: #fff; }
+
+/* selected state */
+.layer-item.selected { background: linear-gradient(90deg, rgba(30,144,255,0.06), rgba(255,138,0,0.02)); box-shadow: inset 0 1px 0 rgba(255,255,255,0.02); }
+
+/* anim-list sublist */
+.anim-list { margin-left: 64px; margin-top: 8px; display: none; flex-direction: column; gap: 6px; }
+.layer-item.expanded + .anim-list { display: flex; }
+
+/* anim item */
+.anim-item { display:flex; gap:8px; align-items:center; padding: 8px; background: rgba(255,255,255,0.02); border-radius: 8px; cursor: pointer; color: #dbeaf6; font-size: 12px; }
+.anim-item .anim-label { flex: 1; opacity: 0.95; }
+.anim-item .anim-meta { font-size: 11px; color: #a8cde9; opacity: 0.9; }
+.anim-item.selected { background: linear-gradient(90deg, rgba(255,159,28,0.04), rgba(30,144,255,0.03)); border: 1px solid rgba(255,255,255,0.02); }
+
+/* empty note */
+.layers-list .empty-note { color: rgba(255,255,255,0.45); font-size: 13px; padding: 8px; }
+
+/* --------------------------
+   Layer action icon buttons (consistent icons)
+   -------------------------- */
+.layer-actions .icon-btn {
+  border: none;
+  background: transparent;
+  color: #cfe7f6;
+  padding: 8px;
+  margin-left: 6px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 140ms ease, transform 140ms ease, color 140ms ease;
+  font-size: 14px;
+}
+
+/* hover */
+.layer-actions .icon-btn:hover {
+  background: rgba(255,255,255,0.03);
+  transform: translateY(-3px);
+}
+
+/* Active breakpoint = orange */
+.layer-actions .toggle-breakpoint.active {
+  color: #ff8a00 !important;
+  background: rgba(255,138,0,0.12) !important;
+  box-shadow: inset 0 0 0 1px rgba(255,138,0,0.16) !important;
+}
+
+/* Active lock = blue */
+.layer-actions .toggle-lock.active {
+  color: #1e90ff !important;
+  background: rgba(30,144,255,0.12) !important;
+  box-shadow: inset 0 0 0 1px rgba(30,144,255,0.12) !important;
+}
+
+/* Anim lock */
+.anim-lock-btn.active {
+  color: #ff8a00 !important;
+  background: rgba(255,138,0,0.10) !important;
+  border-radius: 6px !important;
+}
+
+/* chevron toggle rotate color */
+.layer-actions .layer-toggle-chev i { transition: transform 160ms ease, color 160ms ease; }
+.layer-actions .layer-toggle-chev.active i { transform: rotate(180deg); color: #ffb86b; background: rgba(255,159,28,0.06); border-radius: 6px; padding: 4px; }
+
+/* duplicate icon */
+.layer-actions .duplicate-layer-btn i { font-size: 14px; }
+.layer-actions .duplicate-layer-btn:hover { transform: translateY(-3px); background: rgba(255,255,255,0.03); }
+
+/* subtle locked control (control block) */
+.image-block.locked-block {
+  opacity: 0.98;
+  border: 1px dashed rgba(255,255,255,0.03);
+  position: relative;
+}
+.image-block.locked-block::after {
+  content: "locked";
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.45);
+  background: rgba(0,0,0,0.15);
+  padding: 4px 8px;
+  border-radius: 12px;
+}
+
+/* small lock indicator for animation control block */
+.exit-controls.anim-locked { opacity: 0.94; border-style: dashed; border-color: rgba(255,255,255,0.03); }
+
+/* anim lock small button */
+.anim-lock-btn { padding: 6px; font-size: 13px; border-radius: 6px; }
+.anim-lock-btn.active { color: #ffb86b; background: rgba(255,159,28,0.06); }
+
+/* tiny helpers */
+.language-html{ padding: 0; }
+.text-block .text-preview-sample { display: inline-block; padding: 6px; border-radius: 6px; background: rgba(255,255,255,0.02); color: #dbeaf6; font-size: 12px; }
+.layer-item .layer-thumb .text-sample { font-size: 12px; color: #102029; padding: 4px; text-align: center; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #cfe7ff; border-radius: 4px; }
+
+/* small responsive tweak */
+@media (max-width: 980px) {
+  #leftPanel { width: 320px; }
+  #previewArea { height: 260px; }
 }
 
 
-.language-html{padding: 0;}
+/* Place the layer chevron as a compact top-right badge inside the layer row
+   — leaves HTML/JS untouched but makes the button visually small and out of flow */
+.layer-item {
+  position: relative; /* enable absolute positioning of the chevron */
+}
+
+/* Target the per-layer chevron button (already has class .layer-toggle-chev) */
+.layer-actions .layer-toggle-chev {
+  /* keep it in DOM order but taken out of normal flow visually */
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 5;
+
+  /* small circular badge */
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.02);
+  color: #cfe7f6;
+  box-shadow: none;
+  margin-left: 0; /* remove margin that was used for inline placement */
+  transition: transform 160ms ease, background 120ms ease, color 120ms ease;
+  font-size: 12px;
+}
+
+/* smaller icon inside */
+.layer-actions .layer-toggle-chev i {
+  font-size: 12px;
+  line-height: 1;
+}
+
+/* hover visual for the small badge */
+.layer-actions .layer-toggle-chev:hover {
+  background: rgba(255,255,255,0.04);
+  transform: translateY(-2px);
+  color: #ffb86b;
+}
+
+/* active/expanded state: rotate icon and change color */
+.layer-actions .layer-toggle-chev.active i {
+  transform: rotate(180deg);
+  color: #ffb86b;
+}
+
+/* make sure the normal action icons keep their layout (no overlap) */
+.layer-item .layer-actions {
+  /* ensure there is right padding so the chevron badge doesn't overlap other buttons */
+  padding-right: 46px; /* 28px button + small gap */
+}
+
+/* For very narrow layer-item rows, slightly reduce overlap risk */
+@media (max-width: 420px) {
+  .layer-actions .layer-toggle-chev { top: 4px; right: 4px; width: 26px; height: 26px; }
+  .layer-item .layer-actions { padding-right: 40px; }
+}
+
+
+button.icon-btn.layer-toggle-chev {
+    width: 10% !important;
+}

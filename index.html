@@ -1,31 +1,22 @@
-<!--
-=====================================================
- BANNER WIZARD TOOL
- Author: Shabarish Shetty
- License: © 2025 Shabarish Shetty. All rights reserved.
- Website: https://bannerwizard.vercel.app/
- Description: Interactive HTML banner creation tool with live preview and GSAP animations.
- Developer: Shabarish Shetty (shabarish.shetty@indegene.com)
- UI Designer: Anusha RK (anusha.rk@indegene.com)
-=====================================================
--->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Banner Wizard Tool</title>
+  <title>Banner Craft Tool</title>
   <link href="./css/style.css" rel="stylesheet" />
   <link href="./lib/css/prism-tomorrow.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+  <!-- Quill styles -->
+  <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
 </head>
 <body>
 
 <div id="leftPanel">
   <button id="toggleLeftPanel"><i class="fa-solid fa-xmark"></i></button>
   <div class="panel-header">
-    <h2 class="banner-wizards">BANNER WIZARD</h2>
+    <h2 class="banner-wizards">BANNER CRAFT</h2>
   </div>
+
   <div class="globalSettings" style="margin-bottom:2rem">
     <button id="downloadJsonBtn"><i class="fa-solid fa-angles-down"></i> Download JSON</button>
     <label>Import JSON file</label>
@@ -33,23 +24,44 @@
 
     <!-- Banner size controls -->
     <div style="margin-top:5px;margin-bottom:16px;color:#fff;">
-      <label><strong style="color: #fff; padding-top: 5px; padding-bottom: 5px;">Banner Size:</strong></label>
+      <label><strong style="color: #239BA7; padding-top: 5px; padding-bottom: 5px;">Banner Size:</strong></label>
       Width: <input type="number" id="bannerWidthInput" value="300" style="width:60px;" /> <br>
       Height: <input type="number" id="bannerHeightInput" value="250" style="width:60px;" />
     </div>
+
     <div style="margin-top: 12px;">
       <label>
         <input type="checkbox" id="snapToGridToggle" class="checkBoxDesign" checked> 
         <i class="fa-solid fa-magnet" style="transform: rotate(180deg)"></i> Snap to 10px Grid
       </label>
     </div>
-    <div style="margin-top: 12px;">
-      <label>
-        <input type="checkbox" id="enableIsiCheckbox" class="checkBoxDesign" /> 
-        <i class="fa-solid fa-capsules"></i> Enable ISI
-      </label>
+
+     <!-- Layers panel -->
+  <div id="layersPanel">
+    <h3 class="panel-title">Layers</h3>
+    <div id="layersList" class="layers-list">
+      <!-- dynamically filled by js/uiControls.js -->
+      <div class="empty-note">No layers yet — add images to populate layers.</div>
     </div>
-</div>
+    <div style="margin-top:8px;">
+      <button id="expandAllLayers">Expand All</button>
+      <button id="collapseAllLayers" class="removeAnim">Collapse All</button>
+    </div>
+  </div>
+
+    <!-- ISI controls (edit button + checkbox) -->
+    <div id="isiEditorControls" style="margin-top:12px;">
+      <label style="color:#fff; font-weight:bold; display:block; margin-bottom:6px;">ISI (WYSIWYG)</label>
+      <div style="display:flex; gap:8px; align-items:center;">
+        <button id="openIsiEditorBtn">Edit ISI (popup)</button>
+        <label style="display:inline-flex; align-items:center; gap:6px; color:#fff; margin-left:6px;">
+          <input type="checkbox" id="enableIsiCheckbox" class="checkBoxDesign" /> Enable ISI
+        </label>
+      </div>
+      <small style="color:#fff; display:block; margin-top:6px;">Opens  editor in popup</small>
+    </div>
+
+  </div>
 
   <h3 style="margin-bottom: 5px;color: #fff; text-transform: uppercase;">Generated Code</h3>
   <button id="copyCodeBtn"><i class="fa-solid fa-copy"></i> Copy Code</button>
@@ -69,24 +81,59 @@
   </div>
 
   <div class="create-banner">
-   
-
-    <!-- Banner size controls -->
     <div style="margin-top:16px;margin-bottom:16px;">
-      <label><strong style="color: #000; padding-top: 15px; padding-bottom: 5px;">Banner Image Assets:</strong></label><br>
- 
+      <label><strong style="color: #fff; padding-top: 15px; padding-bottom: 5px;">Banner Image Assets:</strong></label><br>
     </div>
-   
-   
     <div id="controls"></div>
-    <button id="addImageBtn">Add Image</button>
+    <div style="display:flex; gap:8px;">
+      <button id="addImageBtn">Add Image</button>
+      <button id="addTextBtn">Add Text</button>
+    </div>
   </div>
 </div>
 
+<!-- ISI Editor Modal (hidden) -->
+<div id="isiModal" class="isi-modal" aria-hidden="true" role="dialog" aria-labelledby="isiModalTitle">
+  <div class="isi-modal-backdrop"></div>
+  <div class="isi-modal-card" role="document">
+    <div class="isi-modal-header">
+      <div style="display:flex; gap:8px; align-items:center;">
+        <h3 id="isiModalTitle">Edit ISI Content</h3>
+        <!-- Source toggle -->
+        <button id="toggleSourceBtn" class="modal-secondary" title="Toggle Source View"><i class="fa-solid fa-code"></i> Source</button>
+      </div>
+      <div>
+        <button id="closeIsiModal" class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+    </div>
+
+    <!-- Quill toolbar (Snow style) -->
+    <div id="quill-toolbar" class="ql-toolbar ql-snow" aria-hidden="true"></div>
+
+    <!-- Quill editor container -->
+    <div id="isiModalEditor" class="ql-container ql-snow" style="height:220px;">
+      <div class="ql-editor" data-placeholder="Compose ISI content..."></div>
+    </div>
+
+    <!-- Source editor (hidden by default) -->
+    <textarea id="isiSourceEditor" class="isi-source-editor" style="display:none;" aria-hidden="true" placeholder="Edit HTML source..."></textarea>
+
+    <div class="isi-modal-actions">
+      <button id="isiSaveBtn">Save</button>
+      <button id="isiCancelBtn" class="removeAnim">Cancel</button>
+    </div>
+  </div>
+</div>
 
   <!-- External Libraries -->
   <script src="./lib/js/prism.min.js"></script>
   <script src="./lib/js/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-beautify@1.14.9/js/lib/beautify-html.min.js"></script>
+
+
+
+  <!-- Quill -->
+  <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
 
   <!-- App Modules -->
   <script src="./js/utils.js"></script>
@@ -100,4 +147,3 @@
   <script src="./js/main.js"></script>
 </body>
 </html>
-

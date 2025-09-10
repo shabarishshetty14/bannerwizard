@@ -1,1 +1,520 @@
-const _0x12f9f7=_0x4abf;(function(_0x302d09,_0x5aebce){const _0x1f6dfa=_0x4abf,_0x34b560=_0x302d09();while(!![]){try{const _0x2dc600=-parseInt(_0x1f6dfa(0xda))/0x1*(parseInt(_0x1f6dfa(0x122))/0x2)+-parseInt(_0x1f6dfa(0x12e))/0x3+parseInt(_0x1f6dfa(0x11d))/0x4*(parseInt(_0x1f6dfa(0x101))/0x5)+parseInt(_0x1f6dfa(0xd0))/0x6*(parseInt(_0x1f6dfa(0x109))/0x7)+parseInt(_0x1f6dfa(0xe6))/0x8+-parseInt(_0x1f6dfa(0x126))/0x9+parseInt(_0x1f6dfa(0x106))/0xa;if(_0x2dc600===_0x5aebce)break;else _0x34b560['push'](_0x34b560['shift']());}catch(_0x58acc2){_0x34b560['push'](_0x34b560['shift']());}}}(_0x2bf1,0x35b27));const outputCode=document['getElementById'](_0x12f9f7(0xcf)),widthInput=document[_0x12f9f7(0xdc)](_0x12f9f7(0x110)),heightInput=document[_0x12f9f7(0xdc)](_0x12f9f7(0x11b));function _0x4abf(_0x18801,_0x74a93e){const _0x2bf16f=_0x2bf1();return _0x4abf=function(_0x4abfe2,_0x2b8da6){_0x4abfe2=_0x4abfe2-0xcd;let _0x559e3e=_0x2bf16f[_0x4abfe2];return _0x559e3e;},_0x4abf(_0x18801,_0x74a93e);}document[_0x12f9f7(0xdc)](_0x12f9f7(0xcd))[_0x12f9f7(0x10d)](_0x12f9f7(0x103),()=>{const _0x5ecaeb=_0x12f9f7,_0x2896a6=outputCode[_0x5ecaeb(0x107)];navigator[_0x5ecaeb(0x113)]['writeText'](_0x2896a6)[_0x5ecaeb(0xd3)](()=>{const _0x537a3d=_0x5ecaeb,_0x230607=document['getElementById']('copyCodeBtn'),_0x2f919d=_0x230607[_0x537a3d(0x107)];_0x230607[_0x537a3d(0x107)]=_0x537a3d(0x119),setTimeout(()=>_0x230607[_0x537a3d(0x107)]=_0x2f919d,0x7d0);})[_0x5ecaeb(0xee)](_0x30c230=>{alert('Failed\x20to\x20copy\x20code:\x20'+_0x30c230);});});function updatePreviewAndCode(){const _0x9499bf=_0x12f9f7,_0x36b478=document[_0x9499bf(0xdc)](_0x9499bf(0x10c))[_0x9499bf(0xfe)],_0x32f6e9=document[_0x9499bf(0xdc)](_0x9499bf(0xed));if(_0x32f6e9)_0x32f6e9[_0x9499bf(0x11e)]();if(_0x36b478){const _0x5a63a1=document[_0x9499bf(0xd7)]('style');_0x5a63a1['id']='isi-style-tag',_0x5a63a1['textContent']=_0x9499bf(0x102)+getIsiCSS(),document[_0x9499bf(0x12b)]['appendChild'](_0x5a63a1);}labelElement&&labelElement['parentNode']===previewArea&&previewArea[_0x9499bf(0xec)](labelElement);previewArea[_0x9499bf(0x127)]='';const _0x2ff480=parseInt(widthInput[_0x9499bf(0xf7)])||0x12c,_0x4f08bb=parseInt(heightInput[_0x9499bf(0xf7)])||0xfa;let _0x41b6be=_0x9499bf(0xf5)+_0x2ff480+_0x9499bf(0xd4)+_0x4f08bb+_0x9499bf(0x105)+_0x2ff480+_0x9499bf(0xf1)+_0x4f08bb+_0x9499bf(0xf8);imageList['forEach'](_0x5d74ff=>{const _0x1a5c39=_0x9499bf;_0x41b6be+='#'+_0x5d74ff['id']+_0x1a5c39(0x12f)+_0x5d74ff['x']+_0x1a5c39(0x112)+_0x5d74ff['y']+_0x1a5c39(0xdf)+_0x5d74ff['width']+_0x1a5c39(0xf1)+_0x5d74ff[_0x1a5c39(0x131)]+';\x20opacity:\x20'+_0x5d74ff[_0x1a5c39(0x11f)]+_0x1a5c39(0xd5);}),_0x41b6be+=_0x9499bf(0x123);_0x36b478&&(_0x41b6be+=_0x9499bf(0xf9)+getIsiCSS()+_0x9499bf(0x123));_0x41b6be+=_0x9499bf(0x111);const _0x1e4421=imageList[_0x9499bf(0x124)](_0x2659ea=>_0x2659ea[_0x9499bf(0xe1)]);imageList[_0x9499bf(0x121)]((_0xbf88f5,_0x17b0e0)=>{const _0x392295=_0x9499bf;if(!_0xbf88f5['src'])return;if(_0x1e4421!==-0x1&&_0x17b0e0>_0x1e4421)return;_0x41b6be+=_0x392295(0xdb)+_0xbf88f5['id']+_0x392295(0xfa)+_0xbf88f5[_0x392295(0xd9)]+_0x392295(0xe0);const _0x5886fc=document[_0x392295(0xd7)]('img');_0x5886fc['src']=_0xbf88f5['src'],_0x5886fc['id']=_0xbf88f5['id'],_0x5886fc['classList'][_0x392295(0xdd)](_0x392295(0x117)),_0x5886fc[_0x392295(0xd6)][_0x392295(0x114)]=_0xbf88f5[_0x392295(0x114)]+'px',_0x5886fc[_0x392295(0xd6)][_0x392295(0x131)]=_0xbf88f5['height']+'px',_0x5886fc[_0x392295(0xd6)]['position']=_0x392295(0xd2);let _0x39e705=_0xbf88f5['x'],_0x424e8e=_0xbf88f5['y'],_0x4ab24e=_0xbf88f5[_0x392295(0x11f)],_0x47b4a2=_0xbf88f5['scale'];if(activeDragTarget&&activeDragTarget['imgData']===_0xbf88f5){const _0x2eaafb=activeDragTarget[_0x392295(0x12a)]??-0x1;for(let _0x54de1b=0x0;_0x54de1b<=_0x2eaafb;_0x54de1b++){const _0x39064c=_0xbf88f5['extraAnims'][_0x54de1b];_0x39064c&&(_0x39e705+=_0x39064c['x'],_0x424e8e+=_0x39064c['y'],_0x4ab24e=_0x39064c[_0x392295(0x11f)],_0x47b4a2*=_0x39064c['scale']);}}else _0xbf88f5[_0x392295(0xd8)][_0x392295(0x121)](_0x4d2e10=>{const _0x80c185=_0x392295;_0x39e705+=_0x4d2e10['x'],_0x424e8e+=_0x4d2e10['y'],_0x4ab24e=_0x4d2e10[_0x80c185(0x11f)],_0x47b4a2*=_0x4d2e10['scale'];});_0x5886fc[_0x392295(0xd6)][_0x392295(0xe2)]=_0x39e705+'px',_0x5886fc[_0x392295(0xd6)][_0x392295(0xf4)]=_0x424e8e+'px',_0x5886fc[_0x392295(0xd6)][_0x392295(0x11f)]=_0x4ab24e,_0x5886fc[_0x392295(0xd6)][_0x392295(0xfd)]='scale('+_0x47b4a2+')';if(activeDragTarget&&activeDragTarget[_0x392295(0xe8)]===_0xbf88f5){_0x5886fc[_0x392295(0x130)][_0x392295(0xdd)]('highlighted');const _0x2116b5=activeDragTarget[_0x392295(0x12a)]===null?_0x392295(0xe7)+(imageList['indexOf'](_0xbf88f5)+0x1):'Extra\x20Animation\x20'+(activeDragTarget['animIndex']+0x1)+_0x392295(0xf6)+(imageList[_0x392295(0x100)](_0xbf88f5)+0x1);labelElement[_0x392295(0x107)]=_0x2116b5,labelElement['style'][_0x392295(0x115)]=_0x392295(0x12d),labelElement['style'][_0x392295(0xe2)]=_0x39e705+0x5+'px',labelElement[_0x392295(0xd6)][_0x392295(0xf4)]=_0x424e8e-0xa+'px';}else _0x5886fc[_0x392295(0x130)][_0x392295(0x11e)](_0x392295(0xeb));previewArea[_0x392295(0x125)](_0x5886fc),_0xbf88f5[_0x392295(0xe4)]=_0x5886fc;});_0x36b478&&(_0x41b6be+=getIsiHTML());_0x41b6be+=_0x9499bf(0x10a);let _0xf124a8=![];imageList['forEach'](_0x173cb9=>{const _0x5128a0=_0x9499bf;if(!_0x173cb9[_0x5128a0(0x10f)]||_0xf124a8)return;_0x41b6be+=_0x5128a0(0xde)+_0x173cb9['id']+'\x0a',_0x41b6be+='gsap.set(\x22#'+_0x173cb9['id']+_0x5128a0(0x116),_0x41b6be+='tl.to(\x22#'+_0x173cb9['id']+_0x5128a0(0xff)+_0x173cb9[_0x5128a0(0x11f)]+_0x5128a0(0xd1)+_0x173cb9['scale']+',\x20duration:\x201},\x20'+_0x173cb9['delay']+_0x5128a0(0xfb);let _0x66658b=0x0,_0xebe60b=0x0;_0x173cb9['extraAnims']['forEach']((_0x524bf4,_0x4944c0)=>{const _0x38e9d1=_0x5128a0;_0x66658b+=_0x524bf4['x'],_0xebe60b+=_0x524bf4['y'],_0x41b6be+=_0x38e9d1(0xe5)+(_0x4944c0+0x1)+_0x38e9d1(0x12c)+_0x173cb9['id']+_0x38e9d1(0x11a)+_0x524bf4[_0x38e9d1(0x11c)]+_0x38e9d1(0x129),_0x41b6be+='tl.to(\x22#'+_0x173cb9['id']+_0x38e9d1(0xfc)+_0x66658b+',\x20y:\x20'+_0xebe60b+_0x38e9d1(0x10b)+_0x524bf4['opacity']+',\x20scale:\x20'+_0x524bf4['scale']+_0x38e9d1(0xe3)+_0x524bf4[_0x38e9d1(0x11c)]+_0x38e9d1(0xfb);}),_0x173cb9[_0x5128a0(0xe1)]&&(_0x41b6be+='tl.call(()\x20=>\x20tl.pause());\x0a',_0xf124a8=!![]);}),_0x41b6be+=_0x9499bf(0x118);_0x36b478&&(_0x41b6be+=getIsiScrollScript());_0x41b6be+=_0x9499bf(0x108),outputCode[_0x9499bf(0x107)]=_0x41b6be[_0x9499bf(0x10e)](),Prism[_0x9499bf(0xea)](outputCode);let _0x10cd0d=0x0;imageList['forEach'](_0x4952b0=>{const _0x524a71=_0x9499bf;if(!_0x4952b0[_0x524a71(0x10f)])return;let _0x24c071=_0x4952b0[_0x524a71(0x11c)]+0x1;_0x4952b0[_0x524a71(0xd8)][_0x524a71(0x121)](_0x433c5d=>{const _0x8558c7=_0x524a71;_0x24c071=Math[_0x8558c7(0xf3)](_0x24c071,_0x433c5d[_0x8558c7(0x11c)]+0x1);}),_0x10cd0d=Math[_0x524a71(0xf3)](_0x10cd0d,_0x24c071);}),document[_0x9499bf(0xdc)](_0x9499bf(0xef))[_0x9499bf(0x107)]='('+_0x10cd0d[_0x9499bf(0xe9)](0x1)+'s)',previewArea[_0x9499bf(0x125)](labelElement);(!activeDragTarget||!activeDragTarget[_0x9499bf(0xe8)])&&(labelElement[_0x9499bf(0xd6)][_0x9499bf(0x115)]=_0x9499bf(0xce));if(_0x36b478){const _0x27e155=document[_0x9499bf(0xd7)](_0x9499bf(0xf0));_0x27e155['id']=_0x9499bf(0x120),_0x27e155[_0x9499bf(0x127)]=getIsiPreviewHTML(),previewArea[_0x9499bf(0x125)](_0x27e155);}}function getIsiCSS(){const _0x30677a=_0x12f9f7;return _0x30677a(0x128);}function getIsiHTML(){const _0x497ddf=_0x12f9f7;return _0x497ddf(0xf2);}function getIsiPreviewHTML(){return'\x0a\x0a<div\x20id=\x22scroll_tj\x22\x0aonMouseOver=\x22(scrollStarted?pauseDiv():null)\x22\x0aonMouseOut=\x22(scrollStarted?resumeDiv():null)\x22>\x0a\x0a\x0a\x0a<div\x20class=\x22isi\x22\x0aid=\x22isi\x22>\x0a\x0a<h1>INDICATION\x20and\x20IMPORTANT\x20SAFETY\x20INFORMATION</h1>\x0a<ul>\x0a<li><span></span>\x0a<p>Lorem\x20ipsum\x20dolor\x20sit\x20amet,\x20consectetur\x20adipiscing\x20elit,\x20sed\x20do\x20eiusmod\x20tempor\x20incididunt\x20ut\x20labore\x20et\x20dolore\x20magna\x20aliqua.\x20Ut\x20enim\x20ad\x20minim\x20veniam,\x20quis\x20nostrud\x20exercitation\x20ullamco\x20laboris\x20nisi\x20ut\x20aliquip\x20ex\x20ea\x20commodo\x20consequat.\x20Duis\x20aute\x20irure\x20dolor\x20in\x20reprehenderit\x20in\x20voluptate\x20velit\x20esse\x20cillum\x20dolore\x20eu\x20fugiat\x20nulla\x20pariatur.\x20Excepteur\x20sint\x20occaecat\x20cupidatat\x20non\x20proident,\x20sunt\x20in\x20culpa\x20qui\x20officia\x20deserunt\x20mollit\x20anim\x20id\x20est\x20laborum\x0a</p>\x0a</li>\x0a</ul>\x0a<h1>IMPORTANT\x20SAFETY\x20INFORMATION</h1>\x0a<h1\x20>CONTRAINDICATIONS:</h1>\x0a<ul>\x0a<li><span></span>\x0a<p>some\x20text\x20added\x20here\x20\x20some\x20text\x20added\x20here\x20some\x20text\x20added\x20here\x20some\x20text\x20added\x20here</p>\x0a</li>\x0a<li><span></span>\x0a<p>some\x20text\x20added\x20here\x20\x20some\x20text\x20added\x20here\x20some\x20text\x20added\x20here\x20some\x20text\x20added\x20here</p>\x0a</li>\x0a<li><span></span>\x0a<p>some\x20text\x20added\x20here\x20\x20some\x20text\x20added\x20here\x20some\x20text\x20added\x20here\x20some\x20text\x20added\x20here</p>\x0a</li>\x0a</ul>\x0a<h1>WARNINGS\x20AND\x20PRECAUTIONS:</h1>\x0a<ul>\x0a<li><span></span>\x0a<p><span\x20class=\x22bold-italic\x22>Test:</span>Lorem\x20ipsum\x20dolor\x20sit\x20amet,\x20consectetur\x20adipiscing\x20elit,\x20sed\x20do\x20eiusmod\x20tempor\x20incididunt\x20ut\x20labore\x20et\x20dolore\x20magna\x20aliqua.\x20Ut\x20enim\x20ad\x20minim\x20veniam,\x20quis\x20nostrud\x20exercitation\x20ullamco\x20laboris\x20nisi\x20ut\x20aliquip\x20ex\x20ea\x20commodo\x20consequat.\x20Duis\x20aute\x20irure\x20dolor\x20in\x20reprehenderit\x20in\x20voluptate\x20velit\x20esse\x20cillum\x20dolore\x20eu\x20fugiat\x20nulla\x20pariatur.\x20Excepteur\x20sint\x20occaecat\x20cupidatat\x20non\x20proident,\x20sunt\x20in\x20culpa\x20qui\x20officia\x20deserunt\x20mollit\x20anim\x20id\x20est\x20laborum\x0a</p>\x0a</li>\x0a</ul>\x0a\x0a</div>\x0a</div>\x0a';}function getIsiScrollScript(){const _0xcd4010=_0x12f9f7;return _0xcd4010(0x104);}function _0x2bf1(){const _0x5d7eed=['✅\x20Copied!','\x20(delay:\x20','bannerHeightInput','delay','8YBDVLE','remove','opacity','iframe_tj','forEach','12nbjkUu','</style>\x0a','findIndex','appendChild','298098vlGOVA','innerHTML','\x0a\x0a\x20a\x20{\x0acolor:\x20#57585a;\x0atext-decoration:\x20underline;\x0afont-weight:\x20600;\x0a}\x0a\x0aa:hover\x20{\x0acursor:\x20pointer;\x0a}\x0a\x0a.tel\x20{\x0atext-decoration:\x20none;\x0acolor:\x20#000000;\x0a}\x0a\x0ap,\x0ah1,\x0a.isi\x20h2,\x0ah3,\x0ah4,\x0ah5\x20{\x0amargin:\x200;\x0a}\x0a\x0a.hyphenate\x20{\x0aword-wrap:\x20break-word;\x0aoverflow-wrap:\x20break-word;\x0a\x0a-webkit-hyphens:\x20auto;\x0a-moz-hyphens:\x20auto;\x0ahyphens:\x20auto;\x0a}\x0a\x0a\x0a.isi\x20{\x0apadding:\x200px\x202px;\x0abox-sizing:\x20border-box;\x0a}\x0a\x0a.isi\x20h1\x20{\x0afont-family:\x20Arial,\x20sans-serif;\x0afont-size:\x2012px;\x0aline-height:\x2014px;\x0acolor:\x20#d50032;\x0atext-transform:\x20uppercase;\x0afont-weight:\x20bold;\x0apadding-top:\x2012px;\x0a}\x0a\x0a.isi\x20h1\x20sup\x20{\x0afont-size:\x206px;\x0avertical-align:\x202px;\x0a}\x0a\x0a.isi\x20p\x20{\x0afont-family:\x20Arial,\x20sans-serif;\x0acolor:\x20#63666a;\x0afont-size:\x2012px;\x0aline-height:\x2014px;\x0amargin-bottom:\x200px;\x0atext-align:\x20left;\x0a}\x0a\x0a.isi\x20.bold\x20{\x0afont-weight:\x20bold;\x0a}\x0a\x0a.isi\x20p\x20.bold-italic\x20{\x0afont-weight:\x20bold;\x0afont-style:\x20italic;\x0a}\x0a\x0a.italic\x20{\x0afont-style:\x20italic;\x0a}\x0a\x0a.isi\x20p.pm2\x20{\x0amargin-bottom:\x204px;\x0a}\x0a\x0a.isi\x20p\x20strong\x20{\x0acolor:\x20#63666a;\x0afont-weight:\x20900;\x0a}\x0a\x0a.isi\x20p\x20a\x20{\x0acolor:\x20#d50032;\x0afont-weight:\x20normal;\x0a}\x0a\x0a.isi\x20ul\x20{\x0amargin:\x200;\x0afont-family:\x20Arial,\x20sans-serif;\x0acolor:\x20#63666a;\x0afont-size:\x2012px;\x0aline-height:\x2013px;\x0alist-style:\x20none;\x0apadding-left:\x2015px;\x0a}\x0a\x0a.isi\x20li\x20{\x0acolor:\x20#63666a;\x0afont-size:\x2012px;\x0aline-height:\x2013px;\x0aposition:\x20relative;\x0amargin-left:\x200px;\x0a}\x0a\x0a.isi\x20li>span\x20{\x0awidth:\x203px;\x0aheight:\x203px;\x0abackground-color:\x20#63666a;\x0aborder-radius:\x2050%;\x0aposition:\x20absolute;\x0atop:\x205px;\x0aleft:\x20-7px;\x0a}\x0a\x0a#iframe_tj\x20{\x0aposition:\x20absolute;\x0a/*overflow:\x20hidden;*/\x0awidth:\x20299px;\x0aheight:\x2069px;\x0atop:\x20180px;\x0aleft:\x200px;\x0abottom:\x2017px;\x0aborder:\x20none;\x0abackground-color:\x20#ffffff;\x0az-index:\x209;\x0a}\x0a\x0a#scroll_tj\x20{\x0aposition:\x20absolute;\x0aoverflow:\x20hidden;\x0awidth:\x20299px;\x0aheight:\x2069px;\x0aoverflow-y:\x20scroll;\x0ascrollbar-width:\x20auto;\x0ascrollbar-color:\x20#63666a\x20#b6b8ba;\x0ascroll-behavior:\x20auto;\x0a}\x0a\x0a#scroll_tj::-webkit-scrollbar\x20{\x0awidth:\x208px;\x0a}\x0a\x0a#scroll_tj::-webkit-scrollbar-track\x20{\x0abackground-color:\x20#ededed;\x0a}\x0a\x0a#scroll_tj::-webkit-scrollbar-thumb\x20{\x0abackground-color:\x20#b3b3b3;\x0aborder:\x200px;\x0aborder-left:\x20#ededed\x202px;\x0aborder-right:\x20#ededed\x202px;\x0aborder-style:\x20solid;\x0a}\x0a\x0a::-webkit-scrollbar-button:single-button\x20{\x0abackground-color:\x20#ededed;\x0adisplay:\x20block;\x0abackground-size:\x205px;\x0abackground-repeat:\x20no-repeat;\x0a}\x0a\x0a/*Up*/\x0a::-webkit-scrollbar-button:single-button:vertical:decrement\x20{\x0aheight:\x206px;\x0awidth:\x208px;\x0abackground-position:\x20center\x200px;\x0abackground-image:\x20url(\x22data:image/svg+xml;utf8,<svg\x20xmlns=\x27http://www.w3.org/2000/svg\x27\x20width=\x27100\x27\x20height=\x27100\x27\x20fill=\x27rgb(180,\x20180,\x20180)\x27><polygon\x20points=\x2750,20\x200,100\x20100,100\x27/></svg>\x22);\x0a}\x0a\x0a::-webkit-scrollbar-button:single-button:vertical:decrement:active\x20{\x0abackground-image:\x20url(\x22data:image/svg+xml;utf8,<svg\x20xmlns=\x27http://www.w3.org/2000/svg\x27\x20width=\x27100\x27\x20height=\x27100\x27\x20fill=\x27rgb(150,\x20150,\x20150)\x27><polygon\x20points=\x2750,20\x200,100\x20100,100\x27/></svg>\x22);\x0a}\x0a\x0a/*\x20Down\x20*/\x0a::-webkit-scrollbar-button:single-button:vertical:increment\x20{\x0aheight:\x208px;\x0awidth:\x208px;\x0abackground-position:\x20center\x200px;\x0abackground-image:\x20url(\x22data:image/svg+xml;utf8,<svg\x20xmlns=\x27http://www.w3.org/2000/svg\x27\x20width=\x27100\x27\x20height=\x27100\x27\x20fill=\x27rgb(180,\x20180,\x20180)\x27><polygon\x20points=\x2750,100\x200,20\x20100\x20\x20,20\x27/></svg>\x22);\x0a}\x0a\x0a::-webkit-scrollbar-button:single-button:vertical:increment:active\x20{\x0abackground-image:\x20url(\x22data:image/svg+xml;utf8,<svg\x20xmlns=\x27http://www.w3.org/2000/svg\x27\x20width=\x27100\x27\x20height=\x27100\x27\x20fill=\x27rgb(150,\x20150,\x20150)\x27><polygon\x20points=\x2750,100\x200,20\x20100\x20\x20,20\x27/></svg>\x22);\x0a}\x0a','s)\x0a','animIndex','head','\x20for\x20','block','493071ztMVHT','\x20{\x20left:\x20','classList','height','copyCodeBtn','none','outputCode','138CgJOWC',',\x20scale:\x20','absolute','then',',height=',';\x20}\x0a','style','createElement','extraAnims','fileName','64919PVVIxN','<img\x20id=\x22','getElementById','add','\x20\x20//\x20Base\x20animation\x20for\x20','px;\x20width:\x20','\x22\x20/>\x0a','breakpoint','left',',\x20duration:\x201},\x20','previewImg','\x20\x20//\x20Extra\x20Animation\x20','2275848EgNJlK','Base\x20Image\x20','imgData','toFixed','highlightElement','highlighted','removeChild','isi-style-tag','catch','durationDisplay','div','px;\x20height:\x20','\x0a\x0a\x20\x20<div\x20id=\x22iframe_tj\x22>\x0a<div\x20id=\x22scroll_tj\x22\x0aonMouseOver=\x22(scrollStarted?pauseDiv():null)\x22\x0aonMouseOut=\x22(scrollStarted?resumeDiv():null)\x22>\x0a\x0a\x0a\x0a<div\x20class=\x22isi\x22\x0aid=\x22isi\x22>\x0a\x0a<h1>INDICATION\x20and\x20IMPORTANT\x20SAFETY\x20INFORMATION</h1>\x0a<ul>\x0a<li><span></span>\x0a<p>Lorem\x20ipsum\x20dolor\x20sit\x20amet,\x20consectetur\x20adipiscing\x20elit,\x20sed\x20do\x20eiusmod\x20tempor\x20incididunt\x20ut\x20labore\x20et\x20dolore\x20magna\x20aliqua.\x20Ut\x20enim\x20ad\x20minim\x20veniam,\x20quis\x20nostrud\x20exercitation\x20ullamco\x20laboris\x20nisi\x20ut\x20aliquip\x20ex\x20ea\x20commodo\x20consequat.\x20Duis\x20aute\x20irure\x20dolor\x20in\x20reprehenderit\x20in\x20voluptate\x20velit\x20esse\x20cillum\x20dolore\x20eu\x20fugiat\x20nulla\x20pariatur.\x20Excepteur\x20sint\x20occaecat\x20cupidatat\x20non\x20proident,\x20sunt\x20in\x20culpa\x20qui\x20officia\x20deserunt\x20mollit\x20anim\x20id\x20est\x20laborum\x0a</p>\x0a</li>\x0a</ul>\x0a<h1>IMPORTANT\x20SAFETY\x20INFORMATION</h1>\x0a<h1\x20>CONTRAINDICATIONS:</h1>\x0a<ul>\x0a<li><span></span>\x0a<p>some\x20text\x20added\x20here\x20\x20some\x20text\x20added\x20here\x20some\x20text\x20added\x20here\x20some\x20text\x20added\x20here</p>\x0a</li>\x0a<li><span></span>\x0a<p>some\x20text\x20added\x20here\x20\x20some\x20text\x20added\x20here\x20some\x20text\x20added\x20here\x20some\x20text\x20added\x20here</p>\x0a</li>\x0a<li><span></span>\x0a<p>some\x20text\x20added\x20here\x20\x20some\x20text\x20added\x20here\x20some\x20text\x20added\x20here\x20some\x20text\x20added\x20here</p>\x0a</li>\x0a</ul>\x0a<h1>WARNINGS\x20AND\x20PRECAUTIONS:</h1>\x0a<ul>\x0a<li><span></span>\x0a<p><span\x20class=\x22bold-italic\x22>Test:</span>Lorem\x20ipsum\x20dolor\x20sit\x20amet,\x20consectetur\x20adipiscing\x20elit,\x20sed\x20do\x20eiusmod\x20tempor\x20incididunt\x20ut\x20labore\x20et\x20dolore\x20magna\x20aliqua.\x20Ut\x20enim\x20ad\x20minim\x20veniam,\x20quis\x20nostrud\x20exercitation\x20ullamco\x20laboris\x20nisi\x20ut\x20aliquip\x20ex\x20ea\x20commodo\x20consequat.\x20Duis\x20aute\x20irure\x20dolor\x20in\x20reprehenderit\x20in\x20voluptate\x20velit\x20esse\x20cillum\x20dolore\x20eu\x20fugiat\x20nulla\x20pariatur.\x20Excepteur\x20sint\x20occaecat\x20cupidatat\x20non\x20proident,\x20sunt\x20in\x20culpa\x20qui\x20officia\x20deserunt\x20mollit\x20anim\x20id\x20est\x20laborum\x0a</p>\x0a</li>\x0a</ul>\x0a\x0a</div>\x0a</div>\x0a</div>\x20\x20\x0a','max','top','<!DOCTYPE\x20html>\x0a<html>\x0a<head>\x0a<meta\x20charset=\x22UTF-8\x22>\x0a<title>Generated\x20Banner</title>\x0a<meta\x20name=\x22ad.size\x22\x20content=\x22width=','\x20of\x20Image\x20','value','px;\x20overflow:\x20hidden;\x20background:\x20#eee;\x20border:\x201px\x20solid\x20#727479;\x20}\x0aimg\x20{\x20position:\x20absolute;\x20}\x0a','<style>','\x22\x20src=\x22',');\x0a','\x22,\x20{x:\x20','transform','checked','\x22,\x20{opacity:\x20','indexOf','42710gLfJtL','/*\x20ISI\x20Styles\x20*/','click','\x0a<script>\x0avar\x20ScrollRate\x20=\x20125;\x0avar\x20divName\x20=\x20\x27scroll_tj\x27;\x0afunction\x20scrollDiv_init()\x20{\x0a\x20\x20DivElmnt\x20=\x20document.getElementById(divName);\x0a\x20\x20ReachedMaxScroll\x20=\x20false;\x0a\x20\x20DivElmnt.scrollTop\x20=\x200;\x0a\x20\x20PreviousScrollTop\x20=\x200;\x0a\x20\x20scrollDivStart\x20=\x20setTimeout(startScroll,\x20tl.totalDuration()\x20*\x201000);\x0a}\x0afunction\x20startScroll()\x20{\x0a\x20\x20scrollStarted\x20=\x20true;\x0a\x20\x20clearTimeout(scrollDivStart);\x0a\x20\x20ScrollInterval\x20=\x20setInterval(\x27scrollDiv()\x27,\x20ScrollRate);\x0a}\x0afunction\x20scrollDiv()\x20{\x0a\x20\x20if\x20(!ReachedMaxScroll)\x20{\x0a\x20\x20\x20\x20DivElmnt.scrollTop\x20=\x20PreviousScrollTop;\x0a\x20\x20\x20\x20PreviousScrollTop++;\x0a\x20\x20\x20\x20ReachedMaxScroll\x20=\x20DivElmnt.scrollTop\x20>=\x20(DivElmnt.scrollHeight\x20-\x20DivElmnt.offsetHeight);\x0a\x20\x20}\x0a}\x0afunction\x20pauseDiv()\x20{\x20clearInterval(ScrollInterval);\x20}\x0afunction\x20resumeDiv()\x20{\x0a\x20\x20PreviousScrollTop\x20=\x20DivElmnt.scrollTop;\x0a\x20\x20ScrollInterval\x20=\x20setInterval(\x27scrollDiv()\x27,\x20ScrollRate);\x0a}\x0awindow.onload\x20=\x20scrollDiv_init;\x0a</script>\x0a','\x22>\x0a<style>\x0a*\x20{margin:\x200;padding:\x200;box-sizing:\x20border-box;user-select:\x20none;outline:\x200;}\x0a#banner-wrapper\x20{\x20position:\x20relative;\x20width:\x20','2180550Ykbeex','textContent','</body>\x0a</html>','87444fYVWAE','</div>\x0a<script>\x0aconst\x20tl\x20=\x20gsap.timeline();\x0afunction\x20startAd()\x20{\x0a',',\x20opacity:\x20','enableIsiCheckbox','addEventListener','trim','src','bannerWidthInput','<script\x20src=\x22https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js\x22></script>\x0a</head>\x0a<body>\x0a<div\x20id=\x22banner-wrapper\x22>\x0a','px;\x20top:\x20','clipboard','width','display','\x22,\x20{opacity:\x200,\x20scale:\x201});\x0a','preview','}\x0awindow.addEventListener(\x22load\x22,\x20startAd);\x0a</script>\x0a'];_0x2bf1=function(){return _0x5d7eed;};return _0x2bf1();}
+/* -----------------------------
+   Preview Rendering + Generated Code Output
+------------------------------ */
+
+const outputCode = document.getElementById('outputCode');
+const widthInput = document.getElementById('bannerWidthInput');
+const heightInput = document.getElementById('bannerHeightInput');
+
+const isiEditorWrap = document.getElementById('isiEditorWrap'); // may not be used but left for compatibility
+
+// Default inner HTML for ISI (fallback)
+const isiInnerDefault = `
+<h1>INDICATION and IMPORTANT SAFETY INFORMATION</h1>
+<ul>
+<li><span></span>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+</p>
+</li>
+</ul>
+<h1>IMPORTANT SAFETY INFORMATION</h1>
+<h1 >CONTRAINDICATIONS:</h1>
+<ul>
+<li><span></span>
+<p>some text added here  some text added here some text added here some text added here</p>
+</li>
+<li><span></span>
+<p>some text added here  some text added here some text added here some text added here</p>
+</li>
+<li><span></span>
+<p>some text added here  some text added here some text added here some text added here</p>
+</li>
+</ul>
+<h1>WARNINGS AND PRECAUTIONS:</h1>
+<ul>
+<li><span></span>
+<p><span class="bold-italic">Test:</span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+</p>
+</li>
+</ul>
+`;
+
+/* -----------------------------
+   Copy generated code
+------------------------------ */
+document.getElementById('copyCodeBtn').addEventListener('click', () => {
+  const code = outputCode.textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    const btn = document.getElementById('copyCodeBtn');
+    const originalText = btn.textContent;
+    btn.textContent = '✅ Copied!';
+    setTimeout(() => btn.textContent = originalText, 2000);
+  }).catch(err => {
+    alert("Failed to copy code: " + err);
+  });
+});
+
+/* -----------------------------
+   ISI helper wrappers that use Quill content when available
+------------------------------ */
+
+function getIsiInner() {
+  // prefer Quill instance content
+  if (window.quill && typeof window.quill.root !== 'undefined') {
+    const content = window.quill.root.innerHTML;
+    if (content && content.trim().length) return content;
+  }
+  // fallback to saved HTML variable (set by modal save or by import)
+  if (window.isiContentHTML && window.isiContentHTML.trim().length) {
+    return window.isiContentHTML;
+  }
+
+  // last fallback default
+  return isiInnerDefault;
+}
+
+function getIsiCSS() {
+  return `
+ a {
+color: #57585a;
+text-decoration: underline;
+font-weight: 600;
+}
+
+a:hover {
+cursor: pointer;
+}
+
+.tel {
+text-decoration: none;
+color: #000000;
+}
+
+p,
+h1,
+.isi h2,
+h3,
+h4,
+h5 {
+margin: 0;
+}
+
+.hyphenate {
+word-wrap: break-word;
+overflow-wrap: break-word;
+
+-webkit-hyphens: auto;
+-moz-hyphens: auto;
+hyphens: auto;
+}
+
+
+.isi {
+padding: 0px 2px;
+box-sizing: border-box;
+}
+
+.isi h1 {
+font-family: Arial, sans-serif;
+font-size: 12px;
+line-height: 14px;
+color: #d50032;
+text-transform: uppercase;
+font-weight: bold;
+padding-top: 12px;
+}
+
+.isi h1 sup {
+font-size: 6px;
+vertical-align: 2px;
+}
+
+.isi p {
+font-family: Arial, sans-serif;
+color: #63666a;
+font-size: 12px;
+line-height: 14px;
+margin-bottom: 0px;
+text-align: left;
+}
+
+.isi .bold {
+font-weight: bold;
+}
+
+.isi p .bold-italic {
+font-weight: bold;
+font-style: italic;
+}
+
+.italic {
+font-style: italic;
+}
+
+.isi p.pm2 {
+margin-bottom: 4px;
+}
+
+.isi p strong {
+color: #63666a;
+font-weight: 900;
+}
+
+.isi p a {
+color: #d50032;
+font-weight: normal;
+}
+
+.isi ul {
+margin: 0;
+font-family: Arial, sans-serif;
+color: #63666a;
+font-size: 12px;
+line-height: 13px;
+list-style: none;
+padding-left: 15px;
+}
+
+.isi li {
+color: #63666a;
+font-size: 12px;
+line-height: 13px;
+position: relative;
+margin-left: 0px;
+}
+
+.isi li>span {
+width: 3px;
+height: 3px;
+background-color: #63666a;
+border-radius: 50%;
+position: absolute;
+top: 5px;
+left: -7px;
+}
+
+#iframe_tj {
+position: absolute;
+width: 299px;
+height: 69px;
+top: 180px;
+left: 0px;
+bottom: 17px;
+border: none;
+background-color: #ffffff;
+z-index: 9;
+}
+
+#scroll_tj {
+position: absolute;
+overflow: hidden;
+width: 299px;
+height: 69px;
+overflow-y: scroll;
+scrollbar-width: auto;
+scrollbar-color: #63666a #b6b8ba;
+scroll-behavior: auto;
+}
+
+#scroll_tj::-webkit-scrollbar {
+width: 8px;
+}
+
+#scroll_tj::-webkit-scrollbar-track {
+background-color: #ededed;
+}
+
+#scroll_tj::-webkit-scrollbar-thumb {
+background-color: #b3b3b3;
+border: 0px;
+border-left: #ededed 2px;
+border-right: #ededed 2px;
+border-style: solid;
+}
+`;
+}
+
+function getIsiHTML() {
+  const inner = getIsiInner();
+  return `
+  <div id="iframe_tj">
+    <div id="scroll_tj"
+      onMouseOver="(scrollStarted?pauseDiv():null)"
+      onMouseOut="(scrollStarted?resumeDiv():null)">
+      <div class="isi" id="isi">
+        ${inner}
+      </div>
+    </div>
+  </div>
+  `;
+}
+
+function getIsiPreviewHTML() {
+  const inner = getIsiInner();
+  return `
+  <div id="scroll_tj"
+    onMouseOver="(scrollStarted?pauseDiv():null)"
+    onMouseOut="(scrollStarted?resumeDiv():null)">
+    <div class="isi" id="isi">
+      ${inner}
+    </div>
+  </div>
+  `;
+}
+
+function getIsiScrollScript() {
+  return `
+<script>
+var ScrollRate = 125;
+var divName = 'scroll_tj';
+function scrollDiv_init() {
+  DivElmnt = document.getElementById(divName);
+  ReachedMaxScroll = false;
+  DivElmnt.scrollTop = 0;
+  PreviousScrollTop = 0;
+  scrollDivStart = setTimeout(startScroll, tl.totalDuration() * 1000);
+}
+function startScroll() {
+  scrollStarted = true;
+  clearTimeout(scrollDivStart);
+  ScrollInterval = setInterval('scrollDiv()', ScrollRate);
+}
+function scrollDiv() {
+  if (!ReachedMaxScroll) {
+    DivElmnt.scrollTop = PreviousScrollTop;
+    PreviousScrollTop++;
+    ReachedMaxScroll = DivElmnt.scrollTop >= (DivElmnt.scrollHeight - DivElmnt.offsetHeight);
+  }
+}
+function pauseDiv() { clearInterval(ScrollInterval); }
+function resumeDiv() {
+  PreviousScrollTop = DivElmnt.scrollTop;
+  ScrollInterval = setInterval('scrollDiv()', ScrollRate);
+}
+window.onload = scrollDiv_init;
+</script>
+`;
+}
+
+/* -----------------------------
+   small helper to escape HTML when exporting text
+------------------------------ */
+function escapeHtml(str) {
+  if (!str && str !== '') return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+/* -----------------------------
+   Core updatePreviewAndCode function
+------------------------------ */
+
+function updatePreviewAndCode() {
+  const isiEnabled = document.getElementById('enableIsiCheckbox').checked;
+
+  // Remove old ISI style
+  const existingIsiStyle = document.getElementById('isi-style-tag');
+  if (existingIsiStyle) existingIsiStyle.remove();
+
+  // Add ISI style if enabled
+  if (isiEnabled) {
+    const style = document.createElement('style');
+    style.id = 'isi-style-tag';
+    style.textContent = `/* ISI Styles */` + getIsiCSS();
+    document.head.appendChild(style);
+  }
+
+  // Temporarily remove label
+  if (labelElement && labelElement.parentNode === previewArea) {
+    previewArea.removeChild(labelElement);
+  }
+  previewArea.innerHTML = '';
+
+  const bannerW = parseInt(widthInput.value) || 300;
+  const bannerH = parseInt(heightInput.value) || 250;
+
+  // HTML Output
+  let html = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Generated Banner</title>
+<meta name="ad.size" content="width=${bannerW},height=${bannerH}">
+<style>
+* {margin: 0;padding: 0;box-sizing: border-box;user-select: none;outline: 0;}
+#banner-wrapper { position: relative; width: ${bannerW}px; height: ${bannerH}px; overflow: hidden; background: #eee; border: 1px solid #727479; }
+img { position: absolute; }
+.banner-text { position: absolute; white-space: pre-wrap; }
+`;
+
+  // Add styles for each element
+  imageList.forEach(el => {
+    if (el.type === 'image') {
+      html += `#${el.id} { left: ${el.x}px; top: ${el.y}px; width: ${el.width}px; height: ${el.height}; opacity: ${el.opacity}; }\n`;
+    } else if (el.type === 'text') {
+      html += `#${el.id} { left: ${el.x}px; top: ${el.y}px; opacity: ${el.opacity}; font-size: ${el.fontSize}px; color: ${el.color}; transform-origin: 0 0; }\n`;
+    }
+  });
+
+  html += `</style>\n`;
+
+  if (isiEnabled) {
+    html += `<style>${getIsiCSS()}</style>\n`;
+  }
+
+  html += `<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>\n</head>\n<body>\n<div id="banner-wrapper">\n`;
+
+  const stopAt = imageList.findIndex(el => el.breakpoint);
+  imageList.forEach((el, index) => {
+    if (stopAt !== -1 && index > stopAt) return;
+
+    if (el.type === 'image') {
+      if (!el.src) return;
+      html += `<img id="${el.id}" src="${el.fileName}" />\n`;
+    } else if (el.type === 'text') {
+      // export text as banner-text div
+      const safe = escapeHtml(el.text || '');
+      html += `<div id="${el.id}" class="banner-text">${safe}</div>\n`;
+    }
+
+    // Builder Preview element in editor
+    let previewEl;
+    if (el.type === 'image') {
+      if (!el.src) return;
+      previewEl = document.createElement('img');
+      previewEl.src = el.src;
+      previewEl.id = el.id;
+      previewEl.classList.add('preview');
+      previewEl.style.width = el.width + "px";
+      previewEl.style.height = el.height + "px";
+      previewEl.style.position = "absolute";
+    } else if (el.type === 'text') {
+      previewEl = document.createElement('div');
+      previewEl.classList.add('preview', 'banner-text');
+      previewEl.id = el.id;
+      previewEl.innerHTML = el.text || '';
+      previewEl.style.position = "absolute";
+      previewEl.style.fontSize = (el.fontSize || 14) + "px";
+      previewEl.style.color = el.color || '#000';
+    }
+
+    // compute live position by applying extraAnims up to active drag target if selected
+    let liveX = el.x, liveY = el.y, liveOpacity = el.opacity, liveScale = el.scale;
+    if (activeDragTarget && activeDragTarget.imgData === el) {
+      const maxIndex = activeDragTarget.animIndex ?? -1;
+      for (let i = 0; i <= maxIndex; i++) {
+        const anim = el.extraAnims[i];
+        if (anim) {
+          liveX += anim.x;
+          liveY += anim.y;
+          liveOpacity = anim.opacity;
+          liveScale *= anim.scale;
+        }
+      }
+    } else {
+      el.extraAnims.forEach(anim => {
+        liveX += anim.x;
+        liveY += anim.y;
+        liveOpacity = anim.opacity;
+        liveScale *= anim.scale;
+      });
+    }
+
+    if (previewEl) {
+      previewEl.style.left = liveX + "px";
+      previewEl.style.top = liveY + "px";
+      previewEl.style.opacity = liveOpacity;
+      previewEl.style.transform = `scale(${liveScale})`;
+      previewArea.appendChild(previewEl);
+      el.previewImg = previewEl;
+    }
+
+    // Highlight + label for selected
+    if (activeDragTarget && activeDragTarget.imgData === el) {
+      if (el.previewImg) el.previewImg.classList.add("highlighted");
+      const labelText = activeDragTarget.animIndex === null
+        ? `${el.type === 'image' ? 'Base Image' : 'Base Text'} ${imageList.indexOf(el) + 1}`
+        : `Extra Animation ${activeDragTarget.animIndex + 1} of ${el.type === 'image' ? 'Image' : 'Text'} ${imageList.indexOf(el) + 1}`;
+      labelElement.textContent = labelText;
+      labelElement.style.display = 'block';
+      labelElement.style.left = `${liveX + 5}px`;
+      labelElement.style.top = `${liveY - 10}px`;
+    } else {
+      if (el.previewImg) el.previewImg.classList.remove("highlighted");
+    }
+  });
+
+  // Add ISI HTML if enabled
+  if (isiEnabled) {
+    html += getIsiHTML();
+  }
+
+  html += `</div>\n<script>\nconst tl = gsap.timeline();\nfunction startAd() {\n`;
+
+  // GSAP animations (works for images and text; both are DOM targets by id)
+  let stop = false;
+  imageList.forEach((el) => {
+    if (stop) return;
+    // We will still set initial opacity/scale for both types
+    html += `  // Base animation for ${el.id}\n`;
+    html += `gsap.set("#${el.id}", {opacity: 0, scale: 1});\n`;
+    html += `tl.to("#${el.id}", {opacity: ${el.opacity}, scale: ${el.scale}, duration: 1}, ${el.delay});\n`;
+
+    let totalX = 0, totalY = 0;
+    el.extraAnims.forEach((anim, i) => {
+      totalX += anim.x;
+      totalY += anim.y;
+      html += `  // Extra Animation ${i + 1} for ${el.id} (delay: ${anim.delay}s)\n`;
+      html += `tl.to("#${el.id}", {x: ${totalX}, y: ${totalY}, opacity: ${anim.opacity}, scale: ${anim.scale}, duration: 1}, ${anim.delay});\n`;
+    });
+
+    if (el.breakpoint) {
+      html += `tl.call(() => tl.pause());\n`;
+      stop = true;
+    }
+  });
+
+  html += `}\nwindow.addEventListener("load", startAd);\n</script>\n`;
+
+  if (isiEnabled) {
+    html += getIsiScrollScript();
+  }
+
+  html += `</body>\n</html>`;
+
+  // Set output code
+  outputCode.textContent = html.trim();
+  Prism.highlightElement(outputCode);
+
+  // Duration display
+  let totalDuration = 0;
+  imageList.forEach(el => {
+    let maxTime = (el.delay || 0) + 1;
+    el.extraAnims.forEach(anim => {
+      maxTime = Math.max(maxTime, (anim.delay || 0) + 1);
+    });
+    totalDuration = Math.max(totalDuration, maxTime);
+  });
+  document.getElementById('durationDisplay').textContent = `(${totalDuration.toFixed(1)}s)`;
+
+  // Re-add label
+  previewArea.appendChild(labelElement);
+  if (!activeDragTarget || !activeDragTarget.imgData) {
+    labelElement.style.display = 'none';
+  }
+
+  // ISI live preview
+  if (isiEnabled) {
+    const isiWrapper = document.createElement('div');
+    isiWrapper.id = 'iframe_tj';
+    isiWrapper.innerHTML = getIsiPreviewHTML();
+    previewArea.appendChild(isiWrapper);
+
+    // Ensure ISI scrolling logic starts exactly after preview is rendered
+    if (typeof initIsiScroll === 'function') {
+      setTimeout(initIsiScroll, 10);
+    }
+  }
+}

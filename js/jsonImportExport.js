@@ -1,1 +1,296 @@
-function _0x32c3(_0x18f9dd,_0xf3acfe){const _0xcec94=_0xcec9();return _0x32c3=function(_0x32c324,_0x5cd9a2){_0x32c324=_0x32c324-0x1a9;let _0x2b8cc7=_0xcec94[_0x32c324];return _0x2b8cc7;},_0x32c3(_0x18f9dd,_0xf3acfe);}const _0x452b35=_0x32c3;(function(_0x33048b,_0x594ebf){const _0x41043b=_0x32c3,_0x2f8982=_0x33048b();while(!![]){try{const _0x4fc38e=parseInt(_0x41043b(0x1e9))/0x1*(-parseInt(_0x41043b(0x1d5))/0x2)+-parseInt(_0x41043b(0x1f9))/0x3*(parseInt(_0x41043b(0x1f8))/0x4)+-parseInt(_0x41043b(0x1bf))/0x5+-parseInt(_0x41043b(0x1f4))/0x6*(-parseInt(_0x41043b(0x1cb))/0x7)+parseInt(_0x41043b(0x1d3))/0x8*(parseInt(_0x41043b(0x1c2))/0x9)+parseInt(_0x41043b(0x1ff))/0xa*(parseInt(_0x41043b(0x1f2))/0xb)+parseInt(_0x41043b(0x1d8))/0xc;if(_0x4fc38e===_0x594ebf)break;else _0x2f8982['push'](_0x2f8982['shift']());}catch(_0x1454e4){_0x2f8982['push'](_0x2f8982['shift']());}}}(_0xcec9,0x7ca75),document[_0x452b35(0x1fc)](_0x452b35(0x1fa))[_0x452b35(0x1e3)]('click',()=>{const _0x2a3892=_0x452b35,_0x13aca7={'bannerWidth':parseInt(widthInput[_0x2a3892(0x1e1)])||0x12c,'bannerHeight':parseInt(heightInput[_0x2a3892(0x1e1)])||0xfa,'images':imageList[_0x2a3892(0x1c9)](_0x4b83e7=>({'id':_0x4b83e7['id'],'fileName':_0x4b83e7[_0x2a3892(0x1c3)],'src':_0x4b83e7[_0x2a3892(0x1d7)],'x':_0x4b83e7['x'],'y':_0x4b83e7['y'],'width':_0x4b83e7[_0x2a3892(0x1ca)],'height':_0x4b83e7[_0x2a3892(0x1b1)],'opacity':_0x4b83e7[_0x2a3892(0x1c1)],'scale':_0x4b83e7[_0x2a3892(0x1ac)],'delay':_0x4b83e7[_0x2a3892(0x1dc)],'breakpoint':_0x4b83e7[_0x2a3892(0x1ba)],'extraAnims':_0x4b83e7[_0x2a3892(0x1b2)]['map'](_0xaaaa39=>({'id':_0xaaaa39['id'],'x':_0xaaaa39['x'],'y':_0xaaaa39['y'],'opacity':_0xaaaa39[_0x2a3892(0x1c1)],'scale':_0xaaaa39[_0x2a3892(0x1ac)],'delay':_0xaaaa39[_0x2a3892(0x1dc)],'locked':_0xaaaa39[_0x2a3892(0x1e6)]||![]})),'locked':_0x4b83e7['locked']||![]}))},_0x28839b=new Blob([JSON[_0x2a3892(0x1b5)](_0x13aca7,null,0x2)],{'type':'application/json'}),_0x44f371=URL[_0x2a3892(0x1b6)](_0x28839b),_0x3a8795=document[_0x2a3892(0x1f5)]('a');_0x3a8795[_0x2a3892(0x1b3)]=_0x44f371,_0x3a8795['download']=_0x2a3892(0x1fd),_0x3a8795[_0x2a3892(0x1ea)](),URL[_0x2a3892(0x1e7)](_0x44f371);}),document[_0x452b35(0x1fc)](_0x452b35(0x1ae))[_0x452b35(0x1e3)](_0x452b35(0x1d1),_0x55ba8d=>{const _0x350efb=_0x452b35,_0x1a4bc4=_0x55ba8d[_0x350efb(0x1af)]['files'][0x0];if(!_0x1a4bc4)return;const _0x63c2b6=new FileReader();_0x63c2b6[_0x350efb(0x1bb)]=function(_0x2b8ed9){const _0x50604d=_0x350efb;try{const _0x5e59fd=JSON[_0x50604d(0x1ad)](_0x2b8ed9['target'][_0x50604d(0x1f1)]);if(!Array['isArray'](_0x5e59fd[_0x50604d(0x1c4)]))throw new Error('Invalid\x20format');widthInput[_0x50604d(0x1e1)]=_0x5e59fd[_0x50604d(0x1e0)]||0x12c,heightInput['value']=_0x5e59fd[_0x50604d(0x1ee)]||0xfa,updateBannerSize(),imageList[_0x50604d(0x1b7)]=0x0,document[_0x50604d(0x1fc)](_0x50604d(0x1da))['innerHTML']='',previewArea[_0x50604d(0x1fe)]='';const _0x4398e9=document[_0x50604d(0x1fc)](_0x50604d(0x1bc));_0x4398e9&&_0x4398e9[_0x50604d(0x1ef)]===previewArea&&previewArea['removeChild'](_0x4398e9),_0x5e59fd[_0x50604d(0x1c4)]['forEach']((_0x293913,_0x51a415)=>{const _0x10ba70=_0x50604d;createControlBlock(_0x51a415);const _0x3f5c3f=imageList[_0x51a415],_0x283e48=_0x3f5c3f[_0x10ba70(0x1ce)];_0x3f5c3f['locked']=_0x293913['locked']||![],_0x283e48[_0x10ba70(0x1dd)](_0x10ba70(0x1c6))['checked']=_0x3f5c3f[_0x10ba70(0x1e6)],_0x283e48[_0x10ba70(0x1dd)]('.posX')[_0x10ba70(0x1cf)]=_0x3f5c3f[_0x10ba70(0x1e6)],_0x283e48[_0x10ba70(0x1dd)](_0x10ba70(0x1f6))[_0x10ba70(0x1cf)]=_0x3f5c3f[_0x10ba70(0x1e6)];const _0x436b78=(_0x59e257,_0x1223e1)=>{const _0x159662=_0x10ba70,_0xf41b1=_0x283e48[_0x159662(0x1dd)](_0x59e257);if(_0xf41b1)_0xf41b1[_0x159662(0x1e1)]=_0x1223e1;};_0x436b78(_0x10ba70(0x1d4),_0x293913['x']),_0x436b78(_0x10ba70(0x1f6),_0x293913['y']),_0x436b78(_0x10ba70(0x1f7),_0x293913['width']),_0x436b78('.opacity',_0x293913['opacity']),_0x436b78(_0x10ba70(0x1f0),_0x293913[_0x10ba70(0x1ac)]),_0x436b78('.delay',_0x293913[_0x10ba70(0x1dc)]),_0x283e48[_0x10ba70(0x1dd)](_0x10ba70(0x1d2))['checked']=_0x293913['breakpoint'],_0x283e48[_0x10ba70(0x1dd)](_0x10ba70(0x1c5))['textContent']=_0x293913[_0x10ba70(0x1c3)],Object[_0x10ba70(0x1cc)](_0x3f5c3f,_0x293913);if(_0x3f5c3f[_0x10ba70(0x1d7)]){const _0x542308=document[_0x10ba70(0x1f5)]('img');_0x542308[_0x10ba70(0x1d7)]=_0x3f5c3f[_0x10ba70(0x1d7)],_0x542308['id']=_0x3f5c3f['id'],_0x542308['classList'][_0x10ba70(0x1d6)](_0x10ba70(0x1be)),previewArea[_0x10ba70(0x1f3)](_0x542308),_0x3f5c3f['previewImg']=_0x542308;}const _0x19b027=_0x283e48['querySelector'](_0x10ba70(0x1bd));_0x19b027['innerHTML']='',_0x293913[_0x10ba70(0x1b2)]['forEach']((_0xc84d2a,_0x2c56ab)=>{const _0x36cf51=_0x10ba70;_0xc84d2a[_0x36cf51(0x1e6)]=_0xc84d2a[_0x36cf51(0x1e6)]||![];const _0x3c2c3f=document[_0x36cf51(0x1f5)](_0x36cf51(0x1b0));_0x3c2c3f['classList'][_0x36cf51(0x1d6)](_0x36cf51(0x1ec)),_0x3c2c3f[_0x36cf51(0x1fe)]=_0x36cf51(0x1df)+(_0x2c56ab+0x1)+_0x36cf51(0x1c8)+_0xc84d2a[_0x36cf51(0x1dc)]+_0x36cf51(0x1eb)+_0xc84d2a['x']+_0x36cf51(0x1c7)+_0xc84d2a['y']+_0x36cf51(0x1e4)+_0xc84d2a[_0x36cf51(0x1c1)]+_0x36cf51(0x1e2)+_0xc84d2a[_0x36cf51(0x1ac)]+_0x36cf51(0x1e5),_0x19b027[_0x36cf51(0x1f3)](_0x3c2c3f);const _0x21c23f=_0x3c2c3f['querySelector'](_0x36cf51(0x1fb)),_0x496547=_0x3c2c3f['querySelector'](_0x36cf51(0x1d9)),_0x355466=_0x3c2c3f[_0x36cf51(0x1dd)]('.animY');_0x21c23f&&(_0x21c23f[_0x36cf51(0x1a9)]=_0xc84d2a[_0x36cf51(0x1e6)],_0x496547[_0x36cf51(0x1cf)]=_0xc84d2a[_0x36cf51(0x1e6)],_0x355466[_0x36cf51(0x1cf)]=_0xc84d2a[_0x36cf51(0x1e6)],_0x21c23f[_0x36cf51(0x1e3)]('change',()=>{const _0x2c0064=_0x36cf51;_0xc84d2a[_0x2c0064(0x1e6)]=_0x21c23f[_0x2c0064(0x1a9)],_0x496547[_0x2c0064(0x1cf)]=_0xc84d2a[_0x2c0064(0x1e6)],_0x355466[_0x2c0064(0x1cf)]=_0xc84d2a['locked'],updatePreviewAndCode();})),_0x3c2c3f[_0x36cf51(0x1e3)](_0x36cf51(0x1ea),_0x6232e6=>{_0x6232e6['stopPropagation'](),activeDragTarget={'imgData':_0x3f5c3f,'animIndex':_0x2c56ab},highlightPreview(_0x3f5c3f['id']),highlightExtraAnim(_0x283e48,_0x2c56ab),updatePreviewAndCode();}),_0x3c2c3f[_0x36cf51(0x1db)](_0x36cf51(0x1de))[_0x36cf51(0x1ab)](_0x22c2fc=>_0x22c2fc['addEventListener'](_0x36cf51(0x1de),()=>{const _0x4612a7=_0x36cf51;_0xc84d2a[_0x4612a7(0x1dc)]=parseFloat(_0x3c2c3f[_0x4612a7(0x1dd)](_0x4612a7(0x1e8))[_0x4612a7(0x1e1)])||0x0,_0xc84d2a['x']=parseFloat(_0x3c2c3f[_0x4612a7(0x1dd)](_0x4612a7(0x1d9))['value'])||0x0,_0xc84d2a['y']=parseFloat(_0x3c2c3f['querySelector'](_0x4612a7(0x1b9))[_0x4612a7(0x1e1)])||0x0,_0xc84d2a[_0x4612a7(0x1c1)]=parseFloat(_0x3c2c3f['querySelector'](_0x4612a7(0x1cd))['value'])||0x0,_0xc84d2a[_0x4612a7(0x1ac)]=parseFloat(_0x3c2c3f['querySelector'](_0x4612a7(0x1aa))['value'])||0x1,updatePreviewAndCode();})),_0x3c2c3f['querySelector']('.removeAnim')['addEventListener'](_0x36cf51(0x1ea),()=>{const _0x4933b4=_0x36cf51;_0xc84d2a[_0x4933b4(0x1e6)]=_0xc84d2a[_0x4933b4(0x1e6)]||![],_0x21c23f['checked']=_0xc84d2a[_0x4933b4(0x1e6)],_0x496547[_0x4933b4(0x1cf)]=_0xc84d2a[_0x4933b4(0x1e6)],_0x355466[_0x4933b4(0x1cf)]=_0xc84d2a[_0x4933b4(0x1e6)],_0x21c23f[_0x4933b4(0x1e3)](_0x4933b4(0x1d1),()=>{const _0x4947fb=_0x4933b4;_0xc84d2a[_0x4947fb(0x1e6)]=_0x21c23f[_0x4947fb(0x1a9)],_0x496547[_0x4947fb(0x1cf)]=_0xc84d2a[_0x4947fb(0x1e6)],_0x355466[_0x4947fb(0x1cf)]=_0xc84d2a[_0x4947fb(0x1e6)],updatePreviewAndCode();}),_0x293913['extraAnims'][_0x4933b4(0x1c0)](_0x2c56ab,0x1),_0x19b027[_0x4933b4(0x1b8)](_0x3c2c3f),updatePreviewAndCode();});});}),updatePreviewAndCode();}catch(_0x9035f6){alert(_0x50604d(0x1b4)+_0x9035f6[_0x50604d(0x1d0)]);}},_0x63c2b6[_0x350efb(0x1ed)](_0x1a4bc4);}));function _0xcec9(){const _0x530abb=['\x22\x20/>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<label><input\x20type=\x22checkbox\x22\x20class=\x22lockExtraAnim\x22>\x20<i\x20class=\x22fa-solid\x20fa-lock\x22></i>\x20Lock\x20Animation</label><br\x20/>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20class=\x22removeAnim\x22>Remove</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20','locked','revokeObjectURL','.animDelay','204FxTITG','click','\x22\x20/>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20X:\x20<input\x20type=\x22number\x22\x20class=\x22animX\x22\x20value=\x22','exit-controls','readAsText','bannerHeight','parentNode','.scale','result','11VxmShD','appendChild','46230TWddlC','createElement','.posY','.imgWidth','17564ecqbMr','123UomRsU','downloadJsonBtn','.lockExtraAnim','getElementById','banner_data.json','innerHTML','4469060IkENzh','checked','.animScale','forEach','scale','parse','importJsonInput','target','div','height','extraAnims','href','Failed\x20to\x20import\x20JSON:\x20','stringify','createObjectURL','length','removeChild','.animY','breakpoint','onload','iframe_tj','.extra-anims','preview','3845220UwDiHp','splice','opacity','26802uiPdzo','fileName','images','.fileNameDisplay','.lockPosition','\x22\x20/>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20Y:\x20<input\x20type=\x22number\x22\x20class=\x22animY\x22\x20value=\x22','</strong><br\x20/>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20Position\x20(Time):\x20<input\x20type=\x22number\x22\x20class=\x22animDelay\x22\x20step=\x220.1\x22\x20value=\x22','map','width','637dokHdY','assign','.animOpacity','wrapper','disabled','message','change','.breakpoint','512cNCBYb','.posX','334KbruKR','add','src','1860852wTDUho','.animX','controls','querySelectorAll','delay','querySelector','input','\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<strong>Extra\x20Animation\x20','bannerWidth','value','\x22\x20/>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20Scale:\x20<input\x20type=\x22number\x22\x20class=\x22animScale\x22\x20step=\x220.1\x22\x20value=\x22','addEventListener','\x22\x20/>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20Opacity:\x20<input\x20type=\x22number\x22\x20class=\x22animOpacity\x22\x20step=\x220.1\x22\x20value=\x22'];_0xcec9=function(){return _0x530abb;};return _0xcec9();}
+/* -----------------------------
+   JSON Import / Export (Layers-aware, Quill-aware)
+----------------------------- */
+
+const downloadBtn = document.getElementById('downloadJsonBtn');
+const importInput = document.getElementById('importJsonInput');
+
+downloadBtn.addEventListener('click', () => {
+  // Use Quill content if available; else saved HTML string
+  const isiContent = (window.quill && window.quill.root)
+    ? window.quill.root.innerHTML
+    : (window.isiContentHTML || null);
+
+  // NOTE: The layer order is simply the order of the images[] array.
+  // The Layers UI displays reverse for convenience (top-most first),
+  // but serialization keeps the natural order.
+  const jsonData = {
+    bannerWidth: parseInt(widthInput.value) || 300,
+    bannerHeight: parseInt(heightInput.value) || 250,
+    isiEnabled: document.getElementById('enableIsiCheckbox').checked,
+    isiContent: isiContent,
+    images: imageList.map(el => ({
+      id: el.id,
+      type: el.type || 'image',
+      // Layer-friendly fields (optional, safe defaults)
+      layerName: el.layerName || '',
+      visible: typeof el.visible === 'boolean' ? el.visible : true,
+
+      // image fields
+      fileName: el.fileName || '',
+      src: el.src || '',
+
+      // text fields
+      text: el.text || '',
+      fontSize: el.fontSize || 14,
+      color: el.color || '#000000',
+
+      // common fields
+      x: el.x,
+      y: el.y,
+      width: el.width,
+      height: el.height,
+      opacity: el.opacity,
+      scale: el.scale,
+      delay: el.delay,
+      breakpoint: !!el.breakpoint,
+      extraAnims: (el.extraAnims || []).map(anim => ({
+        id: anim.id,
+        x: anim.x,
+        y: anim.y,
+        opacity: anim.opacity,
+        scale: anim.scale,
+        delay: anim.delay,
+        locked: !!anim.locked
+      })),
+      locked: !!el.locked
+    }))
+  };
+
+  const blob = new Blob([JSON.stringify(jsonData, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = "banner_data.json";
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+importInput.addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function (event) {
+    try {
+      const data = JSON.parse(event.target.result);
+      if (!Array.isArray(data.images)) throw new Error("Invalid format: images[] missing");
+
+      // ==== Banner size
+      widthInput.value = data.bannerWidth || 300;
+      heightInput.value = data.bannerHeight || 250;
+      if (typeof updateBannerSize === 'function') updateBannerSize();
+
+      // ==== ISI states/content
+      const enableIsi = typeof data.isiEnabled !== 'undefined' ? !!data.isiEnabled : false;
+      document.getElementById('enableIsiCheckbox').checked = enableIsi;
+
+      if (typeof data.isiContent !== 'undefined') {
+        window.isiContentHTML = data.isiContent || '';
+        if (window.quill && window.quill.root) {
+          try {
+            const delta = window.quill.clipboard.convert(window.isiContentHTML);
+            window.quill.setContents(delta, 'silent');
+          } catch (err) {
+            window.quill.root.innerHTML = window.isiContentHTML;
+          }
+        }
+      }
+
+      // ==== Reset UI state
+      imageList.length = 0;
+      document.getElementById('controls').innerHTML = '';
+      previewArea.innerHTML = '';
+
+      // Remove old ISI preview/style if exists (preview.js re-creates)
+      const oldIsi = document.getElementById('iframe_tj');
+      if (oldIsi && oldIsi.parentNode === previewArea) {
+        previewArea.removeChild(oldIsi);
+      }
+      const existingIsiStyle = document.getElementById('isi-style-tag');
+      if (existingIsiStyle) existingIsiStyle.remove();
+
+      // ==== Rebuild images & controls in the given order
+      data.images.forEach((item, index) => {
+        // Create fresh control block depending on type
+        if (item.type === 'text') {
+          createTextControlBlock(index);
+        } else {
+          createControlBlock(index);
+        }
+
+        const elData = imageList[index];
+        const wrapper = elData.wrapper;
+
+        // Assign persisted fields (with safe fallbacks)
+        elData.id = item.id || elData.id;
+        elData.type = item.type || elData.type || 'image';
+        elData.layerName = item.layerName || '';
+        elData.visible = (typeof item.visible === 'boolean') ? item.visible : true;
+
+        if (elData.type === 'image') {
+          elData.fileName = item.fileName || '';
+          elData.src = item.src || '';
+        } else if (elData.type === 'text') {
+          elData.text = item.text || '';
+          elData.fontSize = Number(item.fontSize) || 14;
+          elData.color = item.color || '#000000';
+        }
+
+        elData.x = Number(item.x) || 0;
+        elData.y = Number(item.y) || 0;
+        elData.width = Number(item.width) || (elData.type === 'image' ? 100 : 'auto');
+        elData.height = item.height || 'auto';
+        elData.opacity = Number(item.opacity) || 1;
+        elData.scale = Number(item.scale) || 1;
+        elData.delay = Number(item.delay) || 0;
+        elData.breakpoint = !!item.breakpoint;
+        elData.extraAnims = Array.isArray(item.extraAnims) ? item.extraAnims.map((a, ai) => ({
+          id: a.id || `${elData.id}_anim_${ai}`,
+          x: Number(a.x) || 0,
+          y: Number(a.y) || 0,
+          opacity: Number(a.opacity) || 1,
+          scale: Number(a.scale) || 1,
+          delay: Number(a.delay) || 0,
+          locked: !!a.locked
+        })) : [];
+        elData.locked = !!item.locked;
+
+        // Reflect into wrapper inputs (if present)
+        const setVal = (sel, val) => {
+          const el = wrapper.querySelector(sel);
+          if (el != null) el.value = val;
+        };
+
+        setVal('.posX', elData.x);
+        setVal('.posY', elData.y);
+        setVal('.opacity', elData.opacity);
+        setVal('.scale', elData.scale);
+        setVal('.delay', elData.delay);
+
+        if (elData.type === 'image') {
+          setVal('.imgWidth', elData.width);
+          const fn = wrapper.querySelector('.fileNameDisplay');
+          if (fn) fn.textContent = elData.fileName || '';
+        } else if (elData.type === 'text') {
+          setVal('.fontSize', elData.fontSize);
+          const colorInp = wrapper.querySelector('.fontColor');
+          if (colorInp) colorInp.value = elData.color;
+          const txt = wrapper.querySelector('.textContent');
+          if (txt) txt.value = elData.text;
+        }
+
+        const bp = wrapper.querySelector('.breakpoint');
+        if (bp) bp.checked = elData.breakpoint;
+
+        // Lock UI inputs according to state
+        const lockBox = wrapper.querySelector('.lockPosition');
+        if (lockBox) lockBox.checked = elData.locked;
+        const posX = wrapper.querySelector('.posX');
+        const posY = wrapper.querySelector('.posY');
+        if (posX) posX.disabled = elData.locked;
+        if (posY) posY.disabled = elData.locked;
+
+        // Create preview element in canvas if needed
+        if (elData.type === 'image') {
+          if (elData.src) {
+            const previewImg = document.createElement('img');
+            previewImg.src = elData.src;
+            previewImg.id = elData.id;
+            previewImg.classList.add('preview');
+            previewArea.appendChild(previewImg);
+            elData.previewImg = previewImg;
+          } else {
+            elData.previewImg = null;
+          }
+        } else if (elData.type === 'text') {
+          const previewTxt = document.createElement('div');
+          previewTxt.id = elData.id;
+          previewTxt.classList.add('preview', 'banner-text');
+          previewTxt.innerHTML = elData.text || '';
+          previewTxt.style.fontSize = (elData.fontSize || 14) + 'px';
+          previewTxt.style.color = elData.color || '#000';
+          previewArea.appendChild(previewTxt);
+          elData.previewImg = previewTxt;
+        }
+
+        // Rebuild extra animation control blocks
+        const extraContainer = wrapper.querySelector('.extra-anims');
+        extraContainer.innerHTML = '';
+        elData.extraAnims.forEach((anim, ai) => {
+          const animDiv = document.createElement('div');
+          animDiv.classList.add('exit-controls');
+          animDiv.innerHTML = `
+            <strong>Extra Animation ${ai + 1}</strong><br />
+            Position (Time): <input type="number" class="animDelay" step="0.1" value="${anim.delay}" />
+            X: <input type="number" class="animX" value="${anim.x}" />
+            Y: <input type="number" class="animY" value="${anim.y}" />
+            Opacity: <input type="number" class="animOpacity" step="0.1" value="${anim.opacity}" />
+            Scale: <input type="number" class="animScale" step="0.1" value="${anim.scale}" />
+            <label><input type="checkbox" class="lockExtraAnim" ${anim.locked ? 'checked' : ''}> 
+              <i class="fa-solid fa-lock"></i> Lock Animation</label><br />
+            <button class="removeAnim">Remove</button>
+          `;
+          extraContainer.appendChild(animDiv);
+
+          // Select this anim on click
+          animDiv.addEventListener('click', (ev) => {
+            ev.stopPropagation();
+            activeDragTarget = { imgData: elData, animIndex: ai };
+            highlightPreview(elData.id);
+            highlightExtraAnim(wrapper, ai);
+            updatePreviewAndCode();
+            if (typeof renderLayers === 'function') renderLayers();
+          });
+
+          // Wire inputs to state
+          const bind = () => {
+            anim.delay = parseFloat(animDiv.querySelector('.animDelay').value) || 0;
+            anim.x = parseFloat(animDiv.querySelector('.animX').value) || 0;
+            anim.y = parseFloat(animDiv.querySelector('.animY').value) || 0;
+            anim.opacity = parseFloat(animDiv.querySelector('.animOpacity').value) || 0;
+            anim.scale = parseFloat(animDiv.querySelector('.animScale').value) || 1;
+            anim.locked = !!animDiv.querySelector('.lockExtraAnim').checked;
+
+            const xInput = animDiv.querySelector('.animX');
+            const yInput = animDiv.querySelector('.animY');
+            xInput.disabled = anim.locked;
+            yInput.disabled = anim.locked;
+
+            updatePreviewAndCode();
+            if (typeof renderLayers === 'function') renderLayers();
+          };
+          animDiv.querySelectorAll('input').forEach(input => input.addEventListener('input', bind));
+          animDiv.querySelector('.lockExtraAnim').addEventListener('change', bind);
+
+          // Remove anim
+          animDiv.querySelector('.removeAnim').addEventListener('click', (ev) => {
+            ev.stopPropagation();
+            elData.extraAnims.splice(ai, 1);
+            extraContainer.removeChild(animDiv);
+            updatePreviewAndCode();
+            if (typeof renderLayers === 'function') renderLayers();
+          });
+        });
+
+        // Keep layers UI updated for each element added
+        if (typeof renderLayers === 'function') renderLayers();
+      });
+
+      // Final rebuild of preview/code
+      if (typeof updatePreviewAndCode === 'function') updatePreviewAndCode();
+
+      // If JSON enabled ISI, initialize scroll exactly like the UI toggle
+      if (document.getElementById('enableIsiCheckbox').checked && typeof initIsiScroll === 'function') {
+        setTimeout(initIsiScroll, 10);
+      }
+
+      // Ensure layers are up to date at end as well
+      if (typeof renderLayers === 'function') renderLayers();
+
+    } catch (err) {
+      alert("Failed to import JSON: " + err.message);
+    }
+  };
+  reader.readAsText(file);
+});
