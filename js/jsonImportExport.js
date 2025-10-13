@@ -1,296 +1,341 @@
-/* -----------------------------
-   JSON Import / Export (Layers-aware, Quill-aware)
------------------------------ */
-
 const downloadBtn = document.getElementById('downloadJsonBtn');
 const importInput = document.getElementById('importJsonInput');
 
-downloadBtn.addEventListener('click', () => {
-  // Use Quill content if available; else saved HTML string
-  const isiContent = (window.quill && window.quill.root)
-    ? window.quill.root.innerHTML
-    : (window.isiContentHTML || null);
+if (downloadBtn) {
+  downloadBtn.addEventListener('click', () => {
+    // Use Quill content if available; else saved HTML string
+    const isiContent = (window.quill && window.quill.root)
+      ? window.quill.root.innerHTML
+      : (window.isiContentHTML || null);
 
-  // NOTE: The layer order is simply the order of the images[] array.
-  // The Layers UI displays reverse for convenience (top-most first),
-  // but serialization keeps the natural order.
-  const jsonData = {
-    bannerWidth: parseInt(widthInput.value) || 300,
-    bannerHeight: parseInt(heightInput.value) || 250,
-    isiEnabled: document.getElementById('enableIsiCheckbox').checked,
-    isiContent: isiContent,
-    images: imageList.map(el => ({
-      id: el.id,
-      type: el.type || 'image',
-      // Layer-friendly fields (optional, safe defaults)
-      layerName: el.layerName || '',
-      visible: typeof el.visible === 'boolean' ? el.visible : true,
+    // Ensure we capture primaryCta current UI state
+    const primaryEnabledEl = document.getElementById('enablePrimaryCta');
+    const primaryUrlEl = document.getElementById('primaryCtaUrl');
+    const primaryWEl = document.getElementById('primaryCtaWidth');
+    const primaryHEl = document.getElementById('primaryCtaHeight');
 
-      // image fields
-      fileName: el.fileName || '',
-      src: el.src || '',
+    const primaryCtaObj = {
+      enabled: !!(primaryEnabledEl && primaryEnabledEl.checked),
+      url: (primaryUrlEl && primaryUrlEl.value) ? primaryUrlEl.value.trim() : '',
+      width: primaryWEl ? parseInt(primaryWEl.value) || null : null,
+      height: primaryHEl ? parseInt(primaryHEl.value) || null : null
+    };
 
-      // text fields
-      text: el.text || '',
-      fontSize: el.fontSize || 14,
-      color: el.color || '#000000',
+    // Get current banner size from the dropdown helper
+    const { width: bannerW, height: bannerH } = getCurrentBannerSize();
 
-      // common fields
-      x: el.x,
-      y: el.y,
-      width: el.width,
-      height: el.height,
-      opacity: el.opacity,
-      scale: el.scale,
-      delay: el.delay,
-      breakpoint: !!el.breakpoint,
-      extraAnims: (el.extraAnims || []).map(anim => ({
-        id: anim.id,
-        x: anim.x,
-        y: anim.y,
-        opacity: anim.opacity,
-        scale: anim.scale,
-        delay: anim.delay,
-        locked: !!anim.locked
-      })),
-      locked: !!el.locked
-    }))
-  };
+    // NOTE: The layer order is simply the order of the images[] array.
+    const jsonData = {
+      bannerWidth: bannerW,
+      bannerHeight: bannerH,
+      isi: window.isiState, // MODIFIED: Save the entire ISI state object
+      isiContent: isiContent,
+      primaryCta: primaryCtaObj,
+      images: imageList.map(el => ({
+        id: el.id,
+        type: el.type || 'image',
+        layerName: el.layerName || '',
+        visible: typeof el.visible === 'boolean' ? el.visible : true,
+        preset: el.preset || 'custom', // NEW: Export preset
+        // image fields
+        fileName: el.fileName || '',
+        src: el.src || '',
+        // text fields
+        text: el.text || '',
+        fontSize: el.fontSize || 14,
+        color: el.color || '#000000',
+        italic: !!el.italic,
+        underline: !!el.underline,
+        bold: !!el.bold,
+        // click-tag fields (new)
+        hasClickTag: !!el.hasClickTag,
+        clickTagUrl: el.clickTagUrl || '',
+        // common
+        x: el.x,
+        y: el.y,
+        width: el.width,
+        height: el.height,
+        opacity: el.opacity,
+        scale: el.scale,
+        delay: el.delay,
+        breakpoint: !!el.breakpoint,
+        extraAnims: (el.extraAnims || []).map(anim => ({
+          id: anim.id,
+          preset: anim.preset || 'custom', // NEW: Export preset for extra anims
+          x: anim.x,
+          y: anim.y,
+          opacity: anim.opacity,
+          scale: anim.scale,
+          delay: anim.delay,
+          locked: !!anim.locked
+        })),
+        locked: !!el.locked
+      }))
+    };
 
-  const blob = new Blob([JSON.stringify(jsonData, null, 2)], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = "banner_data.json";
-  a.click();
-  URL.revokeObjectURL(url);
-});
+    const blob = new Blob([JSON.stringify(jsonData, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = "banner_data.json";
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+}
 
-importInput.addEventListener('change', (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
+if (importInput) {
+  importInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
 
-  const reader = new FileReader();
-  reader.onload = function (event) {
-    try {
-      const data = JSON.parse(event.target.result);
-      if (!Array.isArray(data.images)) throw new Error("Invalid format: images[] missing");
+    const reader = new FileReader();
+    reader.onload = function (event) {
+      try {
+        const data = JSON.parse(event.target.result);
+        if (!Array.isArray(data.images)) throw new Error("Invalid format: images[] missing");
 
-      // ==== Banner size
-      widthInput.value = data.bannerWidth || 300;
-      heightInput.value = data.bannerHeight || 250;
-      if (typeof updateBannerSize === 'function') updateBannerSize();
+        // ==== Banner size
+        const bannerSizeSelect = document.getElementById('bannerSizeSelect');
+        if (bannerSizeSelect) {
+            const sizeString = `${data.bannerWidth || 300}x${data.bannerHeight || 250}`;
+            const optionExists = [...bannerSizeSelect.options].some(opt => opt.value === sizeString);
 
-      // ==== ISI states/content
-      const enableIsi = typeof data.isiEnabled !== 'undefined' ? !!data.isiEnabled : false;
-      document.getElementById('enableIsiCheckbox').checked = enableIsi;
-
-      if (typeof data.isiContent !== 'undefined') {
-        window.isiContentHTML = data.isiContent || '';
-        if (window.quill && window.quill.root) {
-          try {
-            const delta = window.quill.clipboard.convert(window.isiContentHTML);
-            window.quill.setContents(delta, 'silent');
-          } catch (err) {
-            window.quill.root.innerHTML = window.isiContentHTML;
-          }
+            if (optionExists) {
+                bannerSizeSelect.value = sizeString;
+            } else {
+                const customOption = document.createElement('option');
+                customOption.value = sizeString;
+                customOption.textContent = `${sizeString} (Imported)`;
+                customOption.selected = true;
+                bannerSizeSelect.appendChild(customOption);
+            }
         }
-      }
+        
+        // This will refresh the preview area with the correct size and set default ISI positions.
+        if (typeof updateBannerSize === 'function') {
+            updateBannerSize();
+        }
 
-      // ==== Reset UI state
-      imageList.length = 0;
-      document.getElementById('controls').innerHTML = '';
-      previewArea.innerHTML = '';
-
-      // Remove old ISI preview/style if exists (preview.js re-creates)
-      const oldIsi = document.getElementById('iframe_tj');
-      if (oldIsi && oldIsi.parentNode === previewArea) {
-        previewArea.removeChild(oldIsi);
-      }
-      const existingIsiStyle = document.getElementById('isi-style-tag');
-      if (existingIsiStyle) existingIsiStyle.remove();
-
-      // ==== Rebuild images & controls in the given order
-      data.images.forEach((item, index) => {
-        // Create fresh control block depending on type
-        if (item.type === 'text') {
-          createTextControlBlock(index);
+        // ==== ISI states/content (MODIFIED)
+        if (data.isi && typeof data.isi === 'object') {
+            // Restore the entire ISI state from the JSON file, overriding defaults
+            window.isiState = data.isi;
         } else {
-          createControlBlock(index);
+            // Fallback for older JSON files that only have `isiEnabled`
+            window.isiState.enabled = !!data.isiEnabled;
         }
+        
+        const isiCheckbox = document.getElementById('enableIsiCheckbox');
+        if (isiCheckbox) isiCheckbox.checked = window.isiState.enabled;
 
-        const elData = imageList[index];
-        const wrapper = elData.wrapper;
-
-        // Assign persisted fields (with safe fallbacks)
-        elData.id = item.id || elData.id;
-        elData.type = item.type || elData.type || 'image';
-        elData.layerName = item.layerName || '';
-        elData.visible = (typeof item.visible === 'boolean') ? item.visible : true;
-
-        if (elData.type === 'image') {
-          elData.fileName = item.fileName || '';
-          elData.src = item.src || '';
-        } else if (elData.type === 'text') {
-          elData.text = item.text || '';
-          elData.fontSize = Number(item.fontSize) || 14;
-          elData.color = item.color || '#000000';
-        }
-
-        elData.x = Number(item.x) || 0;
-        elData.y = Number(item.y) || 0;
-        elData.width = Number(item.width) || (elData.type === 'image' ? 100 : 'auto');
-        elData.height = item.height || 'auto';
-        elData.opacity = Number(item.opacity) || 1;
-        elData.scale = Number(item.scale) || 1;
-        elData.delay = Number(item.delay) || 0;
-        elData.breakpoint = !!item.breakpoint;
-        elData.extraAnims = Array.isArray(item.extraAnims) ? item.extraAnims.map((a, ai) => ({
-          id: a.id || `${elData.id}_anim_${ai}`,
-          x: Number(a.x) || 0,
-          y: Number(a.y) || 0,
-          opacity: Number(a.opacity) || 1,
-          scale: Number(a.scale) || 1,
-          delay: Number(a.delay) || 0,
-          locked: !!a.locked
-        })) : [];
-        elData.locked = !!item.locked;
-
-        // Reflect into wrapper inputs (if present)
-        const setVal = (sel, val) => {
-          const el = wrapper.querySelector(sel);
-          if (el != null) el.value = val;
-        };
-
-        setVal('.posX', elData.x);
-        setVal('.posY', elData.y);
-        setVal('.opacity', elData.opacity);
-        setVal('.scale', elData.scale);
-        setVal('.delay', elData.delay);
-
-        if (elData.type === 'image') {
-          setVal('.imgWidth', elData.width);
-          const fn = wrapper.querySelector('.fileNameDisplay');
-          if (fn) fn.textContent = elData.fileName || '';
-        } else if (elData.type === 'text') {
-          setVal('.fontSize', elData.fontSize);
-          const colorInp = wrapper.querySelector('.fontColor');
-          if (colorInp) colorInp.value = elData.color;
-          const txt = wrapper.querySelector('.textContent');
-          if (txt) txt.value = elData.text;
-        }
-
-        const bp = wrapper.querySelector('.breakpoint');
-        if (bp) bp.checked = elData.breakpoint;
-
-        // Lock UI inputs according to state
-        const lockBox = wrapper.querySelector('.lockPosition');
-        if (lockBox) lockBox.checked = elData.locked;
-        const posX = wrapper.querySelector('.posX');
-        const posY = wrapper.querySelector('.posY');
-        if (posX) posX.disabled = elData.locked;
-        if (posY) posY.disabled = elData.locked;
-
-        // Create preview element in canvas if needed
-        if (elData.type === 'image') {
-          if (elData.src) {
-            const previewImg = document.createElement('img');
-            previewImg.src = elData.src;
-            previewImg.id = elData.id;
-            previewImg.classList.add('preview');
-            previewArea.appendChild(previewImg);
-            elData.previewImg = previewImg;
-          } else {
-            elData.previewImg = null;
+        if (typeof data.isiContent !== 'undefined') {
+          window.isiContentHTML = data.isiContent || '';
+          if (window.quill && window.quill.root) {
+            try {
+              const delta = window.quill.clipboard.convert(window.isiContentHTML);
+              window.quill.setContents(delta, 'silent');
+            } catch (err) {
+              window.quill.root.innerHTML = window.isiContentHTML;
+            }
           }
-        } else if (elData.type === 'text') {
-          const previewTxt = document.createElement('div');
-          previewTxt.id = elData.id;
-          previewTxt.classList.add('preview', 'banner-text');
-          previewTxt.innerHTML = elData.text || '';
-          previewTxt.style.fontSize = (elData.fontSize || 14) + 'px';
-          previewTxt.style.color = elData.color || '#000';
-          previewArea.appendChild(previewTxt);
-          elData.previewImg = previewTxt;
         }
+        
+        // ==== Primary CTA restore
+        if (data.primaryCta && typeof data.primaryCta === 'object') {
+          const p = data.primaryCta;
+          const enableEl = document.getElementById('enablePrimaryCta');
+          const urlEl = document.getElementById('primaryCtaUrl');
+          const wEl = document.getElementById('primaryCtaWidth');
+          const hEl = document.getElementById('primaryCtaHeight');
 
-        // Rebuild extra animation control blocks
-        const extraContainer = wrapper.querySelector('.extra-anims');
-        extraContainer.innerHTML = '';
-        elData.extraAnims.forEach((anim, ai) => {
-          const animDiv = document.createElement('div');
-          animDiv.classList.add('exit-controls');
-          animDiv.innerHTML = `
-            <strong>Extra Animation ${ai + 1}</strong><br />
-            Position (Time): <input type="number" class="animDelay" step="0.1" value="${anim.delay}" />
-            X: <input type="number" class="animX" value="${anim.x}" />
-            Y: <input type="number" class="animY" value="${anim.y}" />
-            Opacity: <input type="number" class="animOpacity" step="0.1" value="${anim.opacity}" />
-            Scale: <input type="number" class="animScale" step="0.1" value="${anim.scale}" />
-            <label><input type="checkbox" class="lockExtraAnim" ${anim.locked ? 'checked' : ''}> 
-              <i class="fa-solid fa-lock"></i> Lock Animation</label><br />
-            <button class="removeAnim">Remove</button>
-          `;
-          extraContainer.appendChild(animDiv);
+          if (enableEl) enableEl.checked = !!p.enabled;
+          if (urlEl) urlEl.value = p.url || '';
+          if (wEl) wEl.value = (typeof p.width === 'number' && !isNaN(p.width)) ? p.width : (wEl.value || '');
+          if (hEl) hEl.value = (typeof p.height === 'number' && !isNaN(p.height)) ? p.height : (hEl.value || '');
 
-          // Select this anim on click
-          animDiv.addEventListener('click', (ev) => {
-            ev.stopPropagation();
-            activeDragTarget = { imgData: elData, animIndex: ai };
-            highlightPreview(elData.id);
-            highlightExtraAnim(wrapper, ai);
-            updatePreviewAndCode();
-            if (typeof renderLayers === 'function') renderLayers();
-          });
-
-          // Wire inputs to state
-          const bind = () => {
-            anim.delay = parseFloat(animDiv.querySelector('.animDelay').value) || 0;
-            anim.x = parseFloat(animDiv.querySelector('.animX').value) || 0;
-            anim.y = parseFloat(animDiv.querySelector('.animY').value) || 0;
-            anim.opacity = parseFloat(animDiv.querySelector('.animOpacity').value) || 0;
-            anim.scale = parseFloat(animDiv.querySelector('.animScale').value) || 1;
-            anim.locked = !!animDiv.querySelector('.lockExtraAnim').checked;
-
-            const xInput = animDiv.querySelector('.animX');
-            const yInput = animDiv.querySelector('.animY');
-            xInput.disabled = anim.locked;
-            yInput.disabled = anim.locked;
-
-            updatePreviewAndCode();
-            if (typeof renderLayers === 'function') renderLayers();
+          window.primaryCta = {
+            enabled: !!p.enabled,
+            url: p.url || '',
+            width: typeof p.width === 'number' ? p.width : null,
+            height: typeof p.height === 'number' ? p.height : null
           };
-          animDiv.querySelectorAll('input').forEach(input => input.addEventListener('input', bind));
-          animDiv.querySelector('.lockExtraAnim').addEventListener('change', bind);
+        } else {
+          const enableEl = document.getElementById('enablePrimaryCta');
+          const urlEl = document.getElementById('primaryCtaUrl');
+          const wEl = document.getElementById('primaryCtaWidth');
+          const hEl = document.getElementById('primaryCtaHeight');
+          if (enableEl) enableEl.checked = false;
+          if (urlEl) urlEl.value = '';
+          if (wEl) wEl.value = '';
+          if (hEl) hEl.value = '';
+          window.primaryCta = { enabled: false, url: '', width: null, height: null };
+        }
+        
+        // ==== Reset UI state
+        imageList.length = 0;
+        const controlsEl = document.getElementById('controls');
+        if (controlsEl) controlsEl.innerHTML = '';
+        previewArea.innerHTML = '';
 
-          // Remove anim
-          animDiv.querySelector('.removeAnim').addEventListener('click', (ev) => {
-            ev.stopPropagation();
-            elData.extraAnims.splice(ai, 1);
-            extraContainer.removeChild(animDiv);
-            updatePreviewAndCode();
-            if (typeof renderLayers === 'function') renderLayers();
-          });
+        const existingIsiStyle = document.getElementById('isi-style-tag');
+        if (existingIsiStyle) existingIsiStyle.remove();
+
+        // ==== Rebuild images & controls
+        data.images.forEach((item, index) => {
+          if (item.type === 'text') {
+            createTextControlBlock(index);
+          } else {
+            createControlBlock(index);
+          }
+
+          const elData = imageList[index];
+          const wrapper = elData.wrapper;
+
+          // Assign fields...
+          elData.id = item.id || elData.id;
+          elData.type = item.type || elData.type || 'image';
+          elData.layerName = item.layerName || '';
+          elData.visible = (typeof item.visible === 'boolean') ? item.visible : true;
+          elData.preset = item.preset || 'custom'; // NEW: Import preset
+          elData.fileName = item.fileName || elData.fileName || '';
+          elData.src = item.src || elData.src || '';
+          elData.text = item.text || elData.text || '';
+          elData.fontSize = typeof item.fontSize === 'number' ? item.fontSize : (elData.fontSize || 14);
+          elData.color = item.color || elData.color || '#000000';
+          elData.italic = !!item.italic;
+          elData.underline = !!item.underline;
+          elData.bold = !!item.bold;
+          elData.hasClickTag = !!item.hasClickTag;
+          elData.clickTagUrl = typeof item.clickTagUrl === 'string' ? (item.clickTagUrl || '') : '';
+          elData.x = typeof item.x === 'number' ? item.x : (elData.x || 0);
+          elData.y = typeof item.y === 'number' ? item.y : (elData.y || 0);
+          elData.width = typeof item.width !== 'undefined' ? item.width : elData.width;
+          elData.height = typeof item.height !== 'undefined' ? item.height : elData.height;
+          elData.opacity = typeof item.opacity === 'number' ? item.opacity : (elData.opacity || 1);
+          elData.scale = typeof item.scale === 'number' ? item.scale : (elData.scale || 1);
+          elData.delay = typeof item.delay === 'number' ? item.delay : (elData.delay || 0);
+          elData.breakpoint = !!item.breakpoint;
+          elData.locked = !!item.locked;
+          elData.extraAnims = Array.isArray(item.extraAnims) ? item.extraAnims.map((a, ai) => ({
+            id: `${elData.id}_anim_${ai}`,
+            preset: a.preset || 'custom', // NEW: Import preset for extra anims
+            x: typeof a.x === 'number' ? a.x : 0,
+            y: typeof a.y === 'number' ? a.y : 0,
+            opacity: typeof a.opacity === 'number' ? a.opacity : 1,
+            scale: typeof a.scale === 'number' ? a.scale : 1,
+            delay: typeof a.delay === 'number' ? a.delay : 1,
+            locked: !!a.locked
+          })) : [];
+
+          // Update wrapper UI...
+          try {
+            const strong = wrapper.querySelector('strong');
+            if (strong) strong.textContent = elData.layerName || (elData.type === 'text' ? `Text ${index + 1}` : `Image ${index + 1}`);
+            
+            // NEW: Update preset UI
+            const presetSelect = wrapper.querySelector('.preset-select');
+            if(presetSelect) presetSelect.value = elData.preset;
+            const customControls = wrapper.querySelector('.custom-controls');
+            if(customControls) customControls.style.display = elData.preset === 'custom' ? 'block' : 'none';
+
+            const fn = wrapper.querySelector('.fileNameDisplay');
+            if (fn) fn.textContent = elData.fileName || '';
+            const posX = wrapper.querySelector('.posX');
+            if (posX) posX.value = elData.x;
+            const posY = wrapper.querySelector('.posY');
+            if (posY) posY.value = elData.y;
+            const widthInp = wrapper.querySelector('.imgWidth');
+            if (widthInp && typeof elData.width !== 'undefined') widthInp.value = elData.width;
+            const opacityInp = wrapper.querySelector('.opacity');
+            if (opacityInp) opacityInp.value = elData.opacity;
+            const scaleInp = wrapper.querySelector('.scale');
+            if (scaleInp) scaleInp.value = elData.scale;
+            const delayInp = wrapper.querySelector('.delay');
+            if (delayInp) delayInp.value = elData.delay;
+            const bp = wrapper.querySelector('.breakpoint');
+            if (bp) bp.checked = !!elData.breakpoint;
+            if (elData.type === 'text') {
+              const ta = wrapper.querySelector('.textContent');
+              if (ta) ta.value = elData.text || '';
+              const fontSizeInp = wrapper.querySelector('.fontSize');
+              if (fontSizeInp) fontSizeInp.value = elData.fontSize;
+              const colorInp = wrapper.querySelector('.fontColor');
+              if (colorInp) colorInp.value = elData.color || '#000000';
+              const italicCheckbox = wrapper.querySelector('.fontItalic');
+              const underlineCheckbox = wrapper.querySelector('.fontUnderline');
+              const boldCheckbox = wrapper.querySelector('.fontBold');
+              if (italicCheckbox) italicCheckbox.checked = !!elData.italic;
+              if (underlineCheckbox) underlineCheckbox.checked = !!elData.underline;
+              if (boldCheckbox) boldCheckbox.checked = !!elData.bold;
+              const txtWidthInput = wrapper.querySelector('.txtWidth');
+              if (typeof elData.width !== 'undefined') {
+                if (txtWidthInput) txtWidthInput.value = (elData.width === 'auto' ? '' : elData.width);
+              } else {
+                if (txtWidthInput) txtWidthInput.value = (elData.width || 200);
+              }
+            }
+          } catch (err) { console.warn('Failed to update wrapper controls for imported element', err); }
+
+          // Build preview node...
+          if (elData.type === 'image') {
+            if (elData.src) {
+              const img = document.createElement('img');
+              img.src = elData.src; img.id = elData.id; img.classList.add('preview');
+              img.style.position = 'absolute';
+              if (typeof elData.width !== 'undefined') img.style.width = (elData.width === 'auto' ? 'auto' : elData.width + 'px');
+              if (typeof elData.height !== 'undefined' && elData.height !== 'auto') img.style.height = (elData.height + 'px');
+              previewArea.appendChild(img);
+              elData.previewImg = img;
+            }
+          } else if (elData.type === 'text') {
+            const textEl = document.createElement('div');
+            textEl.className = 'banner-text preview'; textEl.id = elData.id;
+            textEl.textContent = elData.text || ''; textEl.style.position = 'absolute';
+            textEl.style.left = (elData.x || 0) + 'px'; textEl.style.top = (elData.y || 0) + 'px';
+            textEl.style.fontSize = (elData.fontSize || 14) + 'px'; textEl.style.color = elData.color || '#000';
+            textEl.style.fontStyle = elData.italic ? 'italic' : 'normal';
+            textEl.style.textDecoration = elData.underline ? 'underline' : 'none';
+            textEl.style.fontWeight = elData.bold ? 'bold' : 'normal';
+            if (typeof elData.width !== 'undefined' && elData.width !== null && elData.width !== 'auto') {
+              textEl.style.width = (Number(elData.width) || 0) + 'px';
+            } else if (elData.width === 'auto') { textEl.style.width = 'auto'; } else { textEl.style.width = (elData.width || 200) + 'px'; }
+            textEl.style.wordWrap = 'break-word';
+            previewArea.appendChild(textEl);
+            elData.previewImg = textEl;
+          }
+
+          // Build extra anim controls...
+          // This now needs to be handled by rebuildExtraAnimBlocks to correctly create the preset UI
+          if(typeof rebuildExtraAnimBlocks === 'function') {
+              rebuildExtraAnimBlocks(wrapper, elData);
+          }
+          
+
+          // Click-tag UI restoration...
+          try {
+            if (typeof ensureClickTagUI === 'function') ensureClickTagUI(wrapper, elData);
+            if (elData.hasClickTag) {
+              if (typeof createClickTagForm === 'function') {
+                createClickTagForm(wrapper, elData);
+                wrapper.classList.add('layer-has-clicktag');
+              } else { elData.hasClickTag = true; }
+            } else { wrapper.classList.remove('layer-has-clicktag'); }
+          } catch (err) { console.warn('Click-tag restore skipped for', elData.id, err); }
+          
+          if (typeof renderLayers === 'function') renderLayers();
         });
 
-        // Keep layers UI updated for each element added
+        // Final rebuild of preview/code
+        if (typeof updatePreviewAndCode === 'function') updatePreviewAndCode();
+        if (document.getElementById('enableIsiCheckbox').checked && typeof initIsiScroll === 'function') {
+          setTimeout(initIsiScroll, 10);
+        }
         if (typeof renderLayers === 'function') renderLayers();
-      });
 
-      // Final rebuild of preview/code
-      if (typeof updatePreviewAndCode === 'function') updatePreviewAndCode();
-
-      // If JSON enabled ISI, initialize scroll exactly like the UI toggle
-      if (document.getElementById('enableIsiCheckbox').checked && typeof initIsiScroll === 'function') {
-        setTimeout(initIsiScroll, 10);
+      } catch (err) {
+        alert("Failed to import JSON: " + err.message);
       }
-
-      // Ensure layers are up to date at end as well
-      if (typeof renderLayers === 'function') renderLayers();
-
-    } catch (err) {
-      alert("Failed to import JSON: " + err.message);
-    }
-  };
-  reader.readAsText(file);
-});
+    };
+    reader.readAsText(file);
+  });
+}

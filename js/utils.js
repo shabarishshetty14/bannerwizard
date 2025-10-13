@@ -3,6 +3,15 @@
 ------------------------------ */
 let imageList = [];
 
+// NEW: Centralized state for the ISI container
+window.isiState = {
+  enabled: false,
+  x: 0,
+  y: 180,
+  width: 299,
+  height: 69
+};
+
 let activeDragTarget = {
   imgData: null,
   animIndex: null // null = base, 0+ = extraAnims
@@ -17,6 +26,58 @@ previewArea.appendChild(labelElement);
 /* -----------------------------
    Helper Functions
 ------------------------------ */
+
+/**
+ * Maps a preset name to GSAP `from` values. The `to` values are derived from the element's state.
+ * @param {string} presetName - The name of the preset (e.g., 'fadeIn').
+ * @param {object} el - The element data object from imageList.
+ * @returns {object|null} - GSAP-compatible `from` object or null for 'custom'.
+ */
+function getPresetGsap(presetName, el) {
+    const { width: bannerW, height: bannerH } = typeof getCurrentBannerSize === 'function' ? getCurrentBannerSize() : { width: 300, height: 250 };
+    const from = {};
+
+    // CORRECTED: Ensure width/height are numeric for calculations, providing a fallback.
+    const numericWidth = parseInt(el.width);
+    const fallbackWidth = isNaN(numericWidth) ? 200 : numericWidth; // Default to 200 if width is 'auto' or invalid
+
+    const numericHeight = parseInt(el.height);
+    const fallbackHeight = isNaN(numericHeight) ? 100 : numericHeight; // Default to 100 if height is 'auto' or invalid
+
+
+    switch (presetName) {
+        case 'fadeIn':
+            from.opacity = 0;
+            break;
+        case 'slideInLeft':
+            from.x = - (el.x + fallbackWidth); // Start fully off-screen left
+            break;
+        case 'slideInRight':
+            from.x = bannerW; // Start fully off-screen right
+            break;
+        case 'slideInTop':
+            from.y = - (el.y + fallbackHeight); // Start fully off-screen top
+            break;
+        case 'slideInBottom':
+            from.y = bannerH; // Start fully off-screen bottom
+            break;
+        case 'zoomIn':
+            from.scale = 0;
+            from.opacity = 0;
+            break;
+        case 'bounce':
+            from.y = -300; // Start high above the stage
+            from.ease = 'bounce.out'; // This will be applied to the 'to' tween
+            break;
+        case 'pulse': // Special case, returns a 'to' object
+             return { scale: '+=0.1', yoyo: true, repeat: 1, duration: 0.5 };
+        // NOTE: fadeOut and zoomOut are handled directly in the animation logic, not here.
+        default: // custom
+            return null;
+    }
+    return from;
+}
+
 
 /**
  * Clamp a number between min and max.
@@ -185,6 +246,7 @@ function setElementId(imgData, newId) {
 }
 
 // expose utils to other modules (they are global functions in this simple app)
+window.getPresetGsap = getPresetGsap; // NEW
 window.sanitizeId = sanitizeId;
 window.ensureUniqueId = ensureUniqueId;
 window.setElementId = setElementId;

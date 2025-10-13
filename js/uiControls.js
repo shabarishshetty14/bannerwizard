@@ -1,12 +1,61 @@
 /* -----------------------------
    UI Controls: Create and Manage Image Blocks + Text Blocks
    (Extra-animation lock moved to Layers icons; no lock checkbox in control blocks)
+   UPDATED: added Remove button for base Image/Text, reindexing after removal,
+   and text element style toggles: italic, underline, bold.
+   NEW: per-layer click tag UI & model fields (hasClickTag, clickTagUrl)
+   NEW: Animation presets dropdown
+   MODIFIED: Preset dropdowns for extra animations are now dynamic, enforcing an in/out sequence.
 ------------------------------ */
 
 /* NOTE: this file expects utils.js to expose:
    sanitizeId, ensureUniqueId, setElementId, imageList, activeDragTarget, previewArea,
    updatePreviewAndCode, renderLayers (renderLayers defined below)
 */
+
+
+/**
+ * Helper to generate the HTML for preset animation options.
+ * MODIFIED: Now accepts a context to filter for "in" or "out" animations.
+ * @param {string} context - 'all', 'require-in', or 'require-out'.
+ * @returns {string} HTML string of <option> elements.
+ */
+function getPresetOptionsHTML(context = 'all') {
+    const neutralOptions = `
+        <option value="custom">Custom</option>
+        <option value="pulse">Pulse</option>
+    `;
+
+    const inOptions = `
+        <option value="fadeIn">Fade In</option>
+        <option value="slideInLeft">Slide In From Left</option>
+        <option value="slideInRight">Slide In From Right</option>
+        <option value="slideInTop">Slide In From Top</option>
+        <option value="slideInBottom">Slide In From Bottom</option>
+        <option value="zoomIn">Zoom In</option>
+        <option value="bounce">Bounce In</option>
+    `;
+
+    const outOptions = `
+        <option value="fadeOut">Fade Out</option>
+        <option value="zoomOut">Zoom Out</option>
+        <option value="slideOutLeft">Slide Out To Left</option>
+        <option value="slideOutRight">Slide Out To Right</option>
+        <option value="slideOutTop">Slide Out To Top</option>
+        <option value="slideOutBottom">Slide Out To Bottom</option>
+    `;
+
+    switch (context) {
+        case 'require-in':
+            return neutralOptions + inOptions;
+        case 'require-out':
+            return neutralOptions + outOptions;
+        case 'all':
+        default:
+            return neutralOptions + inOptions + outOptions;
+    }
+}
+
 
 /* -----------------------------
    Helpers
@@ -29,7 +78,125 @@ function getSelectedLayerData() {
   return null;
 }
 
-/* ----------------------------- Helpers for locks/animation locks ------------------------------ */
+/* -----------------------------
+   Click Tag helpers (new)
+------------------------------ */
+
+const CLICKTAG_URL_RE = /^https?:\/\/.+/i;
+
+function createClickTagForm(wrapper, imgData) {
+  // find container
+  let container = wrapper.querySelector('.click-tag-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.className = 'click-tag-container';
+    wrapper.appendChild(container);
+  }
+  container.innerHTML = ''; // clear
+
+  const form = document.createElement('div');
+  form.className = 'click-tag-form';
+  form.innerHTML = `
+    <input type="text" class="clickTagUrlInput" placeholder="https://example.com" />
+    <button type="button" class="save-clicktag"><i class="fa-solid fa-check"></i></button>
+    <button type="button" class="remove-clicktag" title="Remove click tag"><i class="fa-solid fa-trash"></i></button>
+  `;
+
+  container.appendChild(form);
+
+  const urlInput = form.querySelector('.clickTagUrlInput');
+  const saveBtn = form.querySelector('.save-clicktag');
+  const removeBtn = form.querySelector('.remove-clicktag');
+
+  // prefill if present
+  urlInput.value = imgData.clickTagUrl || '';
+
+  saveBtn.addEventListener('click', (ev) => {
+    ev.stopPropagation();
+    const val = urlInput.value.trim();
+    if (!val) {
+      alert('Please enter a URL starting with http:// or https:// or click Remove to clear.');
+      return;
+    }
+    if (!CLICKTAG_URL_RE.test(val)) {
+      alert('URL must start with http:// or https://');
+      return;
+    }
+    imgData.hasClickTag = true;
+    imgData.clickTagUrl = val;
+    // visual marker
+    wrapper.classList.add('layer-has-clicktag');
+    updatePreviewAndCode();
+    renderLayers();
+  });
+
+  removeBtn.addEventListener('click', (ev) => {
+    ev.stopPropagation();
+    imgData.hasClickTag = false;
+    imgData.clickTagUrl = '';
+    // remove form entirely and hide container
+    if (container && container.parentNode) {
+      container.parentNode.removeChild(container);
+    }
+    // remove visual marker on wrapper if exists
+    wrapper.classList.remove('layer-has-clicktag');
+    updatePreviewAndCode();
+    renderLayers();
+  });
+}
+
+/**
+ * ensureClickTagUI(wrapper, imgData)
+ * - Creates "Add Click Tag" button if not present and sets up behavior.
+ */
+function ensureClickTagUI(wrapper, imgData) {
+  // add area for click-tag controls near bottom of wrapper
+  let ctl = wrapper.querySelector('.click-tag-ctl');
+  if (!ctl) {
+    ctl = document.createElement('div');
+    ctl.className = 'click-tag-ctl';
+    ctl.style.marginTop = '8px';
+    wrapper.appendChild(ctl);
+  }
+
+  // If button already there, skip adding duplicate
+  if (!ctl.querySelector('.addClickTag')) {
+    const addBtn = document.createElement('button');
+    addBtn.type = 'button';
+    addBtn.className = 'addClickTag';
+    addBtn.textContent = imgData.hasClickTag ? 'Edit Click Tag' : 'Add Click Tag';
+    addBtn.style.marginRight = '8px';
+
+    addBtn.addEventListener('click', (ev) => {
+      ev.stopPropagation();
+      // Toggle/show the clickTag form
+      const existing = wrapper.querySelector('.click-tag-container');
+      if (existing) {
+        // toggle visibility: remove if visible
+        existing.parentNode.removeChild(existing);
+        addBtn.textContent = imgData.hasClickTag ? 'Edit Click Tag' : 'Add Click Tag';
+        return;
+      }
+      // create form and open
+      createClickTagForm(wrapper, imgData);
+      addBtn.textContent = 'Close';
+      // ensure the input is focused
+      setTimeout(() => {
+        const inp = wrapper.querySelector('.clickTagUrlInput');
+        if (inp) inp.focus();
+      }, 30);
+    });
+
+    ctl.appendChild(addBtn);
+  }
+
+  // add hidden visual marker for hasClickTag (class applied when active)
+  if (imgData.hasClickTag) wrapper.classList.add('layer-has-clicktag');
+  else wrapper.classList.remove('layer-has-clicktag');
+}
+
+/* -----------------------------
+   Helpers for locks/animation locks ------------------------------ */
 
 function applyLockStateToWrapper(imgData) {
   if (!imgData || !imgData.wrapper) return;
@@ -74,16 +241,89 @@ function applyAllAnimLocksForWrapper(imgData) {
 }
 
 /* -----------------------------
+   Removal / Reindex helpers
+------------------------------ */
+
+/**
+ * removeLayerAtIndex(index)
+ * - remove model from imageList, preview, wrapper DOM
+ * - reindex remaining layers for friendly names and anim ids
+ * - preserve preview DOM ids (don't rename) to avoid breaking exports
+ */
+function removeLayerAtIndex(index) {
+  if (typeof index !== 'number' || index < 0 || index >= imageList.length) return;
+
+  const removed = imageList.splice(index, 1)[0];
+  if (!removed) return;
+
+  // remove preview node if present
+  try {
+    if (removed.previewImg && removed.previewImg.parentNode === previewArea) {
+      previewArea.removeChild(removed.previewImg);
+    }
+  } catch (err) {}
+
+  // remove wrapper DOM
+  try {
+    if (removed.wrapper && removed.wrapper.parentNode) {
+      removed.wrapper.parentNode.removeChild(removed.wrapper);
+    }
+  } catch (err) {}
+
+  // if selection pointed to removed item, move selection to nearest item
+  if (activeDragTarget && activeDragTarget.imgData === removed) {
+    const newSelection = imageList[index] || imageList[index - 1] || null;
+    activeDragTarget = newSelection ? { imgData: newSelection, animIndex: null } : { imgData: null, animIndex: null };
+  }
+
+  // reindex friendly names and rebuild extra anim ids/DOM
+  reindexAfterRemoval();
+
+  // re-render layers and preview code
+  renderLayers();
+  updatePreviewAndCode();
+}
+
+/**
+ * reindexAfterRemoval()
+ * - updates layerName, wrapper strong label, wrapper.dataset.imgId (keeps imageData.id unchanged)
+ * - regenerates anim.id values to follow the pattern `${imageData.id}_anim_<i>`
+ * - rebuilds extra animations DOM so labels and inputs are sequential
+ */
+function reindexAfterRemoval() {
+  for (let i = 0; i < imageList.length; i++) {
+    const img = imageList[i];
+
+    // Friendly layer name: keep "Image N" / "Text N"
+    const friendly = img.type === 'text' ? `Text ${i + 1}` : `Image ${i + 1}`;
+    img.layerName = friendly;
+
+    // Update wrapper header and dataset
+    if (img.wrapper) {
+      try {
+        const strong = img.wrapper.querySelector('strong');
+        if (strong) strong.textContent = friendly;
+        // keep wrapper.dataset.imgId mapped to img.id (not renumbered)
+        img.wrapper.dataset.imgId = img.id;
+      } catch (e) {}
+    }
+
+    // Re-generate extra anim ids and rebuild controls
+    if (Array.isArray(img.extraAnims)) {
+      img.extraAnims.forEach((anim, ai) => {
+        anim.id = `${img.id}_anim_${ai}`;
+      });
+      if (img.wrapper) rebuildExtraAnimBlocks(img.wrapper, img);
+    }
+  }
+}
+
+/* -----------------------------
    Duplicate functionality
    - duplicateLayer(img) duplicates the given model
    - global duplicate button (#duplicateLayerBtn) will duplicate currently selected layer
 ------------------------------ */
 
-/**
- * duplicateLayer(img)
- * - Duplicates the provided img/text data model into a new control block
- * - Copies properties, builds preview node, rebuilds extra anim controls
- */
 function duplicateLayer(img) {
   if (!img) return;
 
@@ -112,15 +352,25 @@ function duplicateLayer(img) {
 
   // Copy over fields (DO NOT overwrite newData.layerName produced by create*ControlBlock)
   newData.type = cloneModel.type;
-  // IMPORTANT: keep the newly created friendly name (Image N / Text N) so duplicates show sequential names.
-  // newData.layerName = newData.layerName || cloneModel.layerName; // <-- keep as is
   newData.visible = !!cloneModel.visible;
+  newData.preset = cloneModel.preset || 'custom'; // DUPLICATE PRESET
   newData.fileName = cloneModel.fileName || '';
   newData.src = cloneModel.src || '';
   newData.text = cloneModel.text || '';
   newData.fontFamily = cloneModel.fontFamily || newData.fontFamily;
   newData.fontSize = cloneModel.fontSize || newData.fontSize;
   newData.color = cloneModel.color || newData.color;
+
+  // new: copy italic/underline/bold flags for text
+  if (isText) {
+    newData.italic = !!cloneModel.italic;
+    newData.underline = !!cloneModel.underline;
+    newData.bold = !!cloneModel.bold;
+  }
+
+  // copy clickTag fields (new)
+  newData.hasClickTag = !!cloneModel.hasClickTag;
+  newData.clickTagUrl = cloneModel.clickTagUrl || '';
 
   newData.x = Number(cloneModel.x) || 0;
   newData.y = Number(cloneModel.y) || 0;
@@ -132,7 +382,7 @@ function duplicateLayer(img) {
   newData.breakpoint = !!cloneModel.breakpoint;
   newData.locked = false;
 
-  // assign id
+  // assign id (keeps preview DOM id consistent)
   setElementId(newData, newIdCandidate);
 
   // sync the control block header (<strong>) to the friendly layerName (Image N / Text N)
@@ -155,6 +405,13 @@ function duplicateLayer(img) {
   setVal('.scale', newData.scale);
   setVal('.delay', newData.delay);
 
+  // UPDATE UI FOR PRESET
+  const presetSelect = wrapper.querySelector('.preset-select');
+  const customControls = wrapper.querySelector('.custom-controls');
+  if (presetSelect) presetSelect.value = newData.preset;
+  if(customControls) customControls.style.display = newData.preset === 'custom' ? 'block' : 'none';
+
+
   if (isImage) {
     const fn = wrapper.querySelector('.fileNameDisplay');
     if (fn) fn.textContent = newData.fileName || '';
@@ -174,6 +431,17 @@ function duplicateLayer(img) {
     const col = wrapper.querySelector('.fontColor');
     if (col) col.value = cloneModel.color || newData.color;
 
+    // new: wire italic/underline/bold checkboxes for duplicate
+    const italicCheckbox = wrapper.querySelector('.fontItalic');
+    const underlineCheckbox = wrapper.querySelector('.fontUnderline');
+    const boldCheckbox = wrapper.querySelector('.fontBold');
+    newData.italic = !!cloneModel.italic;
+    newData.underline = !!cloneModel.underline;
+    newData.bold = !!cloneModel.bold;
+    if (italicCheckbox) italicCheckbox.checked = !!newData.italic;
+    if (underlineCheckbox) underlineCheckbox.checked = !!newData.underline;
+    if (boldCheckbox) boldCheckbox.checked = !!newData.bold;
+
     const textEl = document.createElement('div');
     textEl.className = 'banner-text preview';
     textEl.id = newData.id;
@@ -182,6 +450,9 @@ function duplicateLayer(img) {
     textEl.style.top = (newData.y || 0) + 'px';
     textEl.style.fontSize = (newData.fontSize || cloneModel.fontSize || 14) + 'px';
     textEl.style.color = cloneModel.color || '#000';
+    textEl.style.fontStyle = newData.italic ? 'italic' : 'normal';
+    textEl.style.textDecoration = newData.underline ? 'underline' : 'none';
+    textEl.style.fontWeight = newData.bold ? 'bold' : 'normal';
     previewArea.appendChild(textEl);
     newData.previewImg = textEl;
   }
@@ -190,6 +461,7 @@ function duplicateLayer(img) {
   newData.extraAnims = Array.isArray(cloneModel.extraAnims) ? cloneModel.extraAnims.map((a, i) => {
     return {
       id: `${newData.id}_anim_${i}`,
+      preset: a.preset || 'custom', // DUPLICATE PRESET FOR EXTRA ANIMS
       x: Number(a.x) || 0,
       y: Number(a.y) || 0,
       opacity: typeof a.opacity === 'number' ? a.opacity : 1,
@@ -199,59 +471,21 @@ function duplicateLayer(img) {
     };
   }) : [];
 
-  const extraContainer = wrapper.querySelector('.extra-anims');
-  if (extraContainer) {
-    extraContainer.innerHTML = '';
-    newData.extraAnims.forEach((anim, ai) => {
-      const animDiv = document.createElement('div');
-      animDiv.classList.add('exit-controls');
-      animDiv.innerHTML = `
-        <strong>Extra Animation ${ai + 1}</strong><br />
-        X: <input type="number" class="animX" value="${anim.x}" />
-        Y: <input type="number" class="animY" value="${anim.y}" />
-        Opacity: <input type="number" class="animOpacity" step="0.1" value="${anim.opacity}" />
-        Scale: <input type="number" class="animScale" step="0.1" value="${anim.scale}" />
-        Position (Time): <input type="number" class="animDelay" step="0.1" value="${anim.delay}" /> <br />
-        <button class="removeAnim">Remove</button>
-      `;
-      extraContainer.appendChild(animDiv);
+  rebuildExtraAnimBlocks(wrapper, newData); // This will now build the UI with presets
 
-      animDiv.addEventListener('click', (ev) => {
-        ev.stopPropagation();
-        activeDragTarget = { imgData: newData, animIndex: ai };
-        highlightPreview(newData.id);
-        highlightExtraAnim(wrapper, ai);
-        updatePreviewAndCode();
-        renderLayers();
-      });
-
-      const bindAnim = () => {
-        anim.x = parseFloat(animDiv.querySelector('.animX').value) || 0;
-        anim.y = parseFloat(animDiv.querySelector('.animY').value) || 0;
-        anim.opacity = parseFloat(animDiv.querySelector('.animOpacity').value) || 1;
-        anim.scale = parseFloat(animDiv.querySelector('.animScale').value) || 1;
-        anim.delay = parseFloat(animDiv.querySelector('.animDelay').value) || 0;
-        updatePreviewAndCode();
-        renderLayers();
-      };
-      animDiv.querySelectorAll('input').forEach(inp => inp.addEventListener('input', bindAnim));
-
-      animDiv.querySelector('.removeAnim').addEventListener('click', (ev) => {
-        ev.stopPropagation();
-        newData.extraAnims.splice(ai, 1);
-        extraContainer.removeChild(animDiv);
-        rebuildExtraAnimBlocks(wrapper, newData);
-        updatePreviewAndCode();
-        renderLayers();
-      });
-    });
-  }
 
   const bp = wrapper.querySelector('.breakpoint');
   if (bp) bp.checked = !!newData.breakpoint;
 
   applyLockStateToWrapper(newData);
   applyAllAnimLocksForWrapper(newData);
+
+  // ensure click-tag UI exists and reflects copied clickTag state
+  ensureClickTagUI(wrapper, newData);
+  if (newData.hasClickTag) {
+    // create form with existing url
+    createClickTagForm(wrapper, newData);
+  }
 
   renderLayers();
   updatePreviewAndCode();
@@ -260,7 +494,7 @@ function duplicateLayer(img) {
   highlightPreview(newData.id);
   renderLayers();
 
-  try { newData.wrapper.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch(e) {}
+  try { newData.wrapper.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) {}
 }
 
 
@@ -297,16 +531,34 @@ function createControlBlock(index) {
     <strong>Image ${index + 1}</strong>
     <input type="file" class="imageUpload" accept="image/*" />
     <span class="fileNameDisplay" style="font-size: 13px; color: #555; margin-left: 8px;"></span><br />
-    <div class="coords">
-      <label>X: <input type="number" class="posX" value="0" /></label>
-      <label>Y: <input type="number" class="posY" value="0" /></label>
+
+    <div class="animation-controls" style="margin-top: 8px;">
+        <label>Animation Preset:
+            <select class="preset-select" style="width: 100%; margin-top: 4px; margin-bottom: 8px;">
+                ${getPresetOptionsHTML('all')}
+            </select>
+        </label>
+
+        <div class="custom-controls">
+            <div class="coords">
+              <label>X: <input type="number" class="posX" value="0" /></label>
+              <label>Y: <input type="number" class="posY" value="0" /></label>
+            </div>
+            Width: <input type="number" class="imgWidth" value="100" />
+            Opacity: <input type="number" class="opacity" step="0.1" value="1" />
+            Scale: <input type="number" class="scale" step="0.1" value="1" />
+        </div>
+        Position (Time): <input type="number" class="delay" step="0.1" value="0" /> <br />
     </div>
-    Width: <input type="number" class="imgWidth" value="100" />
-    Opacity: <input type="number" class="opacity" step="0.1" value="1" />
-    Scale: <input type="number" class="scale" step="0.1" value="1" />
-    Position (Time): <input type="number" class="delay" step="0.1" value="0" /> <br />
-    <button class="addExtraAnim">+ Add Extra Animation</button>
+
+    <div style="display:flex;gap:8px;margin-top:8px;">
+      <button class="addExtraAnim">+ Add Extra Animation</button>
+      <button class="removeBase">Remove</button>
+    </div>
     <div class="extra-anims"></div>
+    <!-- click tag controls -->
+    <div class="click-tag-ctl"></div>
+    <div class="click-tag-container"></div>
   `;
   controls.appendChild(wrapper);
 
@@ -315,6 +567,7 @@ function createControlBlock(index) {
     type: 'image',
     layerName: `Image ${index + 1}`,
     visible: true,
+    preset: 'custom', // NEW: Default preset
 
     fileName: '',
     src: '',
@@ -328,10 +581,30 @@ function createControlBlock(index) {
     previewImg: null,
     breakpoint: false,
     locked: false,
-    wrapper
+    wrapper,
+
+    // click-tag fields (new)
+    hasClickTag: false,
+    clickTagUrl: ''
   };
 
   imageList.push(imageData);
+
+  const presetSelect = wrapper.querySelector('.preset-select');
+  const customControls = wrapper.querySelector('.custom-controls');
+
+  presetSelect.addEventListener('change', () => {
+    imageData.preset = presetSelect.value;
+    customControls.style.display = imageData.preset === 'custom' ? 'block' : 'none';
+    // When base preset changes, must rebuild extra anims to update their options
+    rebuildExtraAnimBlocks(wrapper, imageData);
+    updatePreviewAndCode();
+    renderLayers();
+  });
+
+
+  // ensure click-tag UI exists
+  ensureClickTagUI(wrapper, imageData);
 
   // Select this block when clicked
   wrapper.addEventListener('click', () => {
@@ -361,27 +634,26 @@ function createControlBlock(index) {
     input.addEventListener('input', updateFromInputs);
   });
 
-  // Extra animations container
-  const extraContainer = wrapper.querySelector('.extra-anims');
+  // Remove base control handler (NEW)
+  const removeBtn = wrapper.querySelector('.removeBase');
+  removeBtn.addEventListener('click', (ev) => {
+    ev.stopPropagation();
+    const idx = imageList.indexOf(imageData);
+    if (idx === -1) return;
+    if (!confirm(`Remove ${imageData.layerName || imageData.id || 'this layer'}?`)) return;
+    removeLayerAtIndex(idx);
+  });
 
   // Add extra animation
   wrapper.querySelector('.addExtraAnim').addEventListener('click', (e) => {
     e.stopPropagation();
     const animIndex = imageData.extraAnims.length;
-    const anim = { id: `${imageData.id}_anim_${animIndex}`, x: 0, y: 0, opacity: 1, delay: 1, scale: 1, locked: false };
+    const anim = { id: `${imageData.id}_anim_${animIndex}`, preset: 'custom', x: 0, y: 0, opacity: 1, delay: 1, scale: 1, locked: false };
 
     // Lock previous animations
     imageData.extraAnims.forEach((prevAnim, i) => {
       prevAnim.locked = true;
-      // reflect into existing DOM controls
-      const prevDiv = wrapper.querySelectorAll('.extra-anims .exit-controls')[i];
-      if (prevDiv) {
-        const xInput = prevDiv.querySelector('.animX');
-        const yInput = prevDiv.querySelector('.animY');
-        if (xInput) xInput.disabled = true;
-        if (yInput) yInput.disabled = true;
-        prevDiv.classList.add('anim-locked');
-      }
+      applyAnimLockStateToWrapper(imageData, i);
     });
 
     imageData.extraAnims.push(anim);
@@ -390,60 +662,7 @@ function createControlBlock(index) {
     imageData.locked = true;
     applyLockStateToWrapper(imageData);
 
-    const animDiv = document.createElement('div');
-    animDiv.classList.add('exit-controls');
-    animDiv.innerHTML = `
-      <strong>Extra Animation ${animIndex + 1}</strong><br />
-      X: <input type="number" class="animX" value="0" />
-      Y: <input type="number" class="animY" value="0" />
-      Opacity: <input type="number" class="animOpacity" step="0.1" value="1" />
-      Scale: <input type="number" class="animScale" step="0.1" value="1" />
-      Position (Time): <input type="number" class="animDelay" step="0.1" value="1" /> <br />
-      <button class="removeAnim">Remove</button>
-    `;
-    extraContainer.appendChild(animDiv);
-
-    // Click to select this extra animation
-    animDiv.addEventListener('click', (ev) => {
-      ev.stopPropagation();
-      activeDragTarget = { imgData: imageData, animIndex: animIndex };
-      highlightPreview(imageData.id);
-      highlightExtraAnim(wrapper, animIndex);
-      updatePreviewAndCode();
-      renderLayers();
-    });
-
-    // Update animation inputs
-    const updateAnim = () => {
-      anim.delay = parseFloat(animDiv.querySelector('.animDelay').value) || 0;
-      anim.x = parseFloat(animDiv.querySelector('.animX').value) || 0;
-      anim.y = parseFloat(animDiv.querySelector('.animY').value) || 0;
-      anim.opacity = parseFloat(animDiv.querySelector('.animOpacity').value) || 0;
-      anim.scale = parseFloat(animDiv.querySelector('.animScale').value) || 1;
-
-      // If an animation was locked via layers icon, ensure its inputs stay disabled
-      applyAnimLockStateToWrapper(imageData, animIndex);
-
-      updatePreviewAndCode();
-      renderLayers();
-    };
-
-    animDiv.querySelectorAll('input').forEach(input => input.addEventListener('input', updateAnim));
-
-    // Remove animation
-    animDiv.querySelector('.removeAnim').addEventListener('click', (ev) => {
-      ev.stopPropagation();
-      const removed = imageData.extraAnims.splice(animIndex, 1);
-      if (removed) {
-        extraContainer.removeChild(animDiv);
-        rebuildExtraAnimBlocks(wrapper, imageData);
-        updatePreviewAndCode();
-        renderLayers();
-      }
-    });
-
-    // ensure newly created anim inputs are set based on anim.locked (likely false)
-    applyAnimLockStateToWrapper(imageData, animIndex);
+    rebuildExtraAnimBlocks(wrapper, imageData);
 
     updatePreviewAndCode();
     renderLayers();
@@ -491,11 +710,12 @@ function createControlBlock(index) {
 
 /* -------------------------------------------------------
    Text control block (new)
+   - includes Remove button for base text
+   - supports italic, underline & bold
 --------------------------------------------------------- */
 function createTextControlBlock(index) {
   const controls = document.getElementById('controls');
 
-  // initial candidate id
   const baseId = `text${index + 1}`;
 
   const wrapper = document.createElement('div');
@@ -506,22 +726,53 @@ function createTextControlBlock(index) {
     <div style="margin-top:8px;">
       <textarea class="textContent" rows="2" placeholder="Enter text..."></textarea>
     </div>
-    <div style="margin-top:8px;">
-      <label>Font Size: <input type="number" class="fontSize" value="14" /></label>
-      <label>Color: <input type="color" class="fontColor" value="#000000" /></label>
+    <div style="margin-top:8px; display:flex; gap:12px; align-items:center;">
+      <label style="display:flex; gap:6px; align-items:center;">
+        Font Size: <input type="number" class="fontSize" value="14" style="width:72px;" />
+      </label>
+      <label style="display:flex; gap:6px; align-items:center;">
+        Color: <input type="color" class="fontColor" value="#000000" />
+      </label>
+      <label style="display:flex; gap:6px; align-items:center; margin-left:8px;">
+        <input type="checkbox" class="fontItalic" /> <small>Italic</small>
+      </label>
+      <label style="display:flex; gap:6px; align-items:center;">
+        <input type="checkbox" class="fontUnderline" /> <small>Underline</small>
+      </label>
+      <label style="display:flex; gap:6px; align-items:center;">
+        <input type="checkbox" class="fontBold" /> <small>Bold</small>
+      </label>
     </div>
 
-    <div class="coords" style="margin-top:8px;">
-      <label>X: <input type="number" class="posX" value="0" /></label>
-      <label>Y: <input type="number" class="posY" value="0" /></label>
+    <div class="animation-controls" style="margin-top:8px;">
+      <label>Animation Preset:
+          <select class="preset-select" style="width: 100%; margin-top: 4px; margin-bottom: 8px;">
+              ${getPresetOptionsHTML('all')}
+          </select>
+      </label>
+
+      <div class="custom-controls">
+        <div class="coords">
+          <label>X: <input type="number" class="posX" value="0" /></label>
+          <label>Y: <input type="number" class="posY" value="0" /></label>
+        </div>
+        Width: <input type="number" class="txtWidth" value="200" />
+        Opacity: <input type="number" class="opacity" step="0.1" value="1" />
+        Scale: <input type="number" class="scale" step="0.1" value="1" />
+      </div>
+      Position (Time): <input type="number" class="delay" step="0.1" value="0" /> <br />
     </div>
 
-    Opacity: <input type="number" class="opacity" step="0.1" value="1" />
-    Scale: <input type="number" class="scale" step="0.1" value="1" />
-    Position (Time): <input type="number" class="delay" step="0.1" value="0" /> <br />
+    <div style="display:flex;gap:8px;margin-top:8px;">
+      <button class="addExtraAnim">+ Add Extra Animation</button>
+      <button class="removeBase">Remove</button>
+    </div>
 
-    <button class="addExtraAnim">+ Add Extra Animation</button>
     <div class="extra-anims"></div>
+
+    <!-- click tag controls -->
+    <div class="click-tag-ctl"></div>
+    <div class="click-tag-container"></div>
   `;
   controls.appendChild(wrapper);
 
@@ -530,14 +781,19 @@ function createTextControlBlock(index) {
     type: 'text',
     layerName: `Text ${index + 1}`,
     visible: true,
+    preset: 'custom', // NEW
 
     text: '',
     fontFamily: 'Arial, sans-serif',
     fontSize: 14,
     color: '#000000',
+    italic: false,
+    underline: false,
+    bold: false,
+    width: 200,
 
     x: 0, y: 0,
-    width: 'auto', height: 'auto',
+    height: 'auto',
     opacity: 1,
     scale: 1,
     delay: 0,
@@ -545,10 +801,46 @@ function createTextControlBlock(index) {
     previewImg: null,
     breakpoint: false,
     locked: false,
-    wrapper
+    wrapper,
+
+    hasClickTag: false,
+    clickTagUrl: ''
   };
 
   imageList.push(textData);
+
+  const presetSelect = wrapper.querySelector('.preset-select');
+  const customControls = wrapper.querySelector('.custom-controls');
+
+  presetSelect.addEventListener('change', () => {
+    textData.preset = presetSelect.value;
+    customControls.style.display = textData.preset === 'custom' ? 'block' : 'none';
+    // When base preset changes, must rebuild extra anims to update their options
+    rebuildExtraAnimBlocks(wrapper, textData);
+    updatePreviewAndCode();
+    renderLayers();
+  });
+
+  // ensure click-tag UI exists
+  ensureClickTagUI(wrapper, textData);
+
+  // Preview text element
+  const textEl = document.createElement('div');
+  textEl.className = 'banner-text preview';
+  textEl.id = textData.id;
+  textEl.textContent = '';
+  textEl.style.position = 'absolute';
+  textEl.style.left = '0px';
+  textEl.style.top = '0px';
+  textEl.style.fontSize = `${textData.fontSize}px`;
+  textEl.style.color = textData.color;
+  textEl.style.fontStyle = textData.italic ? 'italic' : 'normal';
+  textEl.style.textDecoration = textData.underline ? 'underline' : 'none';
+  textEl.style.fontWeight = textData.bold ? 'bold' : 'normal';
+  textEl.style.width = textData.width + 'px'; // NEW
+  textEl.style.wordWrap = 'break-word';
+  previewArea.appendChild(textEl);
+  textData.previewImg = textEl;
 
   // Select this block when clicked
   wrapper.addEventListener('click', () => {
@@ -559,92 +851,68 @@ function createTextControlBlock(index) {
     renderLayers();
   });
 
+  // Remove base control handler
+  wrapper.querySelector('.removeBase').addEventListener('click', (ev) => {
+    ev.stopPropagation();
+    const idx = imageList.indexOf(textData);
+    if (idx === -1) return;
+    if (!confirm(`Remove ${textData.layerName || textData.id || 'this layer'}?`)) return;
+    removeLayerAtIndex(idx);
+  });
+
   const updateFromInputs = () => {
     textData.text = wrapper.querySelector('.textContent').value || '';
     textData.fontSize = parseInt(wrapper.querySelector('.fontSize').value) || 14;
     textData.color = wrapper.querySelector('.fontColor').value || '#000000';
+    textData.italic = !!wrapper.querySelector('.fontItalic').checked;
+    textData.underline = !!wrapper.querySelector('.fontUnderline').checked;
+    textData.bold = !!wrapper.querySelector('.fontBold').checked;
+    textData.width = parseInt(wrapper.querySelector('.txtWidth').value) || 200; // NEW
+
     textData.x = parseInt(wrapper.querySelector('.posX').value) || 0;
     textData.y = parseInt(wrapper.querySelector('.posY').value) || 0;
     textData.opacity = parseFloat(wrapper.querySelector('.opacity').value) || 1;
     textData.scale = parseFloat(wrapper.querySelector('.scale').value) || 1;
     textData.delay = parseFloat(wrapper.querySelector('.delay').value) || 0;
+
+    if (textData.previewImg) {
+      const el = textData.previewImg;
+      el.textContent = textData.text;
+      el.style.fontSize = `${textData.fontSize}px`;
+      el.style.color = textData.color;
+      el.style.fontStyle = textData.italic ? 'italic' : 'normal';
+      el.style.textDecoration = textData.underline ? 'underline' : 'none';
+      el.style.fontWeight = textData.bold ? 'bold' : 'normal';
+      el.style.width = textData.width + 'px'; // NEW
+      el.style.left = textData.x + 'px';
+      el.style.top = textData.y + 'px';
+    }
+
     updatePreviewAndCode();
     renderLayers();
   };
 
   wrapper.querySelectorAll('input, textarea').forEach(input => input.addEventListener('input', updateFromInputs));
-
-  // Extra animations container
-  const extraContainer = wrapper.querySelector('.extra-anims');
+  wrapper.querySelectorAll('.fontItalic, .fontUnderline, .fontBold').forEach(cb => {
+    cb.addEventListener('change', updateFromInputs);
+  });
 
   wrapper.querySelector('.addExtraAnim').addEventListener('click', (e) => {
     e.stopPropagation();
     const animIndex = textData.extraAnims.length;
-    const anim = { id: `${textData.id}_anim_${animIndex}`, x: 0, y: 0, opacity: 1, delay: 1, scale: 1, locked: false };
+    const anim = { id: `${textData.id}_anim_${animIndex}`, preset: 'custom', x: 0, y: 0, opacity: 1, delay: 1, scale: 1, locked: false };
 
     textData.extraAnims.forEach((prevAnim, i) => {
       prevAnim.locked = true;
-      const prevDiv = wrapper.querySelectorAll('.extra-anims .exit-controls')[i];
-      if (prevDiv) {
-        const xInput = prevDiv.querySelector('.animX');
-        const yInput = prevDiv.querySelector('.animY');
-        if (xInput) xInput.disabled = true;
-        if (yInput) yInput.disabled = true;
-        prevDiv.classList.add('anim-locked');
-      }
+      applyAnimLockStateToWrapper(textData, i);
     });
 
     textData.extraAnims.push(anim);
     textData.locked = true;
     applyLockStateToWrapper(textData);
 
-    const animDiv = document.createElement('div');
-    animDiv.classList.add('exit-controls');
-    animDiv.innerHTML = `
-      <strong>Extra Animation ${animIndex + 1}</strong><br />
-      X: <input type="number" class="animX" value="0" />
-      Y: <input type="number" class="animY" value="0" />
-      Opacity: <input type="number" class="animOpacity" step="0.1" value="1" />
-      Scale: <input type="number" class="animScale" step="0.1" value="1" />
-      Position (Time): <input type="number" class="animDelay" step="0.1" value="1" /> <br />
-      <button class="removeAnim">Remove</button>
-    `;
-    extraContainer.appendChild(animDiv);
+    rebuildExtraAnimBlocks(wrapper, textData);
 
-    animDiv.addEventListener('click', (ev) => {
-      ev.stopPropagation();
-      activeDragTarget = { imgData: textData, animIndex: animIndex };
-      highlightPreview(textData.id);
-      highlightExtraAnim(wrapper, animIndex);
-      updatePreviewAndCode();
-      renderLayers();
-    });
-
-    const updateAnim = () => {
-      anim.delay = parseFloat(animDiv.querySelector('.animDelay').value) || 0;
-      anim.x = parseFloat(animDiv.querySelector('.animX').value) || 0;
-      anim.y = parseFloat(animDiv.querySelector('.animY').value) || 0;
-      anim.opacity = parseFloat(animDiv.querySelector('.animOpacity').value) || 0;
-      anim.scale = parseFloat(animDiv.querySelector('.animScale').value) || 1;
-
-      applyAnimLockStateToWrapper(textData, animIndex);
-
-      updatePreviewAndCode();
-      renderLayers();
-    };
-
-    animDiv.querySelectorAll('input').forEach(input => input.addEventListener('input', updateAnim));
-
-    animDiv.querySelector('.removeAnim').addEventListener('click', (ev) => {
-      ev.stopPropagation();
-      textData.extraAnims.splice(animIndex, 1);
-      extraContainer.removeChild(animDiv);
-      rebuildExtraAnimBlocks(wrapper, textData);
-      updatePreviewAndCode();
-      renderLayers();
-    });
-
-    applyAnimLockStateToWrapper(textData, animIndex);
     updatePreviewAndCode();
     renderLayers();
   });
@@ -652,23 +920,71 @@ function createTextControlBlock(index) {
 
 /* -------------------------------------------------------
    Utility to rebuild extra animation blocks (labels/ids) after a removal
+   MODIFIED: Now builds preset dropdowns dynamically based on the previous animation's type.
 --------------------------------------------------------- */
 function rebuildExtraAnimBlocks(wrapper, imageData) {
   const extraContainer = wrapper.querySelector('.extra-anims');
   extraContainer.innerHTML = '';
+
+  const inPresets = ['fadeIn', 'slideInLeft', 'slideInRight', 'slideInTop', 'slideInBottom', 'zoomIn', 'bounce'];
+  const outPresets = ['fadeOut', 'zoomOut', 'slideOutLeft', 'slideOutRight', 'slideOutTop', 'slideOutBottom'];
+
   imageData.extraAnims.forEach((anim, ai) => {
+    anim.id = `${imageData.id}_anim_${ai}`;
+    anim.preset = anim.preset || 'custom';
+
+    // Determine the type of the previous animation to set the context for the current dropdown
+    const previousPreset = (ai === 0) ? imageData.preset : imageData.extraAnims[ai - 1].preset;
+    let context = 'all';
+    if (inPresets.includes(previousPreset)) {
+      context = 'require-out';
+    } else if (outPresets.includes(previousPreset)) {
+      context = 'require-in';
+    }
+
+    // Generate the appropriate options
+    const optionsHTML = getPresetOptionsHTML(context);
+
     const animDiv = document.createElement('div');
     animDiv.classList.add('exit-controls');
     animDiv.innerHTML = `
-      <strong>Extra Animation ${ai + 1}</strong><br />
-      X: <input type="number" class="animX" value="${anim.x}" />
-      Y: <input type="number" class="animY" value="${anim.y}" />
-      Opacity: <input type="number" class="animOpacity" step="0.1" value="${anim.opacity}" />
-      Scale: <input type="number" class="animScale" step="0.1" value="${anim.scale}" />
-      Position (Time): <input type="number" class="animDelay" step="0.1" value="${anim.delay}" /> <br />
+      <strong>Extra Animation ${ai + 1}</strong>
+      <div class="animation-controls">
+          <label>Animation Preset:
+              <select class="preset-select-extra">
+                  ${optionsHTML}
+              </select>
+          </label>
+          <div class="custom-controls-extra" style="${anim.preset === 'custom' ? 'display:block;' : 'display:none;'}">
+              X: <input type="number" class="animX" value="${anim.x}" />
+              Y: <input type="number" class="animY" value="${anim.y}" />
+              Opacity: <input type="number" class="animOpacity" step="0.1" value="${anim.opacity}" />
+              Scale: <input type="number" class="animScale" step="0.1" value="${anim.scale}" />
+          </div>
+          Position (Time): <input type="number" class="animDelay" step="0.1" value="${anim.delay}" /> <br />
+      </div>
       <button class="removeAnim">Remove</button>
     `;
     extraContainer.appendChild(animDiv);
+
+    const presetSelect = animDiv.querySelector('.preset-select-extra');
+    const customControls = animDiv.querySelector('.custom-controls-extra');
+
+    // If the currently saved preset is not in the new list of options, reset to 'custom'
+    if (![...presetSelect.options].some(opt => opt.value === anim.preset)) {
+      anim.preset = 'custom';
+    }
+    presetSelect.value = anim.preset;
+
+
+    presetSelect.addEventListener('change', () => {
+        anim.preset = presetSelect.value;
+        customControls.style.display = anim.preset === 'custom' ? 'block' : 'none';
+        // When this preset changes, it might affect the *next* one, so rebuild the whole chain
+        rebuildExtraAnimBlocks(wrapper, imageData);
+        updatePreviewAndCode();
+        renderLayers();
+    });
 
     // attach handlers similar to creation flow
     animDiv.addEventListener('click', (e) => {
@@ -711,6 +1027,7 @@ function rebuildExtraAnimBlocks(wrapper, imageData) {
 /* -------------------------------------------------------
    Layers UI (renderLayers)
    - Ascending order (old -> new) — latest at bottom
+   (This uses the same original implementation; ensure you don't have a duplicate elsewhere)
 --------------------------------------------------------- */
 
 function renderLayers() {
@@ -861,6 +1178,31 @@ function renderLayers() {
     actions.appendChild(bpBtn);
     actions.appendChild(lockBtn);
     actions.appendChild(dupBtn);
+
+    // CLICK TAG icon/button (new)
+    const clickBtn = document.createElement('button');
+    clickBtn.type = 'button';
+    clickBtn.className = 'icon-btn toggle-clicktag';
+    clickBtn.title = img.hasClickTag ? 'Edit click tag' : 'Add click tag';
+    clickBtn.innerHTML = `<i class="fa-solid fa-link"></i>`;
+    if (img.hasClickTag) clickBtn.classList.add('active');
+
+    clickBtn.addEventListener('click', (ev) => {
+      ev.stopPropagation();
+      // open the control block's click tag UI
+      // prefer to scroll control into view and open its Add Click Tag button
+      try {
+        if (img.wrapper) {
+          img.wrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          // find addClickTag button inside wrapper and click it to open form
+          const addBtn = img.wrapper.querySelector('.addClickTag');
+          if (addBtn) addBtn.click();
+          // if there is already a form, ensure it is visible
+        }
+      } catch (err) {}
+    });
+
+    actions.appendChild(clickBtn);
 
     // CHEVRON DROPDOWN: only show if there are extra animations
     if (Array.isArray(img.extraAnims) && img.extraAnims.length > 0) {
@@ -1033,14 +1375,7 @@ if (addImageBtn) {
 
       prevImg.extraAnims.forEach((anim, i) => {
         anim.locked = true;
-        const animDiv = prevImg.wrapper.querySelectorAll('.extra-anims .exit-controls')[i];
-        if (animDiv) {
-          const xInput = animDiv.querySelector('.animX');
-          const yInput = animDiv.querySelector('.animY');
-          if (xInput) xInput.disabled = true;
-          if (yInput) yInput.disabled = true;
-          animDiv.classList.add('anim-locked');
-        }
+        applyAnimLockStateToWrapper(prevImg, i);
       });
     });
 
@@ -1059,14 +1394,7 @@ if (addTextBtn) {
 
       prev.extraAnims.forEach((anim, i) => {
         anim.locked = true;
-        const animDiv = prev.wrapper.querySelectorAll('.extra-anims .exit-controls')[i];
-        if (animDiv) {
-          const xInput = animDiv.querySelector('.animX');
-          const yInput = animDiv.querySelector('.animY');
-          if (xInput) xInput.disabled = true;
-          if (yInput) yInput.disabled = true;
-          animDiv.classList.add('anim-locked');
-        }
+        applyAnimLockStateToWrapper(prev, i);
       });
     });
 
