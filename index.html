@@ -2,223 +2,176 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Banner Craft Tool</title>
+  <title>Banner Wizard Tool</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <link href="./css/style.css" rel="stylesheet" />
   <link href="./lib/css/prism-tomorrow.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
-  <!-- Quill styles -->
   <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
-
-  <!-- Tiny inline styles for Primary CTA overlay + click-tag form (move these to css/style.css later) -->
-  <style>
-    /* Visual overlay shown in preview when Primary CTA enabled */
-    #banner_link {
-      position: absolute;
-      left: 0;
-      top: 0;
-      cursor: pointer;
-      z-index: 10;
-      border: 2px dashed rgba(35,155,167,0.9);
-      background: rgba(35,155,167,0.08);
-      box-sizing: border-box;
-      pointer-events: auto; /* preview.js will control actual navigation behavior */
-    }
-
-    /* Inline small click-tag editor inside layer/control blocks */
-    .click-tag-form {
-      display: flex;
-      gap: 6px;
-      align-items: center;
-      margin-top: 6px;
-    }
-    .click-tag-form input[type="text"]{
-      width: 220px;
-      padding: 6px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-    }
-    .click-tag-form .remove-clicktag {
-      background: transparent;
-      border: none;
-      color: #c33;
-      cursor: pointer;
-      font-size: 14px;
-    }
-    .layer-has-clicktag .fa-link { color: #239BA7; }
-  </style>
 </head>
 <body>
 
 <div id="leftPanel">
-  <button id="toggleLeftPanel"><i class="fa-solid fa-xmark"></i></button>
   <div class="panel-header">
-    <h2 class="banner-wizards">BANNER CRAFT</h2>
+    <h2 class="app-title">BANNER WIZARD</h2>
+    <button id="toggleLeftPanel" title="Collapse Panel"><i class="fa-solid fa-xmark"></i></button>
   </div>
 
-  <div class="globalSettings" style="margin-bottom:2rem">
-    <button id="downloadJsonBtn"><i class="fa-solid fa-angles-down"></i> Download JSON</button>
-    <label>Import JSON file</label>
-    <input type="file" id="importJsonInput" accept=".json" />
+  <div class="panel-content-wrapper">
+    <div class="global-settings section-card">
+        <div class="button-group">
+            <button id="downloadJsonBtn"><i class="fa-solid fa-download"></i> Download JSON</button>
+            <label for="importJsonInput" class="button-like-label">
+                <i class="fa-solid fa-upload"></i> Import JSON
+                <input type="file" id="importJsonInput" accept=".json" />
+            </label>
+        </div>
+        
+        <div class="form-group">
+            <label for="bannerSizeSelect">Banner Size</label>
+            <select id="bannerSizeSelect">
+                <option value="160x600">160x600</option>
+                <option value="300x250" selected>300x250</option>
+                <option value="300x600">300x600</option>
+                <option value="728x90">728x90</option>
+                <option value="970x90">970x90</option>
+                <option value="970x250">970x250</option>
+                <option value="300x50">300x50</option>
+                <option value="320x50">320x50</option>
+            </select>
+        </div>
 
-    <!-- Banner size controls -->
-    <div style="margin-top:5px;margin-bottom:16px;color:#fff;">
-      <label for="bannerSizeSelect"><strong style="color: #239BA7; padding-top: 5px; padding-bottom: 5px;">Banner Size:</strong></label>
-      <select id="bannerSizeSelect" style="width: 100%; padding: 8px; border-radius: 4px; background: #333; color: white; border: 1px solid #555; margin-top: 5px;">
-        <option value="160x600">160x600</option>
-        <option value="300x250" selected>300x250</option>
-        <option value="300x600">300x600</option>
-        <option value="728x90">728x90</option>
-        <option value="970x90">970x90</option>
-        <option value="970x250">970x250</option>
-        <option value="300x50">300x50</option>
-        <option value="320x50">320x50</option>
-      </select>
+        <div class="form-group">
+            <label class="checkbox-label">
+                <input type="checkbox" id="snapToGridToggle" checked>
+                <i class="fa-solid fa-magnet"></i> Snap to 10px Grid
+            </label>
+        </div>
     </div>
-
-    <div style="margin-top: 12px;">
-      <label>
-        <input type="checkbox" id="snapToGridToggle" class="checkBoxDesign" checked>
-        <i class="fa-solid fa-magnet" style="transform: rotate(180deg)"></i> Snap to 10px Grid
-      </label>
-    </div>
-
-    <!-- Primary CTA panel (added) -->
-    <div id="primaryCtaPanel" style="margin-top:14px; padding:10px; border-top:1px solid rgba(255,255,255,0.05);">
-      <h4 style="margin:0 0 8px 0; color:#fff;">Primary CTA / Whole-banner overlay</h4>
-      <label style="display:flex; align-items:center; gap:8px; color:#fff; margin-bottom:8px;">
+    
+    <div id="primaryCtaPanel" class="section-card">
+      <h4>Primary CTA / Overlay</h4>
+      <label class="checkbox-label">
         <input type="checkbox" id="enablePrimaryCta" /> Enable Primary CTA
       </label>
-
-      <div style="display:flex; gap:8px; align-items:center; margin-bottom:8px;">
-        <input type="text" id="primaryCtaUrl" placeholder="https://example.com" style="width: 280px; padding:6px;" />
+      <div class="form-group">
+        <label for="primaryCtaUrl" class="sr-only">CTA URL</label>
+        <input type="text" id="primaryCtaUrl" placeholder="https://example.com" />
       </div>
     </div>
 
-     <!-- Layers panel -->
-  <div id="layersPanel">
-    <h3 class="panel-title">Layers</h3>
-    <div id="layersList" class="layers-list">
-      <!-- dynamically filled by js/uiControls.js -->
-      <div class="empty-note">No layers yet — add images to populate layers.</div>
+    <div id="isiEditorControls" class="section-card">
+        <h4>ISI Content</h4>
+        <div class="button-group">
+            <button id="openIsiEditorBtn">Edit ISI</button>
+            <label class="checkbox-label">
+              <input type="checkbox" id="enableIsiCheckbox" /> Enable ISI
+            </label>
+        </div>
+        <small>Opens a rich text editor in a popup.</small>
     </div>
-    <div style="margin-top:8px;">
-      <button id="expandAllLayers">Expand All</button>
-      <button id="collapseAllLayers" class="removeAnim">Collapse All</button>
+
+    <div id="layersPanel" class="section-card">
+        <div class="layers-header">
+            <h4>Layers</h4>
+            <div class="button-group-small">
+              <button id="expandAllLayers" title="Expand All"><i class="fa-solid fa-expand"></i></button>
+              <button id="collapseAllLayers" title="Collapse All"><i class="fa-solid fa-compress"></i></button>
+            </div>
+        </div>
+        <div id="layersList" class="layers-list">
+            <div class="empty-note">No layers yet. Add an asset to begin.</div>
+        </div>
     </div>
   </div>
-
-    <!-- ISI controls (edit button + checkbox) -->
-    <div id="isiEditorControls" style="margin-top:12px;">
-      <label style="color:#fff; font-weight:bold; display:block; margin-bottom:6px;">ISI (WYSIWYG)</label>
-      <div style="display:flex; gap:8px; align-items:center;">
-        <button id="openIsiEditorBtn">Edit ISI (popup)</button>
-        <label style="display:inline-flex; align-items:center; gap:6px; color:#fff; margin-left:6px;">
-          <input type="checkbox" id="enableIsiCheckbox" class="checkBoxDesign" /> Enable ISI
-        </label>
-      </div>
-      <small style="color:#fff; display:block; margin-top:6px;">Opens  editor in popup</small>
+  
+  <div class="generated-code-container">
+    <div class="code-header">
+      <h3>Generated Code</h3>
+      <button id="copyCodeBtn"><i class="fa-solid fa-copy"></i> Copy</button>
     </div>
-
+    <pre><code id="outputCode" class="language-html"></code></pre>
   </div>
+</div>
 
-  <h3 style="margin-bottom: 5px;color: #fff; text-transform: uppercase;">Generated Code</h3>
-  <button id="copyCodeBtn"><i class="fa-solid fa-copy"></i> Copy Code</button>
-  <pre><code id="outputCode" class="language-html"></code></pre>
+<div id="centerPanel">
+    <div class="preview-header">
+        <div class="preview-title-group">
+            <h3>Live Preview</h3>
+            <span id="durationDisplay">(0s)</span>
+        </div>
+        <div class="preview-controls">
+            <button id="zoomOutBtn" title="Zoom Out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+            <button id="zoomResetBtn" title="Reset Zoom">
+                <span id="zoomLevelDisplay">100%</span>
+            </button>
+            <button id="zoomInBtn" title="Zoom In"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+            <button onclick="reanimate()" title="Reanimate">
+                <i class="fa-solid fa-repeat"></i>
+            </button>
+        </div>
+    </div>
+    <div class="preview-canvas">
+        <div id="previewArea">
+          </div>
+    </div>
 </div>
 
 <div id="rightPanel">
-  <div class="preview-fixed">
-    <h3>
-      Live Preview
-      <span style="font-size: 14px; color: #666;" id="durationDisplay">(0s)</span>
-    </h3>
-    <div id="previewArea">
-      <!-- banner wrapper (preview.js will render layers inside #banner-wrapper).
-           The primary CTA overlay (#banner_link) will be inserted into #banner-wrapper at runtime. -->
-      <div id="banner-wrapper" style="position:relative; width:300px; height:250px; overflow:hidden; background:#fff;">
-        <!-- preview content injected dynamically -->
+    <div class="panel-header">
+      <h3 class="panel-title">Banner Assets</h3>
+    </div>
+    <div class="add-buttons-container">
+      <button id="addImageBtn"><i class="fa-solid fa-image"></i> Add Image</button>
+      <button id="addTextBtn"><i class="fa-solid fa-font"></i> Add Text</button>
+    </div>
+    <div id="controls">
       </div>
-    </div>
-    <button onclick="reanimate()">
-      <i class="fa-solid fa-repeat"></i> Reanimate
-    </button>
-  </div>
-
-  <div class="create-banner">
-    <div style="margin-top:16px;margin-bottom:16px;">
-      <label><strong style="color: #fff; padding-top: 15px; padding-bottom: 5px;">Banner Assets:</strong></label><br>
-    </div>
-    <div id="controls"></div>
-    <div style="display:flex; gap:8px;">
-      <button id="addImageBtn">Add Image</button>
-      <button id="addTextBtn">Add Text</button>
-    </div>
-  </div>
 </div>
 
-<!-- Template for per-layer click-tag editor (uiControls.js can clone this) -->
-<template id="clickTagControlTemplate">
-  <div class="click-tag-form" aria-hidden="false">
-    <input type="text" class="clickTagUrlInput" placeholder="https://example.com" />
-    <button type="button" class="remove-clicktag" title="Remove click tag"><i class="fa-solid fa-trash"></i></button>
-  </div>
-</template>
 
-<!-- ISI Editor Modal (hidden) -->
 <div id="isiModal" class="isi-modal" aria-hidden="true" role="dialog" aria-labelledby="isiModalTitle">
   <div class="isi-modal-backdrop"></div>
   <div class="isi-modal-card" role="document">
     <div class="isi-modal-header">
-      <div style="display:flex; gap:8px; align-items:center;">
+      <div class="modal-title-group">
         <h3 id="isiModalTitle">Edit ISI Content</h3>
-        <!-- Source toggle -->
         <button id="toggleSourceBtn" class="modal-secondary" title="Toggle Source View"><i class="fa-solid fa-code"></i> Source</button>
       </div>
-      <div>
-        <button id="closeIsiModal" class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+      <button id="closeIsiModal" class="modal-close" title="Close"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <div id="isiModalEditor">
       </div>
-    </div>
 
-    <!-- Quill toolbar (Snow style) -->
-    <div id="quill-toolbar" class="ql-toolbar ql-snow" aria-hidden="true"></div>
-
-    <!-- Quill editor container -->
-    <div id="isiModalEditor" class="ql-container ql-snow" style="height:220px;">
-      <div class="ql-editor" data-placeholder="Compose ISI content..."></div>
-    </div>
-
-    <!-- Source editor (hidden by default) -->
     <textarea id="isiSourceEditor" class="isi-source-editor" style="display:none;" aria-hidden="true" placeholder="Edit HTML source..."></textarea>
 
     <div class="isi-modal-actions">
-      <button id="isiSaveBtn">Save</button>
-      <button id="isiCancelBtn" class="removeAnim">Cancel</button>
+      <button id="isiCancelBtn" class="button-secondary">Cancel</button>
+      <button id="isiSaveBtn" class="button-primary">Save</button>
     </div>
   </div>
 </div>
 
-  <!-- External Libraries -->
   <script src="./lib/js/prism.min.js"></script>
   <script src="./lib/js/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/js-beautify@1.14.9/js/lib/beautify-html.min.js"></script>
-
-  <!-- Quill -->
   <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
 
-  <!-- App Modules -->
   <script src="./js/utils.js"></script>
   <script src="./js/uiControls.js"></script>
   <script src="./js/dragDrop.js"></script>
-  
-  <!-- CORRECTED ORDER: bannerSize.js now comes BEFORE preview.js -->
   <script src="./js/bannerSize.js"></script>
   <script src="./js/preview.js"></script>
-  
-    <script src="./js/isiDragResize.js"></script>
-  
+  <script src="./js/isiDragResize.js"></script>
   <script src="./js/animations.js"></script>
   <script src="./js/isi.js"></script>
   <script src="./js/jsonImportExport.js"></script>
   <script src="./js/main.js"></script>
+
 </body>
 </html>

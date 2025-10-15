@@ -6,7 +6,7 @@
  * Reads the selected size from the dropdown, updates the preview area,
  * and triggers a full preview and code regeneration.
  */
-function updateBannerSize() {
+ function updateBannerSize() {
   const select = document.getElementById('bannerSizeSelect');
   if (!select) return;
 
