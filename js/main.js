@@ -194,7 +194,7 @@ function initializePreviewZoom() {
   )
     return;
 
-  let zoomLevel = 1.0;
+  let zoomLevel = 0.7;
   const ZOOM_STEP = 0.1;
   const MIN_ZOOM = 0.2;
   const MAX_ZOOM = 2.0;
