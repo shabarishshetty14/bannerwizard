@@ -1,6 +1,6 @@
 /* ======================================================
-   style.css — Refactored for Readability & Consistency
-   ====================================================== */
+  style.css — Refactored for Readability & Consistency
+====================================================== */
 
 :root {
   /* Colors */
@@ -93,7 +93,7 @@ body {
 }
 
 #leftPanel {
-  width: 380px;
+  width: 350px;
   border-right: 1px solid var(--border-color-dark);
   transition: width 0.3s ease;
 }
@@ -108,7 +108,7 @@ body {
 }
 
 #rightPanel {
-  width: 350px;
+  width: 290px;
   border-left: 1px solid var(--border-color-dark);
 }
 
@@ -126,8 +126,8 @@ body {
 
 .panel-title,
 .app-title {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 26px;
+  font-weight: bold;
   color: var(--color-text-light);
 }
 
@@ -273,19 +273,21 @@ pre code {
     linear-gradient(-45deg, transparent 75%, #1f1f1f 75%);
   background-size: 20px 20px;
   background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  scrollbar-color: #3d4247 #000000;
 }
 #previewArea {
   background: white;
   position: relative;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   flex-shrink: 0;
-  transform-origin: center center;
+  transform-origin: left center;
   transition: transform 0.2s ease;
 }
 .preview {
   position: absolute;
   cursor: move;
 }
+
 .preview.highlighted {
   outline: 2px solid var(--color-primary);
   box-shadow: 0 0 15px rgba(35, 155, 167, 0.5);
@@ -325,6 +327,7 @@ pre code {
 }
 .add-buttons-container {
   display: flex;
+  margin-top: 15px;
   gap: var(--space-md);
   padding: 0 var(--space-lg) var(--space-lg);
   border-bottom: 1px solid var(--border-color-dark);
