@@ -24,7 +24,7 @@
   <div class="panel-content-wrapper">
     <div class="global-settings section-card">
         <div class="button-group">
-            <button id="downloadJsonBtn"><i class="fa-solid fa-download"></i> Download JSON</button>
+            <button id="downloadJsonBtn" style="padding: 0px 3px !important; height: 38px;"><i class="fa-solid fa-download"></i> Download JSON</button>
             <label for="importJsonInput" class="button-like-label">
                 <i class="fa-solid fa-upload"></i> Import JSON
                 <input type="file" id="importJsonInput" accept=".json" />
@@ -32,7 +32,7 @@
         </div>
         
         <div class="form-group">
-            <label for="bannerSizeSelect">Banner Size</label>
+            <label for="bannerSizeSelect" style="margin-top: 10px;">Banner Size</label>
             <select id="bannerSizeSelect">
                 <option value="160x600">160x600</option>
                 <option value="300x250" selected>300x250</option>
@@ -45,7 +45,18 @@
             </select>
         </div>
 
-        <div class="form-group">
+        <div id="isiEditorControls" class="section-card">
+          <h4>ISI Content</h4>
+        <div class="button-group" style="flex-wrap: wrap;">
+            <button id="openIsiEditorBtn">Edit ISI</button>
+            <small>Opens a rich text editor in a popup.</small> <br>
+            <label class="checkbox-label">
+              <input type="checkbox" id="enableIsiCheckbox" /> Enable ISI
+            </label>
+        </div>
+        </div>
+
+        <div class="form-group" style="padding-top: 15px;">
             <label class="checkbox-label">
                 <input type="checkbox" id="snapToGridToggle" checked>
                 <i class="fa-solid fa-magnet"></i> Snap to 10px Grid
@@ -64,17 +75,6 @@
       </div>
     </div>
 
-    <div id="isiEditorControls" class="section-card">
-        <h4>ISI Content</h4>
-        <div class="button-group">
-            <button id="openIsiEditorBtn">Edit ISI</button>
-            <label class="checkbox-label">
-              <input type="checkbox" id="enableIsiCheckbox" /> Enable ISI
-            </label>
-        </div>
-        <small>Opens a rich text editor in a popup.</small>
-    </div>
-
     <div id="layersPanel" class="section-card">
         <div class="layers-header">
             <h4>Layers</h4>
@@ -87,15 +87,16 @@
             <div class="empty-note">No layers yet. Add an asset to begin.</div>
         </div>
     </div>
-  </div>
-  
-  <div class="generated-code-container">
+    <div class="generated-code-container">
     <div class="code-header">
       <h3>Generated Code</h3>
       <button id="copyCodeBtn"><i class="fa-solid fa-copy"></i> Copy</button>
     </div>
     <pre><code id="outputCode" class="language-html"></code></pre>
   </div>
+  </div>
+  
+  
 </div>
 
 <div id="centerPanel">
