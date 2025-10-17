@@ -69,7 +69,9 @@ function getIsiInner() {
   // prefer Quill instance content
   if (window.quill && typeof window.quill.root !== 'undefined') {
     const content = window.quill.root.innerHTML;
-    if (content && content.trim().length) return content;
+    // Use saved content even if it's empty, allowing users to clear it
+    if (content && window.isiState.isCustom) return content;
+    if (content && content.trim().length > 1) return content;
   }
   // fallback to saved HTML variable (set by modal save or by import)
   if (window.isiContentHTML && window.isiContentHTML.trim().length) {
@@ -202,47 +204,50 @@ position: absolute;
 top: 5px;
 left: -7px;
 }
-
+`;
+}
+// NEW: Function to get essential ISI structural CSS that should not be overridden.
+function getIsiStructureCSS() {
+    const DRAG_BAR_HEIGHT = '20px';
+    return `
 #iframe_tj {
-/* **MODIFIED:** Adjusted to make space for the drag bar */
-position: absolute;
-width: 100%;
-height: calc(100% - ${DRAG_BAR_HEIGHT});
-top: ${DRAG_BAR_HEIGHT};
-left: 0;
-border: none;
-background-color: #ffffff;
-z-index: 99;
+  position: absolute;
+  width: 100%;
+  height: calc(100% - ${DRAG_BAR_HEIGHT});
+  top: ${DRAG_BAR_HEIGHT};
+  left: 0;
+  border: none;
+  background-color: #ffffff;
+  z-index: 99;
 }
 
 #scroll_tj {
-/* This element just fills its parent (#iframe_tj) */
-position: absolute;
-overflow: hidden;
-width: 100%;
-height: 100%;
-overflow-y: scroll;
-scrollbar-width: auto;
-scrollbar-color: #63666a #b6b8ba;
-scroll-behavior: auto;
+  position: absolute;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  scrollbar-width: auto;
+  scrollbar-color: #63666a #b6b8ba;
+  scroll-behavior: auto;
 }
 
 #scroll_tj::-webkit-scrollbar {
-width: 8px;
+  width: 8px;
 }
 
 #scroll_tj::-webkit-scrollbar-track {
-background-color: #ededed;
+  background-color: #ededed;
 }
 
 #scroll_tj::-webkit-scrollbar-thumb {
-background-color: #b3b3b3;
-border: 0px;
-border-left: #ededed 2px;
-border-right: #ededed 2px;
-border-style: solid;
+  background-color: #b3b3b3;
+  border: 0px;
+  border-left: #ededed 2px;
+  border-right: #ededed 2px;
+  border-style: solid;
 }
-`;
+    `;
 }
 
 function getIsiHTML() {
@@ -387,12 +392,26 @@ function updatePreviewAndCode() {
   // Remove old ISI style
   const existingIsiStyle = document.getElementById('isi-style-tag');
   if (existingIsiStyle) existingIsiStyle.remove();
+    const existingIsiStructureStyle = document.getElementById('isi-structure-style-tag');
+    if (existingIsiStructureStyle) existingIsiStructureStyle.remove();
 
   // Add ISI style if enabled
   if (isiEnabled) {
     const style = document.createElement('style');
     style.id = 'isi-style-tag';
-    style.textContent = `/* ISI Styles */` + getIsiCSS();
+
+        // Always add structural CSS
+        const structureStyle = document.createElement('style');
+        structureStyle.id = 'isi-structure-style-tag';
+        structureStyle.textContent = `/* ISI Structural Styles */\n` + getIsiStructureCSS();
+        document.head.appendChild(structureStyle);
+
+    // ***MODIFIED: Use custom CSS if available, otherwise use default***
+    if (window.isiState.isCustom && window.isiContentCSS) {
+      style.textContent = `/* Custom ISI Styles */\n` + window.isiContentCSS;
+    } else {
+      style.textContent = `/* Preset ISI Styles */\n` + getIsiCSS();
+    }
     document.head.appendChild(style);
   }
 
@@ -446,9 +465,17 @@ img { position: absolute; }
 
   html += `</style>\n`;
 
-  if (isiEnabled) {
-    html += `<style>${getIsiCSS()}</style>\n`;
-  }
+    if (isiEnabled) {
+        // Always include structural CSS in the export
+        html += `<style>${getIsiStructureCSS()}</style>\n`;
+
+        // Include custom or default theme CSS
+        if (window.isiState.isCustom && window.isiContentCSS) {
+            html += `<style>${window.isiContentCSS}</style>\n`;
+        } else {
+            html += `<style>${getIsiCSS()}</style>\n`;
+        }
+    }
 
   // Prepend clickTag JS variables (only if we have any)
   if (clickOrdering.length > 0) {

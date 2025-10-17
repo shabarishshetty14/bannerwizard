@@ -7,6 +7,9 @@ if (downloadBtn) {
     const isiContent = (window.quill && window.quill.root)
       ? window.quill.root.innerHTML
       : (window.isiContentHTML || null);
+      
+    // Get custom CSS content
+    const isiCss = window.isiContentCSS || "";
 
     // Ensure we capture primaryCta current UI state
     const primaryEnabledEl = document.getElementById('enablePrimaryCta');
@@ -28,15 +31,16 @@ if (downloadBtn) {
     const jsonData = {
       bannerWidth: bannerW,
       bannerHeight: bannerH,
-      isi: window.isiState, // MODIFIED: Save the entire ISI state object
+      isi: window.isiState, 
       isiContent: isiContent,
+      isiContentCSS: isiCss, // ADDED: Export custom CSS
       primaryCta: primaryCtaObj,
       images: imageList.map(el => ({
         id: el.id,
         type: el.type || 'image',
         layerName: el.layerName || '',
         visible: typeof el.visible === 'boolean' ? el.visible : true,
-        preset: el.preset || 'custom', // NEW: Export preset
+        preset: el.preset || 'custom', 
         // image fields
         fileName: el.fileName || '',
         src: el.src || '',
@@ -61,7 +65,7 @@ if (downloadBtn) {
         breakpoint: !!el.breakpoint,
         extraAnims: (el.extraAnims || []).map(anim => ({
           id: anim.id,
-          preset: anim.preset || 'custom', // NEW: Export preset for extra anims
+          preset: anim.preset || 'custom', 
           x: anim.x,
           y: anim.y,
           opacity: anim.opacity,
@@ -111,23 +115,21 @@ if (importInput) {
             }
         }
         
-        // This will refresh the preview area with the correct size and set default ISI positions.
         if (typeof updateBannerSize === 'function') {
             updateBannerSize();
         }
 
-        // ==== ISI states/content (MODIFIED)
+        // ==== ISI states/content
         if (data.isi && typeof data.isi === 'object') {
-            // Restore the entire ISI state from the JSON file, overriding defaults
             window.isiState = data.isi;
         } else {
-            // Fallback for older JSON files that only have `isiEnabled`
             window.isiState.enabled = !!data.isiEnabled;
         }
         
         const isiCheckbox = document.getElementById('enableIsiCheckbox');
         if (isiCheckbox) isiCheckbox.checked = window.isiState.enabled;
 
+        // Restore HTML and Custom CSS
         if (typeof data.isiContent !== 'undefined') {
           window.isiContentHTML = data.isiContent || '';
           if (window.quill && window.quill.root) {
@@ -139,6 +141,8 @@ if (importInput) {
             }
           }
         }
+        window.isiContentCSS = data.isiContentCSS || ''; // ADDED: Import custom CSS
+
         
         // ==== Primary CTA restore
         if (data.primaryCta && typeof data.primaryCta === 'object') {
@@ -196,7 +200,7 @@ if (importInput) {
           elData.type = item.type || elData.type || 'image';
           elData.layerName = item.layerName || '';
           elData.visible = (typeof item.visible === 'boolean') ? item.visible : true;
-          elData.preset = item.preset || 'custom'; // NEW: Import preset
+          elData.preset = item.preset || 'custom';
           elData.fileName = item.fileName || elData.fileName || '';
           elData.src = item.src || elData.src || '';
           elData.text = item.text || elData.text || '';
@@ -218,7 +222,7 @@ if (importInput) {
           elData.locked = !!item.locked;
           elData.extraAnims = Array.isArray(item.extraAnims) ? item.extraAnims.map((a, ai) => ({
             id: `${elData.id}_anim_${ai}`,
-            preset: a.preset || 'custom', // NEW: Import preset for extra anims
+            preset: a.preset || 'custom', 
             x: typeof a.x === 'number' ? a.x : 0,
             y: typeof a.y === 'number' ? a.y : 0,
             opacity: typeof a.opacity === 'number' ? a.opacity : 1,
@@ -232,7 +236,6 @@ if (importInput) {
             const strong = wrapper.querySelector('strong');
             if (strong) strong.textContent = elData.layerName || (elData.type === 'text' ? `Text ${index + 1}` : `Image ${index + 1}`);
             
-            // NEW: Update preset UI
             const presetSelect = wrapper.querySelector('.preset-select');
             if(presetSelect) presetSelect.value = elData.preset;
             const customControls = wrapper.querySelector('.custom-controls');
@@ -304,14 +307,10 @@ if (importInput) {
             elData.previewImg = textEl;
           }
 
-          // Build extra anim controls...
-          // This now needs to be handled by rebuildExtraAnimBlocks to correctly create the preset UI
           if(typeof rebuildExtraAnimBlocks === 'function') {
               rebuildExtraAnimBlocks(wrapper, elData);
           }
           
-
-          // Click-tag UI restoration...
           try {
             if (typeof ensureClickTagUI === 'function') ensureClickTagUI(wrapper, elData);
             if (elData.hasClickTag) {

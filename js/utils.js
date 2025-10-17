@@ -6,6 +6,7 @@ let imageList = [];
 // NEW: Centralized state for the ISI container
 window.isiState = {
   enabled: false,
+  isCustom: false, // ADDED: Flag to track if user has saved custom ISI
   x: 0,
   y: 180,
   width: 299,

@@ -4,8 +4,9 @@
 ------------------------------ */
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Ensure global content var exists (fallback)
+  // Ensure global content vars exist (fallback)
   window.isiContentHTML = window.isiContentHTML || "";
+  window.isiContentCSS = window.isiContentCSS || "";
 
   // Apply default banner size on load
   if (typeof updateBannerSize === "function") updateBannerSize();
@@ -33,14 +34,16 @@ function initializeIsiModal() {
   const saveBtn = document.getElementById("isiSaveBtn");
   const cancelBtn = document.getElementById("isiCancelBtn");
   const toggleSourceBtn = document.getElementById("toggleSourceBtn");
+  const toggleCssBtn = document.getElementById("toggleCssBtn");
   const editorContainer = document.getElementById("isiModalEditor");
   const sourceTextarea = document.getElementById("isiSourceEditor");
+  const cssTextarea = document.getElementById("isiCssEditor");
   const backdrop = isiModal.querySelector(".isi-modal-backdrop");
   const enableIsiCheckbox = document.getElementById("enableIsiCheckbox");
 
   let quillModal = null;
-  let inSourceMode = false;
-  let lastSavedContent = window.isiContentHTML;
+  let currentView = 'editor'; // 'editor', 'source', or 'css'
+  let lastSavedContent = { html: window.isiContentHTML, css: window.isiContentCSS };
 
   const initQuill = () => {
     if (quillModal || typeof Quill === "undefined") return;
@@ -65,9 +68,6 @@ function initializeIsiModal() {
       theme: "snow",
     });
     window.quill = quillModal;
-    quillModal.on("text-change", () => {
-      // We only update the global variable on save now, not live
-    });
   };
 
   const beautifyHtml = (html) => {
@@ -91,34 +91,38 @@ function initializeIsiModal() {
     }
   };
 
-  const setSourceMode = (enable) => {
-    inSourceMode = enable;
-    editorContainer.style.display = enable ? "none" : "block";
-    sourceTextarea.style.display = enable ? "block" : "none";
-    toggleSourceBtn.classList.toggle("active", enable);
-
-    if (enable) {
-      sourceTextarea.value = beautifyHtml(quillModal.root.innerHTML);
-      sourceTextarea.focus();
-    } else {
-      setContentInEditor(sourceTextarea.value);
+  const setView = (view) => {
+    if (currentView === 'source' && view !== 'source') {
+        setContentInEditor(sourceTextarea.value);
+    } else if (view === 'source') {
+        sourceTextarea.value = beautifyHtml(quillModal.root.innerHTML);
     }
+
+    currentView = view;
+    editorContainer.style.display = view === 'editor' ? 'block' : 'none';
+    sourceTextarea.style.display = view === 'source' ? 'block' : 'none';
+    cssTextarea.style.display = view === 'css' ? 'block' : 'none';
+
+    toggleSourceBtn.classList.toggle('active', view === 'source');
+    toggleCssBtn.classList.toggle('active', view === 'css');
   };
 
   const openModal = () => {
     initQuill();
-    lastSavedContent = window.isiContentHTML; // Store content on open
-    const contentToLoad =
-      lastSavedContent ||
-      `<h1>INDICATION and IMPORTANT SAFETY INFORMATION</h1><p>Edit this content...</p>`;
+    lastSavedContent = { html: window.isiContentHTML, css: window.isiContentCSS };
+    
+    const contentToLoad = lastSavedContent.html || `<h1>INDICATION and IMPORTANT SAFETY INFORMATION</h1><p>Edit this content...</p>`;
     setContentInEditor(contentToLoad);
-    if (inSourceMode) setSourceMode(false);
+    cssTextarea.value = lastSavedContent.css || '';
+
+    setView('editor');
     isiModal.setAttribute("aria-hidden", "false");
   };
 
   const closeModal = (revert = false) => {
     if (revert) {
-      window.isiContentHTML = lastSavedContent; // Revert to stored content
+      window.isiContentHTML = lastSavedContent.html;
+      window.isiContentCSS = lastSavedContent.css;
       if (typeof updatePreviewAndCode === "function") updatePreviewAndCode();
     }
     isiModal.setAttribute("aria-hidden", "true");
@@ -130,17 +134,22 @@ function initializeIsiModal() {
   backdrop.addEventListener("click", () => closeModal(true));
 
   saveBtn.addEventListener("click", () => {
-    if (inSourceMode) {
+    if (currentView === 'source') {
       window.isiContentHTML = sourceTextarea.value;
     } else {
       window.isiContentHTML = quillModal.root.innerHTML;
     }
-    window.isiContentHTML = beautifyHtml(window.isiContentHTML);
+    window.isiContentCSS = cssTextarea.value;
+    
+    // Set the custom flag since the user is explicitly saving
+    window.isiState.isCustom = true;
+
     if (typeof updatePreviewAndCode === "function") updatePreviewAndCode();
     closeModal(false);
   });
 
-  toggleSourceBtn.addEventListener("click", () => setSourceMode(!inSourceMode));
+  toggleSourceBtn.addEventListener("click", () => setView(currentView === 'source' ? 'editor' : 'source'));
+  toggleCssBtn.addEventListener("click", () => setView(currentView === 'css' ? 'editor' : 'css'));
 
   enableIsiCheckbox.addEventListener("change", () => {
     if (typeof updatePreviewAndCode === "function") updatePreviewAndCode();
