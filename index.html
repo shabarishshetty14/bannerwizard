@@ -141,7 +141,8 @@
     <div class="isi-modal-header">
       <div class="modal-title-group">
         <h3 id="isiModalTitle">Edit ISI Content</h3>
-        <button id="toggleSourceBtn" class="modal-secondary" title="Toggle Source View"><i class="fa-solid fa-code"></i> Source</button>
+        <button id="toggleSourceBtn" class="modal-secondary" title="Toggle HTML Source View"><i class="fa-solid fa-code"></i> HTML</button>
+        <button id="toggleCssBtn" class="modal-secondary" title="Toggle Custom CSS View"><i class="fa-solid fa-file-css"></i> CSS</button>
       </div>
       <button id="closeIsiModal" class="modal-close" title="Close"><i class="fa-solid fa-xmark"></i></button>
     </div>
@@ -150,6 +151,7 @@
       </div>
 
     <textarea id="isiSourceEditor" class="isi-source-editor" style="display:none;" aria-hidden="true" placeholder="Edit HTML source..."></textarea>
+    <textarea id="isiCssEditor" class="isi-source-editor" style="display:none;" aria-hidden="true" placeholder="Enter custom CSS rules..."></textarea>
 
     <div class="isi-modal-actions">
       <button id="isiCancelBtn" class="button-secondary">Cancel</button>
